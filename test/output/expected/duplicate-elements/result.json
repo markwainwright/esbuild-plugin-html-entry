@@ -4,7 +4,7 @@
   "metafile": {
     "inputs": {
       "input/pages/duplicate-elements.html": {
-        "bytes": 1136,
+        "bytes": 961,
         "imports": [
           {
             "path": "input/stylesheets/with-none.css",
@@ -64,10 +64,10 @@
         "exports": [],
         "inputs": {
           "input/pages/duplicate-elements.html": {
-            "bytesInOutput": 1136
+            "bytesInOutput": 961
           }
         },
-        "bytes": 1136,
+        "bytes": 961,
         "entryPoint": "input/pages/duplicate-elements.html"
       },
       "output/actual/duplicate-elements/from-js-css.gif": {

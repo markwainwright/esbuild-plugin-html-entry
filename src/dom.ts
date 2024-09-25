@@ -61,3 +61,27 @@ export function setAttributes(
     $element.attr("integrity", integrity);
   }
 }
+
+export function insertLinkElement($: CheerioAPI, scriptElement: AnyNode): AnyNode {
+  const $scriptElementSiblings = $(scriptElement).parent().contents();
+  const nodeBeforeScriptElement = $scriptElementSiblings.get(
+    $scriptElementSiblings.index(scriptElement) - 1
+  );
+
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const linkElement = $("<link>").attr("rel", "stylesheet").insertBefore(scriptElement).get(0)!;
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
+  if (nodeBeforeScriptElement?.type === "text") {
+    // Copy any whitespace before the script element on the same line
+    const newNode = nodeBeforeScriptElement.cloneNode();
+    newNode.data = newNode.data
+      .split(/(\n)/)
+      .slice(-2)
+      .join("")
+      .replace(/[^\s+]+/g, "");
+    $(newNode).insertBefore(scriptElement);
+  }
+
+  return linkElement;
+}

@@ -4,7 +4,7 @@
   "metafile": {
     "inputs": {
       "input/pages/page.html": {
-        "bytes": 275,
+        "bytes": 247,
         "imports": [
           {
             "path": "input/stylesheets/with-asset.css",
@@ -34,10 +34,10 @@
         "exports": [],
         "inputs": {
           "input/pages/page.html": {
-            "bytesInOutput": 275
+            "bytesInOutput": 247
           }
         },
-        "bytes": 275,
+        "bytes": 247,
         "entryPoint": "input/pages/page.html"
       },
       "output/actual/external-absolute-js/from-html-css.gif": {

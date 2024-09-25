@@ -63,7 +63,7 @@ await testBuild(
 );
 
 await testBuild(
-  "minify",
+  "minified output",
   {
     entryPoints: ["input/pages/dead-end.html"],
     minify: true,
@@ -74,6 +74,14 @@ await testBuild(
     },
   }
 );
+
+await testBuild("minified input", { entryPoints: ["input/pages/minified.html"] });
+
+await testBuild("body elements", { entryPoints: ["input/pages/body-elements.html"] });
+
+await testBuild("body elements minified", {
+  entryPoints: ["input/pages/body-elements-minified.html"],
+});
 
 await testBuild(
   "no integrity",

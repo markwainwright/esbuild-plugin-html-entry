@@ -4,7 +4,7 @@
   "metafile": {
     "inputs": {
       "input/pages/type-js.html": {
-        "bytes": 243,
+        "bytes": 216,
         "imports": [
           {
             "path": "input/scripts/with-none.js",
@@ -25,10 +25,10 @@
         "exports": [],
         "inputs": {
           "input/pages/type-js.html": {
-            "bytesInOutput": 243
+            "bytesInOutput": 216
           }
         },
-        "bytes": 243,
+        "bytes": 216,
         "entryPoint": "input/pages/type-js.html"
       },
       "output/actual/type-js/with-none.js": {

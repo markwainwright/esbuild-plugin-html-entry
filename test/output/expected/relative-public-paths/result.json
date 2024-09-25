@@ -4,7 +4,7 @@
   "metafile": {
     "inputs": {
       "input/pages/page.html": {
-        "bytes": 594,
+        "bytes": 525,
         "imports": [
           {
             "path": "input/stylesheets/with-asset.css",
@@ -19,7 +19,7 @@
         ]
       },
       "input/pages/nested/nested-page.html": {
-        "bytes": 1164,
+        "bytes": 1030,
         "imports": [
           {
             "path": "input/stylesheets/nested/nested-with-asset.css",
@@ -135,10 +135,10 @@
         "exports": [],
         "inputs": {
           "input/pages/page.html": {
-            "bytesInOutput": 594
+            "bytesInOutput": 525
           }
         },
-        "bytes": 594,
+        "bytes": 525,
         "entryPoint": "input/pages/page.html"
       },
       "output/actual/relative-public-paths/entries/pages/nested/nested-page.html": {
@@ -146,10 +146,10 @@
         "exports": [],
         "inputs": {
           "input/pages/nested/nested-page.html": {
-            "bytesInOutput": 1164
+            "bytesInOutput": 1030
           }
         },
-        "bytes": 1164,
+        "bytes": 1030,
         "entryPoint": "input/pages/nested/nested-page.html"
       },
       "output/actual/relative-public-paths/assets/images/from-html-css-QROD6PU2.gif": {

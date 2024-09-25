@@ -4,13 +4,13 @@
   "outputFiles": [
     {
       "path": "/Users/mark/Projects/esbuild-plugin-html-entry/test/output/actual/no-write/entries/pages/page.html",
-      "hash": "JMh1B5LEfTY",
-      "text": "<!doctype html>\n<html>\n  <head>\n    <link\n      rel=\"stylesheet\"\n      href=\"../../subresources/stylesheets/with-asset-OW6AOQAJ.css\"\n      integrity=\"sha256-PdnCWc9vOED6k1+lYwWSt2gp1QYPBlKtKpR4udl2hMM=\"\n    />\n    <link\n      rel=\"stylesheet\"\n      href=\"../../subresources/scripts/with-both-EHEIRLM5.css\"\n      integrity=\"sha256-PW1bs2dvT1+g1suuQ2cpaYN2/tYmdIsT/BzuVdI8hdU=\"\n    />\n    <script\n      src=\"../../subresources/scripts/with-both-2I232QL5.js\"\n      integrity=\"sha256-MzUW1sJwlyBtIk98rBDTHTssdFEReYXuSr9AgqsoEq8=\"\n    ></script>\n  </head>\n  <body>\n    Hello world\n  </body>\n</html>\n"
+      "hash": "CP8DH3d15OQ",
+      "text": "<!DOCTYPE html><html><head>\n    <link rel=\"stylesheet\" href=\"../../subresources/stylesheets/with-asset-OW6AOQAJ.css\" integrity=\"sha256-PdnCWc9vOED6k1+lYwWSt2gp1QYPBlKtKpR4udl2hMM=\">\n    <link rel=\"stylesheet\" href=\"../../subresources/scripts/with-both-EHEIRLM5.css\" integrity=\"sha256-PW1bs2dvT1+g1suuQ2cpaYN2/tYmdIsT/BzuVdI8hdU=\">\n    <script src=\"../../subresources/scripts/with-both-2I232QL5.js\" integrity=\"sha256-MzUW1sJwlyBtIk98rBDTHTssdFEReYXuSr9AgqsoEq8=\"></script>\n  </head>\n  <body>\n    Hello world\n  \n\n</body></html>"
     },
     {
       "path": "/Users/mark/Projects/esbuild-plugin-html-entry/test/output/actual/no-write/entries/pages/nested/nested-page.html",
-      "hash": "nXt6Qnc9OA8",
-      "text": "<!doctype html>\n<html>\n  <head>\n    <link\n      rel=\"stylesheet\"\n      href=\"../../../subresources/stylesheets/nested/nested-with-asset-VP7LTYDG.css\"\n      integrity=\"sha256-ztsspJv+yN7v8WkzRT0ef+Rm4LibizySa0jrkV1PGl8=\"\n    />\n    <link\n      rel=\"stylesheet\"\n      href=\"../../../subresources/scripts/nested/nested-with-both-6YFJPO22.css\"\n      integrity=\"sha256-/UuqdW+spKNVqjT+v4IpEzib6G5TvWd9/m8Xg8nmGWc=\"\n    />\n    <script\n      src=\"../../../subresources/scripts/nested/nested-with-both-QTBGCPY6.js\"\n      integrity=\"sha256-wGytJQWczfs3HxFelwSYn2sQ9LCp4K2kxG+O0ay0ZXw=\"\n    ></script>\n\n    <link\n      rel=\"stylesheet\"\n      href=\"../../../subresources/stylesheets/with-asset-OW6AOQAJ.css\"\n      integrity=\"sha256-PdnCWc9vOED6k1+lYwWSt2gp1QYPBlKtKpR4udl2hMM=\"\n    />\n    <link\n      rel=\"stylesheet\"\n      href=\"../../../subresources/scripts/with-both-EHEIRLM5.css\"\n      integrity=\"sha256-PW1bs2dvT1+g1suuQ2cpaYN2/tYmdIsT/BzuVdI8hdU=\"\n    />\n    <script\n      src=\"../../../subresources/scripts/with-both-2I232QL5.js\"\n      integrity=\"sha256-MzUW1sJwlyBtIk98rBDTHTssdFEReYXuSr9AgqsoEq8=\"\n    ></script>\n  </head>\n  <body>\n    Hello world\n  </body>\n</html>\n"
+      "hash": "NVE/3iV9sak",
+      "text": "<!DOCTYPE html><html><head>\n    <link rel=\"stylesheet\" href=\"../../../subresources/stylesheets/nested/nested-with-asset-VP7LTYDG.css\" integrity=\"sha256-ztsspJv+yN7v8WkzRT0ef+Rm4LibizySa0jrkV1PGl8=\">\n    <link rel=\"stylesheet\" href=\"../../../subresources/scripts/nested/nested-with-both-6YFJPO22.css\" integrity=\"sha256-/UuqdW+spKNVqjT+v4IpEzib6G5TvWd9/m8Xg8nmGWc=\">\n    <script src=\"../../../subresources/scripts/nested/nested-with-both-QTBGCPY6.js\" integrity=\"sha256-wGytJQWczfs3HxFelwSYn2sQ9LCp4K2kxG+O0ay0ZXw=\"></script>\n\n    <link rel=\"stylesheet\" href=\"../../../subresources/stylesheets/with-asset-OW6AOQAJ.css\" integrity=\"sha256-PdnCWc9vOED6k1+lYwWSt2gp1QYPBlKtKpR4udl2hMM=\">\n    <link rel=\"stylesheet\" href=\"../../../subresources/scripts/with-both-EHEIRLM5.css\" integrity=\"sha256-PW1bs2dvT1+g1suuQ2cpaYN2/tYmdIsT/BzuVdI8hdU=\">\n    <script src=\"../../../subresources/scripts/with-both-2I232QL5.js\" integrity=\"sha256-MzUW1sJwlyBtIk98rBDTHTssdFEReYXuSr9AgqsoEq8=\"></script>\n  </head>\n  <body>\n    Hello world\n  \n\n</body></html>"
     },
     {
       "path": "/Users/mark/Projects/esbuild-plugin-html-entry/test/output/actual/no-write/assets/images/from-html-css-QROD6PU2.gif",
@@ -66,7 +66,7 @@
   "metafile": {
     "inputs": {
       "input/pages/page.html": {
-        "bytes": 594,
+        "bytes": 525,
         "imports": [
           {
             "path": "input/stylesheets/with-asset.css",
@@ -81,7 +81,7 @@
         ]
       },
       "input/pages/nested/nested-page.html": {
-        "bytes": 1164,
+        "bytes": 1030,
         "imports": [
           {
             "path": "input/stylesheets/nested/nested-with-asset.css",
@@ -197,10 +197,10 @@
         "exports": [],
         "inputs": {
           "input/pages/page.html": {
-            "bytesInOutput": 594
+            "bytesInOutput": 525
           }
         },
-        "bytes": 594,
+        "bytes": 525,
         "entryPoint": "input/pages/page.html"
       },
       "output/actual/no-write/entries/pages/nested/nested-page.html": {
@@ -208,10 +208,10 @@
         "exports": [],
         "inputs": {
           "input/pages/nested/nested-page.html": {
-            "bytesInOutput": 1164
+            "bytesInOutput": 1030
           }
         },
-        "bytes": 1164,
+        "bytes": 1030,
         "entryPoint": "input/pages/nested/nested-page.html"
       },
       "output/actual/no-write/assets/images/from-html-css-QROD6PU2.gif": {

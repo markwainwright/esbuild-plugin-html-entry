@@ -4,7 +4,7 @@
   "metafile": {
     "inputs": {
       "input/pages/dead-end.html": {
-        "bytes": 183,
+        "bytes": 177,
         "imports": [
           {
             "path": "input/stylesheets/with-none.css",
@@ -83,10 +83,10 @@
         "exports": [],
         "inputs": {
           "input/pages/dead-end.html": {
-            "bytesInOutput": 183
+            "bytesInOutput": 177
           }
         },
-        "bytes": 183,
+        "bytes": 177,
         "entryPoint": "input/pages/dead-end.html"
       },
       "output/actual/mixed-entrypoints/entries/with-both.js": {

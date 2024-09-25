@@ -4,7 +4,7 @@
   "metafile": {
     "inputs": {
       "input/pages/href-absolute.html": {
-        "bytes": 199,
+        "bytes": 193,
         "imports": []
       }
     },
@@ -14,10 +14,10 @@
         "exports": [],
         "inputs": {
           "input/pages/href-absolute.html": {
-            "bytesInOutput": 199
+            "bytesInOutput": 193
           }
         },
-        "bytes": 199,
+        "bytes": 193,
         "entryPoint": "input/pages/href-absolute.html"
       }
     }

@@ -4,7 +4,7 @@
   "metafile": {
     "inputs": {
       "input/pages/type-other.html": {
-        "bytes": 151,
+        "bytes": 147,
         "imports": []
       }
     },
@@ -14,10 +14,10 @@
         "exports": [],
         "inputs": {
           "input/pages/type-other.html": {
-            "bytesInOutput": 151
+            "bytesInOutput": 147
           }
         },
-        "bytes": 151,
+        "bytes": 147,
         "entryPoint": "input/pages/type-other.html"
       }
     }

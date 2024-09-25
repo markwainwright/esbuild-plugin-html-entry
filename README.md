@@ -54,7 +54,6 @@ esbuild.build({
   [esbuild docs](https://esbuild.github.io/api/#asset-names). Defaults to value of `assetNames`
 - `integrity` (optional)
 - `minifyOptions` (optional) – options passed to [html-minifier-terser] if `minify` is `true`
-- `prettifyOptions` (optional) – options passed to [prettier] if `minify` is not `true`
 
 ## esbuild config restrictions
 

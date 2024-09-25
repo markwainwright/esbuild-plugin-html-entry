@@ -6,9 +6,9 @@ import type { Plugin } from "esbuild";
 
 import { augmentMetafile, augmentOutputFiles } from "./augment-results.js";
 import { buildAsset } from "./build.js";
-import { findElements, setAttributes } from "./dom.js";
-import { minify, MinifyOptions, prettify, PrettifyOptions } from "./format.js";
+import { findElements, insertLinkElement, setAttributes } from "./dom.js";
 import { getIntegrity } from "./integrity.js";
+import { minify, MinifyOptions } from "./minify.js";
 import { getPublicPath, getPublicPathContext } from "./public-paths.js";
 import type { HtmlResult, Results } from "./types.js";
 
@@ -16,7 +16,6 @@ export interface PluginOptions {
   subresourceNames?: string;
   integrity?: string;
   minifyOptions?: MinifyOptions;
-  prettifyOptions?: PrettifyOptions;
 }
 
 export default function esbuildPluginHtmlEntry(pluginOptions: PluginOptions): Plugin {
@@ -105,11 +104,7 @@ export default function esbuildPluginHtmlEntry(pluginOptions: PluginOptions): Pl
 
           if (cssOutputPathRel) {
             const cssOutputPathAbs = resolve(workingDirAbs, cssOutputPathRel);
-            const linkElement = $("<link>")
-              .attr("rel", "stylesheet")
-              .insertBefore(element.element)
-              .get(0)!;
-
+            const linkElement = insertLinkElement($, element.element);
             setAttributes(
               $,
               { element: linkElement, attribute: "href", format: "iife" },
@@ -119,12 +114,13 @@ export default function esbuildPluginHtmlEntry(pluginOptions: PluginOptions): Pl
           }
         }
 
-        const contents = await (buildOptions.minify
-          ? minify($.html(), pluginOptions.minifyOptions)
-          : prettify($.html(), pluginOptions.prettifyOptions));
+        const html = $.html();
+        const contents = buildOptions.minify
+          ? await minify(html, pluginOptions.minifyOptions)
+          : html;
 
         return {
-          contents,
+          contents: contents,
           loader: "copy",
           resolveDir: dirname(htmlPathAbs),
           errors,

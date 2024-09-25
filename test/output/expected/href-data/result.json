@@ -4,7 +4,7 @@
   "metafile": {
     "inputs": {
       "input/pages/href-data.html": {
-        "bytes": 300,
+        "bytes": 278,
         "imports": []
       }
     },
@@ -14,10 +14,10 @@
         "exports": [],
         "inputs": {
           "input/pages/href-data.html": {
-            "bytesInOutput": 300
+            "bytesInOutput": 278
           }
         },
-        "bytes": 300,
+        "bytes": 278,
         "entryPoint": "input/pages/href-data.html"
       }
     }

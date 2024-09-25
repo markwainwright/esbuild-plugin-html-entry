@@ -4,7 +4,7 @@
   "metafile": {
     "inputs": {
       "input/pages/page.html": {
-        "bytes": 482,
+        "bytes": 413,
         "imports": [
           {
             "path": "input/stylesheets/with-asset.css",
@@ -19,7 +19,7 @@
         ]
       },
       "input/pages/nested/nested-page.html": {
-        "bytes": 901,
+        "bytes": 767,
         "imports": [
           {
             "path": "input/stylesheets/nested/nested-with-asset.css",
@@ -135,10 +135,10 @@
         "exports": [],
         "inputs": {
           "input/pages/page.html": {
-            "bytesInOutput": 482
+            "bytesInOutput": 413
           }
         },
-        "bytes": 482,
+        "bytes": 413,
         "entryPoint": "input/pages/page.html"
       },
       "output/actual/flat-output-paths/nested-page.html": {
@@ -146,10 +146,10 @@
         "exports": [],
         "inputs": {
           "input/pages/nested/nested-page.html": {
-            "bytesInOutput": 901
+            "bytesInOutput": 767
           }
         },
-        "bytes": 901,
+        "bytes": 767,
         "entryPoint": "input/pages/nested/nested-page.html"
       },
       "output/actual/flat-output-paths/from-html-css.gif": {
