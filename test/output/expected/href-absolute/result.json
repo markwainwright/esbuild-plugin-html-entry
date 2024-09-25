@@ -1,0 +1,25 @@
+{
+  "errors": [],
+  "warnings": [],
+  "metafile": {
+    "inputs": {
+      "input/pages/href-absolute.html": {
+        "bytes": 199,
+        "imports": []
+      }
+    },
+    "outputs": {
+      "output/actual/href-absolute/href-absolute.html": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "input/pages/href-absolute.html": {
+            "bytesInOutput": 199
+          }
+        },
+        "bytes": 199,
+        "entryPoint": "input/pages/href-absolute.html"
+      }
+    }
+  }
+}

@@ -2,9 +2,9 @@ import type { Metafile, OutputFile } from "esbuild";
 
 import type { Results } from "./types.js";
 
-function createSortBy<P extends string, V extends { [p in P]: string }>(propertyName: P) {
+function createSortBy<V>(callback: (value: V) => string) {
   return function (value1: V, value2: V) {
-    return value1[propertyName].localeCompare(value2[propertyName]);
+    return callback(value1).localeCompare(callback(value2));
   };
 }
 
@@ -12,17 +12,17 @@ export async function augmentOutputFiles(
   assetResults: Results["assets"],
   outputFiles: OutputFile[]
 ): Promise<OutputFile[] | undefined> {
-  const assetOutputFiles = [];
+  let assetOutputFiles: OutputFile[] = [];
 
   for (const assetResultPromise of assetResults.values()) {
     const assetResult = await assetResultPromise;
 
     if (assetResult.outputFiles) {
-      assetOutputFiles.push(...assetResult.outputFiles);
+      assetOutputFiles = assetOutputFiles.concat(assetResult.outputFiles);
     }
   }
 
-  return [...outputFiles, ...assetOutputFiles.sort(createSortBy("path"))];
+  return [...outputFiles, ...assetOutputFiles.sort(createSortBy(f => f.path))];
 }
 
 export async function augmentMetafile(
@@ -61,16 +61,28 @@ export async function augmentMetafile(
     outputs (for assets)
   */
 
+  let assetInputEntries: [string, Metafile["inputs"][string]][] = [];
+  let assetOutputEntries: [string, Metafile["outputs"][string]][] = [];
+
   for (const assetResult of results.assets.values()) {
     const { inputs, outputs } = await assetResult;
+
+    assetInputEntries = assetInputEntries.concat(Object.entries(inputs));
 
     for (const output of Object.values(outputs)) {
       delete output.entryPoint;
     }
-
-    Object.assign(metafile.inputs, inputs);
-    Object.assign(metafile.outputs, outputs);
+    assetOutputEntries = assetOutputEntries.concat(Object.entries(outputs));
   }
+
+  Object.assign(
+    metafile.inputs,
+    Object.fromEntries(assetInputEntries.sort(createSortBy(e => e[0])))
+  );
+  Object.assign(
+    metafile.outputs,
+    Object.fromEntries(assetOutputEntries.sort(createSortBy(e => e[0])))
+  );
 
   return metafile;
 }

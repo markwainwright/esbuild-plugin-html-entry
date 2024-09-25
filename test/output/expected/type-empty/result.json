@@ -1,0 +1,46 @@
+{
+  "errors": [],
+  "warnings": [],
+  "metafile": {
+    "inputs": {
+      "input/pages/type-empty.html": {
+        "bytes": 221,
+        "imports": [
+          {
+            "path": "input/scripts/with-none.js",
+            "kind": "import-statement",
+            "original": "../scripts/with-none.js"
+          }
+        ]
+      },
+      "input/scripts/with-none.js": {
+        "bytes": 37,
+        "imports": [],
+        "format": "esm"
+      }
+    },
+    "outputs": {
+      "output/actual/type-empty/type-empty.html": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "input/pages/type-empty.html": {
+            "bytesInOutput": 221
+          }
+        },
+        "bytes": 221,
+        "entryPoint": "input/pages/type-empty.html"
+      },
+      "output/actual/type-empty/with-none.js": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "input/scripts/with-none.js": {
+            "bytesInOutput": 39
+          }
+        },
+        "bytes": 100
+      }
+    }
+  }
+}

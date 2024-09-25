@@ -1,3 +1,5 @@
 node_modules
+coverage
 dist
+test/output/actual
 esbuild-plugin-html-entry-*.tgz

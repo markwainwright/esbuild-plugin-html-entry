@@ -19,8 +19,13 @@
   ],
   "scripts": {
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "test:coverage": "c8 node --test --test-reporter dot --import tsx/esm test/*.ts",
+    "test:only:watch": "node --test --test-only --watch --import tsx/esm test/*.ts",
+    "test:only": "node --test --test-only --import tsx/esm test/*.ts",
+    "test:update": "rm -rf test/output/{actual,expected}/* && npm test > /dev/null; cp -r test/output/actual/* test/output/expected/",
+    "test:watch": "node --test --watch --import=tsx/esm test/*.ts",
+    "test": "node --test --import tsx/esm test/*.ts"
   },
   "dependencies": {
     "cheerio": "^1.0.0",
@@ -34,8 +39,26 @@
     "@tsconfig/node20": "^20.1.4",
     "@types/html-minifier-terser": "^7.0.2",
     "@types/node": "^22.7.0",
+    "c8": "^10.1.2",
+    "dir-compare": "^5.0.0",
     "domhandler": "^5.0.3",
     "esbuild": "^0.24.0",
+    "rimraf": "^6.0.1",
+    "tsx": "^4.19.1",
     "typescript": "^5.6.2"
+  },
+  "c8": {
+    "lines": 95,
+    "functions": 100,
+    "branch": 95,
+    "statements": 95,
+    "all": true,
+    "include": [
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "src/types.ts"
+    ],
+    "check-coverage": true
   }
 }

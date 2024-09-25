@@ -1,0 +1,25 @@
+{
+  "errors": [],
+  "warnings": [],
+  "metafile": {
+    "inputs": {
+      "input/pages/href-data.html": {
+        "bytes": 300,
+        "imports": []
+      }
+    },
+    "outputs": {
+      "output/actual/href-data/href-data.html": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "input/pages/href-data.html": {
+            "bytesInOutput": 300
+          }
+        },
+        "bytes": 300,
+        "entryPoint": "input/pages/href-data.html"
+      }
+    }
+  }
+}

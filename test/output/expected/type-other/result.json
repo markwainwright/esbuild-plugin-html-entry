@@ -1,0 +1,25 @@
+{
+  "errors": [],
+  "warnings": [],
+  "metafile": {
+    "inputs": {
+      "input/pages/type-other.html": {
+        "bytes": 151,
+        "imports": []
+      }
+    },
+    "outputs": {
+      "output/actual/type-other/type-other.html": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "input/pages/type-other.html": {
+            "bytesInOutput": 151
+          }
+        },
+        "bytes": 151,
+        "entryPoint": "input/pages/type-other.html"
+      }
+    }
+  }
+}
