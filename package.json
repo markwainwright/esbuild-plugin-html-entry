@@ -18,7 +18,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --project tsconfig.build.json",
+    "lint": "eslint",
     "prepare": "npm run build",
     "test:coverage": "c8 node --test --test-reporter dot --import tsx/esm test/*.ts",
     "test:only:watch": "node --test --test-only --watch --import tsx/esm test/*.ts",
@@ -36,6 +37,7 @@
     "esbuild": ">= 0.23.0 < 0.25.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.11.1",
     "@tsconfig/node20": "^20.1.4",
     "@types/html-minifier-terser": "^7.0.2",
     "@types/node": "^22.7.0",
@@ -43,9 +45,13 @@
     "dir-compare": "^5.0.0",
     "domhandler": "^5.0.3",
     "esbuild": "^0.24.0",
+    "eslint": "^9.11.1",
+    "eslint-config-prettier": "^9.1.0",
+    "globals": "^15.9.0",
     "rimraf": "^6.0.1",
     "tsx": "^4.19.1",
-    "typescript": "^5.6.2"
+    "typescript": "^5.6.2",
+    "typescript-eslint": "^8.7.0"
   },
   "c8": {
     "lines": 95,
