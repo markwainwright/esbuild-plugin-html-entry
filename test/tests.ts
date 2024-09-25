@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
+import { resolve } from "node:path";
 import { build, testBuild } from "./helpers/test-build.js";
 
 await testBuild("no transitive dependencies", {
@@ -112,6 +113,26 @@ await testBuild(
     subresourceNames: "subresources/[dir]/[name]-[hash]",
   }
 );
+
+await testBuild("external absolute CSS", {
+  entryPoints: ["input/pages/page.html"],
+  external: [resolve(import.meta.dirname, "input/stylesheets/with-asset.css")],
+});
+
+await testBuild("external relative CSS", {
+  entryPoints: ["input/pages/page.html"],
+  external: ["../stylesheets/with-asset.css"],
+});
+
+await testBuild("external absolute JS", {
+  entryPoints: ["input/pages/page.html"],
+  external: [resolve(import.meta.dirname, "input/scripts/with-both.js")],
+});
+
+await testBuild("external relative JS", {
+  entryPoints: ["input/pages/page.html"],
+  external: ["../scripts/with-both.js"],
+});
 
 await testBuild("duplicate elements", { entryPoints: ["input/pages/duplicate-elements.html"] });
 

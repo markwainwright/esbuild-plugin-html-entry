@@ -1,0 +1,69 @@
+{
+  "errors": [],
+  "warnings": [],
+  "metafile": {
+    "inputs": {
+      "input/pages/page.html": {
+        "bytes": 275,
+        "imports": [
+          {
+            "path": "input/stylesheets/with-asset.css",
+            "kind": "import-statement",
+            "original": "../stylesheets/with-asset.css"
+          }
+        ]
+      },
+      "input/images/from-html-css.gif": {
+        "bytes": 12,
+        "imports": []
+      },
+      "input/stylesheets/with-asset.css": {
+        "bytes": 90,
+        "imports": [
+          {
+            "path": "input/images/from-html-css.gif",
+            "kind": "url-token",
+            "original": "../images/from-html-css.gif"
+          }
+        ]
+      }
+    },
+    "outputs": {
+      "output/actual/external-absolute-js/page.html": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "input/pages/page.html": {
+            "bytesInOutput": 275
+          }
+        },
+        "bytes": 275,
+        "entryPoint": "input/pages/page.html"
+      },
+      "output/actual/external-absolute-js/from-html-css.gif": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "input/images/from-html-css.gif": {
+            "bytesInOutput": 12
+          }
+        },
+        "bytes": 12
+      },
+      "output/actual/external-absolute-js/with-asset.css": {
+        "imports": [
+          {
+            "path": "output/actual/external-absolute-js/from-html-css.gif",
+            "kind": "url-token"
+          }
+        ],
+        "inputs": {
+          "input/stylesheets/with-asset.css": {
+            "bytesInOutput": 82
+          }
+        },
+        "bytes": 121
+      }
+    }
+  }
+}

@@ -59,6 +59,10 @@ export default function esbuildPluginHtmlEntry(pluginOptions: PluginOptions): Pl
             resolveDir: htmlDirAbs,
           });
 
+          if (assetResolveResult.external) {
+            continue;
+          }
+
           if (assetResolveResult.errors.length) {
             errors.push(...assetResolveResult.errors);
             continue;

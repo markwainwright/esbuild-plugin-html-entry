@@ -20,6 +20,9 @@ writing:
   - It respects options like [`external`]
   - Other plugins can influence path resolution behaviour
 - Allows JS and CSS entry points alongside HTML ones
+- Uses esbuild's built-in path resolution, meaning:
+  - It respects options like [`external`]
+  - Other plugins can influence path resolution behaviour
 - Ensures that a script or stylesheet referenced by multiple HTML entry points is only built once
 - Does not have a large abstraction layer between the plugin and esbuild (c.f.
   [@chialab/esbuild-plugin-html]) – this should hopefully make it easier to fix bugs and maintain
@@ -67,6 +70,7 @@ esbuild.build({
 [`metafile`]: https://esbuild.github.io/api/#metafile
 [`external`]: https://esbuild.github.io/api/#external
 [`outputFiles`]: https://esbuild.github.io/api/#write
+[`external`]: https://esbuild.github.io/api/#external
 [@chialab/esbuild-plugin-html]:
   https://github.com/chialab/rna/tree/main/packages/esbuild-plugin-html
 [html-minifier-terser]: https://www.npmjs.com/package/html-minifier-terser
