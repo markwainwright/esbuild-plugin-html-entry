@@ -10,35 +10,41 @@ interface AnnotatedElement {
   format: Format;
 }
 
-function filterHref($: CheerioAPI, hrefAttr: string) {
-  return function (_index: number, element: AnyNode) {
-    const href = $(element).attr(hrefAttr);
-    return (
-      href !== undefined && !href.startsWith("data:") && !isAbsolute(href) && !href.includes("://")
-    );
-  };
-}
+const SELECTOR =
+  'script[src]:not([type]), script[src][type="application/javascript"], script[src][type=""], script[src][type=module], link[href][rel=stylesheet]';
 
 export function findElements(html: string): [CheerioAPI, AnnotatedElement[]] {
   const $ = load(html);
 
   return [
     $,
-    [
-      ...$(
-        'script[src]:not([type]), script[src][type="application/javascript"], script[src][type=""]'
-      )
-        .filter(filterHref($, "src"))
-        .map((_, element) => ({ element, attribute: "src", format: "iife" as const })),
+    $(SELECTOR)
+      .get()
+      .map(element => {
+        const $element = $(element);
+        const isScript = element.tagName === "script";
+        const href = $element.attr(isScript ? "src" : "href");
 
-      ...$("script[src][type=module]")
-        .filter(filterHref($, "src"))
-        .map((_, element) => ({ element, attribute: "src", format: "esm" as const })),
+        if (
+          href === undefined ||
+          href.startsWith("data:") ||
+          isAbsolute(href) ||
+          href.includes("://")
+        ) {
+          return null;
+        }
 
-      ...$("link[href][rel=stylesheet]")
-        .filter(filterHref($, "href"))
-        .map((_, element) => ({ element, attribute: "href", format: "iife" as const })),
-    ],
+        if (isScript) {
+          return {
+            element,
+            attribute: "src",
+            format: $element.attr("type") === "module" ? ("esm" as const) : ("iife" as const),
+          };
+        }
+
+        return { element, attribute: "href", format: "iife" as const };
+      })
+      .filter(element => element !== null),
   ];
 }
 

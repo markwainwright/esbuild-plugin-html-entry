@@ -155,8 +155,8 @@ await test("href invalid", async t => {
     () => build(t, { entryPoints: ["input/pages/href-invalid.html"] }),
     new Error(
       `Build failed with 2 errors:
-error: Could not resolve "../scripts/whoops.js"
-error: Could not resolve "../stylesheets/whoops.css"`
+error: Could not resolve "../stylesheets/whoops.css"
+error: Could not resolve "../scripts/whoops.js"`
     )
   );
 });

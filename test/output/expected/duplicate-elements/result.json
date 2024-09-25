@@ -7,14 +7,14 @@
         "bytes": 1136,
         "imports": [
           {
-            "path": "input/scripts/with-both.js",
-            "kind": "import-statement",
-            "original": "../scripts/with-both.js"
-          },
-          {
             "path": "input/stylesheets/with-none.css",
             "kind": "import-statement",
             "original": "../stylesheets/with-none.css"
+          },
+          {
+            "path": "input/scripts/with-both.js",
+            "kind": "import-statement",
+            "original": "../scripts/with-both.js"
           }
         ]
       },

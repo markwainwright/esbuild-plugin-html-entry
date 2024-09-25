@@ -7,14 +7,14 @@
         "bytes": 344,
         "imports": [
           {
-            "path": "input/scripts/with-none.js",
-            "kind": "import-statement",
-            "original": "../scripts/with-none.js"
-          },
-          {
             "path": "input/stylesheets/with-none.css",
             "kind": "import-statement",
             "original": "../stylesheets/with-none.css"
+          },
+          {
+            "path": "input/scripts/with-none.js",
+            "kind": "import-statement",
+            "original": "../scripts/with-none.js"
           }
         ]
       },

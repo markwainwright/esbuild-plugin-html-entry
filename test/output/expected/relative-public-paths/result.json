@@ -7,29 +7,39 @@
         "bytes": 594,
         "imports": [
           {
-            "path": "input/scripts/with-both.js",
-            "kind": "import-statement",
-            "original": "../scripts/with-both.js"
-          },
-          {
             "path": "input/stylesheets/with-asset.css",
             "kind": "import-statement",
             "original": "../stylesheets/with-asset.css"
+          },
+          {
+            "path": "input/scripts/with-both.js",
+            "kind": "import-statement",
+            "original": "../scripts/with-both.js"
           }
         ]
       },
       "input/pages/nested/nested-page.html": {
-        "bytes": 645,
+        "bytes": 1164,
         "imports": [
+          {
+            "path": "input/stylesheets/nested/nested-with-asset.css",
+            "kind": "import-statement",
+            "original": "../../stylesheets/nested/nested-with-asset.css"
+          },
           {
             "path": "input/scripts/nested/nested-with-both.js",
             "kind": "import-statement",
             "original": "../../scripts/nested/nested-with-both.js"
           },
           {
-            "path": "input/stylesheets/nested/nested-with-asset.css",
+            "path": "input/stylesheets/with-asset.css",
             "kind": "import-statement",
-            "original": "../../stylesheets/nested/nested-with-asset.css"
+            "original": "../../stylesheets/with-asset.css"
+          },
+          {
+            "path": "input/scripts/with-both.js",
+            "kind": "import-statement",
+            "original": "../../scripts/with-both.js"
           }
         ]
       },
@@ -136,10 +146,10 @@
         "exports": [],
         "inputs": {
           "input/pages/nested/nested-page.html": {
-            "bytesInOutput": 645
+            "bytesInOutput": 1164
           }
         },
-        "bytes": 645,
+        "bytes": 1164,
         "entryPoint": "input/pages/nested/nested-page.html"
       },
       "output/actual/relative-public-paths/assets/images/from-html-css-QROD6PU2.gif": {

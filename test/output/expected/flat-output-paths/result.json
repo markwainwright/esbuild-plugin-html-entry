@@ -7,29 +7,39 @@
         "bytes": 482,
         "imports": [
           {
-            "path": "input/scripts/with-both.js",
-            "kind": "import-statement",
-            "original": "../scripts/with-both.js"
-          },
-          {
             "path": "input/stylesheets/with-asset.css",
             "kind": "import-statement",
             "original": "../stylesheets/with-asset.css"
+          },
+          {
+            "path": "input/scripts/with-both.js",
+            "kind": "import-statement",
+            "original": "../scripts/with-both.js"
           }
         ]
       },
       "input/pages/nested/nested-page.html": {
-        "bytes": 503,
+        "bytes": 901,
         "imports": [
+          {
+            "path": "input/stylesheets/nested/nested-with-asset.css",
+            "kind": "import-statement",
+            "original": "../../stylesheets/nested/nested-with-asset.css"
+          },
           {
             "path": "input/scripts/nested/nested-with-both.js",
             "kind": "import-statement",
             "original": "../../scripts/nested/nested-with-both.js"
           },
           {
-            "path": "input/stylesheets/nested/nested-with-asset.css",
+            "path": "input/stylesheets/with-asset.css",
             "kind": "import-statement",
-            "original": "../../stylesheets/nested/nested-with-asset.css"
+            "original": "../../stylesheets/with-asset.css"
+          },
+          {
+            "path": "input/scripts/with-both.js",
+            "kind": "import-statement",
+            "original": "../../scripts/with-both.js"
           }
         ]
       },
@@ -136,10 +146,10 @@
         "exports": [],
         "inputs": {
           "input/pages/nested/nested-page.html": {
-            "bytesInOutput": 503
+            "bytesInOutput": 901
           }
         },
-        "bytes": 503,
+        "bytes": 901,
         "entryPoint": "input/pages/nested/nested-page.html"
       },
       "output/actual/flat-output-paths/from-html-css.gif": {
