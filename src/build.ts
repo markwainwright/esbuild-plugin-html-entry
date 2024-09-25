@@ -1,18 +1,19 @@
-import { build, type BuildOptions } from "esbuild";
+import { build, type BuildOptions, type Format } from "esbuild";
 
 import type { AssetResult } from "./types.js";
 
 export async function buildAsset(
   buildOptions: BuildOptions,
   assetNames: string | undefined,
-  entryPoint: string
+  entryPoint: string,
+  format: Format
 ): Promise<AssetResult> {
   const { metafile, outputFiles } = await build({
     ...buildOptions,
     entryNames: assetNames,
     entryPoints: [entryPoint],
     metafile: true,
-    format: "iife",
+    format,
   });
 
   const output = Object.entries(metafile.outputs).find(

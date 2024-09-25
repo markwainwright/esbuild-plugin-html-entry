@@ -119,6 +119,8 @@ await testBuild("type JS", { entryPoints: ["input/pages/type-js.html"] });
 
 await testBuild("type empty", { entryPoints: ["input/pages/type-empty.html"] });
 
+await testBuild("type module", { entryPoints: ["input/pages/type-module.html"] });
+
 await testBuild("type other", { entryPoints: ["input/pages/type-other.html"] });
 
 await testBuild("href absolute", { entryPoints: ["input/pages/href-absolute.html"] });

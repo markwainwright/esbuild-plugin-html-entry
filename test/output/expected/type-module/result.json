@@ -1,0 +1,60 @@
+{
+  "errors": [],
+  "warnings": [],
+  "metafile": {
+    "inputs": {
+      "input/pages/type-module.html": {
+        "bytes": 225,
+        "imports": [
+          {
+            "path": "input/scripts/with-js.js",
+            "kind": "import-statement",
+            "original": "../scripts/with-js.js"
+          }
+        ]
+      },
+      "input/scripts/sub.js": {
+        "bytes": 67,
+        "imports": [],
+        "format": "esm"
+      },
+      "input/scripts/with-js.js": {
+        "bytes": 71,
+        "imports": [
+          {
+            "path": "input/scripts/sub.js",
+            "kind": "import-statement",
+            "original": "./sub.js"
+          }
+        ],
+        "format": "esm"
+      }
+    },
+    "outputs": {
+      "output/actual/type-module/type-module.html": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "input/pages/type-module.html": {
+            "bytesInOutput": 225
+          }
+        },
+        "bytes": 225,
+        "entryPoint": "input/pages/type-module.html"
+      },
+      "output/actual/type-module/with-js.js": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "input/scripts/sub.js": {
+            "bytesInOutput": 52
+          },
+          "input/scripts/with-js.js": {
+            "bytesInOutput": 42
+          }
+        },
+        "bytes": 147
+      }
+    }
+  }
+}

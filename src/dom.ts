@@ -2,10 +2,12 @@ import { isAbsolute } from "node:path";
 
 import { load, type CheerioAPI } from "cheerio";
 import type { AnyNode } from "domhandler";
+import type { Format } from "esbuild";
 
 interface AnnotatedElement {
   element: AnyNode;
   attribute: string;
+  format: Format;
 }
 
 function filterHref($: CheerioAPI, hrefAttr: string) {
@@ -27,11 +29,15 @@ export function findElements(html: string): [CheerioAPI, AnnotatedElement[]] {
         'script[src]:not([type]), script[src][type="application/javascript"], script[src][type=""]'
       )
         .filter(filterHref($, "src"))
-        .map((_, element) => ({ element, attribute: "src" })),
+        .map((_, element) => ({ element, attribute: "src", format: "iife" as const })),
+
+      ...$("script[src][type=module]")
+        .filter(filterHref($, "src"))
+        .map((_, element) => ({ element, attribute: "src", format: "esm" as const })),
 
       ...$("link[href][rel=stylesheet]")
         .filter(filterHref($, "href"))
-        .map((_, element) => ({ element, attribute: "href" })),
+        .map((_, element) => ({ element, attribute: "href", format: "iife" as const })),
     ],
   ];
 }

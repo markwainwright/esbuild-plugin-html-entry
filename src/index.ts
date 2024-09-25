@@ -78,7 +78,8 @@ export default function esbuildPluginHtmlEntry(pluginOptions: PluginOptions): Pl
             resultPromise = buildAsset(
               buildOptions,
               pluginOptions.subresourceNames ?? buildOptions.assetNames,
-              assetPathRel
+              assetPathRel,
+              element.format
             );
             results.assets.set(assetPathRel, resultPromise);
           }
@@ -107,7 +108,7 @@ export default function esbuildPluginHtmlEntry(pluginOptions: PluginOptions): Pl
 
             setAttributes(
               $,
-              { element: linkElement, attribute: "href" },
+              { element: linkElement, attribute: "href", format: "iife" },
               getPublicPath(publicPathContext, cssOutputPathAbs),
               await getIntegrity(pluginOptions.integrity, cssOutputPathAbs, outputFiles)
             );
