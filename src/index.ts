@@ -8,7 +8,7 @@ import { augmentMetafile, augmentOutputFiles } from "./augment-results.js";
 import { buildAsset } from "./build.js";
 import { findElements, insertLinkElement, setAttributes } from "./dom.js";
 import { getIntegrity } from "./integrity.js";
-import { minify, MinifyOptions } from "./minify.js";
+import { minify, type MinifyOptions } from "./minify.js";
 import { getPublicPath, getPublicPathContext } from "./public-paths.js";
 import type { HtmlResult, Results } from "./types.js";
 

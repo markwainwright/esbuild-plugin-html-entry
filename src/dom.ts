@@ -1,8 +1,9 @@
 import { isAbsolute } from "node:path";
 
 import { load, type CheerioAPI } from "cheerio";
-import type { AnyNode } from "domhandler";
 import type { Format } from "esbuild";
+
+type AnyNode = ReturnType<CheerioAPI>[0];
 
 interface AnnotatedElement {
   element: AnyNode;

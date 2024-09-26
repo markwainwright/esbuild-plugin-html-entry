@@ -1,4 +1,4 @@
-import { type Metafile, type OutputFile } from "esbuild";
+import type { Metafile, OutputFile } from "esbuild";
 
 export interface HtmlResult {
   /** Map of resolved entry point path to original import href */
