@@ -3,22 +3,22 @@ import { readFile } from "node:fs/promises";
 import { dirname, relative, resolve } from "node:path";
 
 import type { Plugin } from "esbuild";
+import { minify, type Options as MinifyOptions } from "html-minifier-terser";
 
 import { augmentMetafile, augmentOutputFiles } from "./augment-results.js";
 import { buildAsset } from "./build.js";
 import { findElements, insertLinkElement, setAttributes } from "./dom.js";
 import { getIntegrity } from "./integrity.js";
-import { minify, type MinifyOptions } from "./minify.js";
 import { getPublicPath, getPublicPathContext } from "./public-paths.js";
 import type { HtmlResult, Results } from "./types.js";
 
-export interface PluginOptions {
+export interface EsbuildPluginHtmlEntryOptions {
   subresourceNames?: string;
   integrity?: string;
   minifyOptions?: MinifyOptions;
 }
 
-export default function esbuildPluginHtmlEntry(pluginOptions: PluginOptions): Plugin {
+export function esbuildPluginHtmlEntry(pluginOptions: EsbuildPluginHtmlEntryOptions = {}): Plugin {
   return {
     name: "html-entry",
 

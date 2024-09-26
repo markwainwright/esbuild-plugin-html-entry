@@ -1,4 +1,4 @@
-import assert from "node:assert/strict";
+import * as assert from "node:assert/strict";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { relative, resolve } from "node:path";
 import { test, type TestContext } from "node:test";
@@ -7,7 +7,7 @@ import { compare } from "dir-compare";
 import esbuild, { type BuildOptions, type BuildResult } from "esbuild";
 import { rimraf } from "rimraf";
 
-import esbuildPluginHtmlEntry, { PluginOptions } from "../../src/index.js";
+import { esbuildPluginHtmlEntry, type EsbuildPluginHtmlEntryOptions } from "../../src/index.js";
 
 const dirname = import.meta.dirname;
 
@@ -18,7 +18,7 @@ function getTestNameDir(testName: string) {
 export async function testBuild(
   testName: string,
   buildOptions: BuildOptions,
-  pluginOptions: PluginOptions = {},
+  pluginOptions: EsbuildPluginHtmlEntryOptions = {},
   testOptions: { only?: true; skip?: true } = {}
 ): Promise<void> {
   await test(testName, testOptions, async t => {
@@ -29,7 +29,7 @@ export async function testBuild(
 export async function build(
   testContext: TestContext,
   buildOptions: BuildOptions,
-  pluginOptions: PluginOptions = {}
+  pluginOptions: EsbuildPluginHtmlEntryOptions = {}
 ): Promise<BuildResult> {
   const actualOutputDir = resolve(
     dirname,
@@ -48,7 +48,6 @@ export async function build(
     metafile: true,
     entryNames: "[name]",
     assetNames: "[name]",
-    chunkNames: "[name]",
     outdir: actualOutputDir,
     ...buildOptions,
     plugins: [esbuildPluginHtmlEntry({ integrity: "sha256", ...pluginOptions })],
@@ -58,7 +57,7 @@ export async function build(
 export async function buildAndAssert(
   testContext: TestContext,
   buildOptions: BuildOptions,
-  pluginOptions: PluginOptions = {}
+  pluginOptions: EsbuildPluginHtmlEntryOptions = {}
 ): Promise<void> {
   const testNameDir = getTestNameDir(testContext.fullName);
   const actualOutputDir = resolve(dirname, "../output/actual", testNameDir);

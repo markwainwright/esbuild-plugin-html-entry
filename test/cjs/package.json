@@ -1,0 +1,6 @@
+{
+  "type": "commonjs",
+  "devDependencies": {
+    "esbuild-plugin-html-entry": "file:../.."
+  }
+}

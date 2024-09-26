@@ -1,0 +1,6 @@
+{
+  "type": "module",
+  "devDependencies": {
+    "esbuild-plugin-html-entry": "file:../.."
+  }
+}
