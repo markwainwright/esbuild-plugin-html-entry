@@ -34,7 +34,7 @@
     "build": "./build.sh",
     "check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\" && eslint && tsc --noEmit",
     "prepare": "npm run build",
-    "test:coverage": "c8 node --test --test-reporter dot --import tsx/esm test/test.ts",
+    "test:coverage": "c8 node --test --test-reporter spec --import tsx/esm test/test.ts",
     "test:update": "rm -rf test/output/{actual,expected}/* && npm test > /dev/null ; cp -r test/output/actual/* test/output/expected/",
     "test:watch": "node --test --watch --import=tsx/esm test/test.ts",
     "test": "node --test --import tsx/esm test/test.ts test/esm/test.mjs test/cjs/test.cjs"
@@ -45,7 +45,7 @@
     "html-minifier-terser": "^7.2.0"
   },
   "peerDependencies": {
-    "esbuild": ">= 0.23.0 < 0.25.0"
+    "esbuild": ">= 0.19.5 < 0.25.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.11.1",

@@ -124,7 +124,7 @@ await testBuild(
 
 await testBuild("external absolute CSS", {
   entryPoints: ["input/pages/page.html"],
-  external: [resolve(import.meta.dirname, "input/stylesheets/with-asset.css")],
+  external: [resolve("test/input/stylesheets/with-asset.css")],
 });
 
 await testBuild("external relative CSS", {
@@ -134,7 +134,7 @@ await testBuild("external relative CSS", {
 
 await testBuild("external absolute JS", {
   entryPoints: ["input/pages/page.html"],
-  external: [resolve(import.meta.dirname, "input/scripts/with-both.js")],
+  external: [resolve("test/input/scripts/with-both.js")],
 });
 
 await testBuild("external relative JS", {

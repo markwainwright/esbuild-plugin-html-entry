@@ -8,12 +8,12 @@ const { promisify } = require("node:util");
 const esbuild = require("esbuild");
 const { rimraf } = require("rimraf");
 
-before(() => promisify(exec)("npm ci --install-links", { cwd: __dirname }));
+before(() => promisify(exec)("npm ci --install-links --omit=peer", { cwd: resolve("test/cjs") }));
 
 async function assertFilesMatch(filename) {
   const [actual, expected] = await Promise.all(
     ["actual", "expected"].map(dir =>
-      readFile(resolve(__dirname, "../output", dir, "cjs", filename), "utf-8")
+      readFile(resolve("test/output", dir, "cjs", filename), "utf-8")
     )
   );
   assert.equal(actual, expected);
@@ -22,12 +22,12 @@ async function assertFilesMatch(filename) {
 test("require and run in CommonJS module", async () => {
   const { esbuildPluginHtmlEntry } = require("esbuild-plugin-html-entry");
 
-  const actualOutputDir = resolve(__dirname, "../output/actual/cjs");
+  const actualOutputDir = resolve("test/output/actual/cjs");
   await rimraf(actualOutputDir);
 
   const results = await esbuild.build({
     entryPoints: ["input/pages/page.html"],
-    absWorkingDir: resolve(__dirname, ".."),
+    absWorkingDir: resolve("test"),
     loader: { ".gif": "file" },
     platform: "browser",
     bundle: true,

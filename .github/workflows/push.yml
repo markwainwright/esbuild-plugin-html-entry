@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    name: "esbuild ${{ matrix.esbuildVersion }}, node ${{ matrix.nodeVersion }}"
+    strategy:
+      matrix:
+        esbuildVersion: ["0.19.5", "0.20.x", "0.21.x", "0.22.x", "0.23.x", "0.24.x"]
+        nodeVersion: ["18.x.x", "20.x.x", "22.x.x"]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "${{ matrix.nodeVersion }}"
+          cache: npm
+      - name: Install
+        run: npm ci
+      - name: Install esbuild
+        run: "npm i esbuild@${{ matrix.esbuildVersion }} && npm ls esbuild --depth 0"
+      - name: Test
+        run: npm run test:coverage
+
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - name: Install
+        run: npm ci
+      - name: Check
+        run: npm run check

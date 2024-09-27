@@ -9,8 +9,6 @@ import { rimraf } from "rimraf";
 
 import { esbuildPluginHtmlEntry, type EsbuildPluginHtmlEntryOptions } from "../../src/index.js";
 
-const dirname = import.meta.dirname;
-
 function getTestNameDir(testName: string) {
   return testName.replaceAll(" > ", "/").toLowerCase().replace(/\s/g, "-");
 }
@@ -31,16 +29,12 @@ export async function build(
   buildOptions: BuildOptions,
   pluginOptions: EsbuildPluginHtmlEntryOptions = {}
 ): Promise<BuildResult> {
-  const actualOutputDir = resolve(
-    dirname,
-    "../output/actual",
-    getTestNameDir(testContext.fullName)
-  );
+  const actualOutputDir = resolve("test/output/actual", getTestNameDir(testContext.name));
 
   await rimraf(actualOutputDir);
 
   return await esbuild.build({
-    absWorkingDir: resolve(dirname, ".."),
+    absWorkingDir: resolve("test"),
     loader: { ".gif": "file" },
     platform: "browser",
     bundle: true,
@@ -59,9 +53,9 @@ export async function buildAndAssert(
   buildOptions: BuildOptions,
   pluginOptions: EsbuildPluginHtmlEntryOptions = {}
 ): Promise<void> {
-  const testNameDir = getTestNameDir(testContext.fullName);
-  const actualOutputDir = resolve(dirname, "../output/actual", testNameDir);
-  const expectedOutputDir = resolve(dirname, "../output/expected", testNameDir);
+  const testNameDir = getTestNameDir(testContext.name);
+  const actualOutputDir = resolve("test/output/actual", testNameDir);
+  const expectedOutputDir = resolve("test/output/expected", testNameDir);
 
   const result = await build(testContext, buildOptions, pluginOptions);
 
@@ -71,7 +65,11 @@ export async function buildAndAssert(
     JSON.stringify(
       {
         ...result,
-        outputFiles: result.outputFiles?.map(({ path, hash, text }) => ({ path, hash, text })),
+        outputFiles: result.outputFiles?.map(({ path, hash, text }) => ({
+          path: relative(resolve("test"), path),
+          hash,
+          text,
+        })),
       },
       null,
       2
