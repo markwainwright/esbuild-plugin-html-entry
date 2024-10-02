@@ -5,12 +5,11 @@ import { dirname, relative, resolve } from "node:path";
 import type { Plugin } from "esbuild";
 import { minify, type Options as MinifyOptions } from "html-minifier-terser";
 
-import { augmentMetafile, augmentOutputFiles } from "./augment-results.js";
 import { buildAsset } from "./build.js";
 import { findElements, insertLinkElement, setAttributes } from "./dom.js";
 import { getIntegrity } from "./integrity.js";
 import { getPublicPath, getPublicPathContext } from "./public-paths.js";
-import type { HtmlResult, Results } from "./types.js";
+import { augmentMetafile, augmentOutputFiles, type HtmlResult, type Results } from "./results.js";
 
 export interface EsbuildPluginHtmlEntryOptions {
   subresourceNames?: string;
@@ -36,9 +35,16 @@ export function esbuildPluginHtmlEntry(pluginOptions: EsbuildPluginHtmlEntryOpti
         const htmlPathRel = relative(workingDirAbs, htmlPathAbs);
         const htmlDirAbs = dirname(htmlPathAbs);
 
-        const [$, elements] = findElements(await readFile(htmlPathAbs, "utf-8"));
+        const htmlContents = await readFile(htmlPathAbs);
+        const htmlContentsString = htmlContents.toString("utf-8");
 
-        const htmlResult: HtmlResult = { imports: new Map(), watchFiles: new Set() };
+        const [$, elements] = findElements(htmlContentsString);
+
+        const htmlResult: HtmlResult = {
+          imports: new Map(),
+          watchFiles: new Set(),
+          inputBytes: htmlContents.byteLength,
+        };
         results.htmls.set(htmlPathRel, htmlResult);
 
         const errors = [];

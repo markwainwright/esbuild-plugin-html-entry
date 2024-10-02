@@ -4,7 +4,7 @@
   "metafile": {
     "inputs": {
       "test/input/pages/minified.html": {
-        "bytes": 383,
+        "bytes": 175,
         "imports": [
           {
             "path": "test/input/stylesheets/with-asset.css",

@@ -4,7 +4,7 @@
   "metafile": {
     "inputs": {
       "test/input/pages/type-empty.html": {
-        "bytes": 194,
+        "bytes": 145,
         "imports": [
           {
             "path": "test/input/scripts/with-none.js",

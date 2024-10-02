@@ -1,6 +1,6 @@
 import { build, type BuildOptions, type Format } from "esbuild";
 
-import type { AssetResult } from "./types.js";
+import type { AssetResult } from "./results.js";
 
 export async function buildAsset(
   buildOptions: BuildOptions,

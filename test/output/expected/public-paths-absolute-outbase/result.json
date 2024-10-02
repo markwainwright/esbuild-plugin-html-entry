@@ -4,7 +4,7 @@
   "metafile": {
     "inputs": {
       "test/input/pages/page.html": {
-        "bytes": 618,
+        "bytes": 204,
         "imports": [
           {
             "path": "test/input/stylesheets/with-asset.css",
@@ -19,7 +19,7 @@
         ]
       },
       "test/input/pages/nested/nested-page.html": {
-        "bytes": 1198,
+        "bytes": 364,
         "imports": [
           {
             "path": "test/input/stylesheets/nested/nested-with-asset.css",

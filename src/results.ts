@@ -1,6 +1,25 @@
 import type { Metafile, OutputFile } from "esbuild";
 
-import type { Results } from "./types.js";
+export interface HtmlResult {
+  /** Map of resolved entry point path to original import href */
+  imports: Map<string, string>;
+  inputBytes: number;
+  watchFiles: Set<string>;
+}
+
+export interface AssetResult {
+  mainOutputPathRel: string;
+  cssOutputPathRel?: string;
+  watchFiles: string[];
+  outputFiles?: OutputFile[];
+  inputs: Metafile["inputs"];
+  outputs: Metafile["outputs"];
+}
+
+export interface Results {
+  htmls: Map<string, HtmlResult>;
+  assets: Map<string, Promise<AssetResult>>;
+}
 
 function createSortBy<V>(callback: (value: V) => string) {
   return function (value1: V, value2: V) {
@@ -42,6 +61,11 @@ export async function augmentMetafile(
       for (const [path, original] of htmlResult.imports) {
         input.imports.push({ path, kind: "import-statement", original });
       }
+
+      // Because we're using the `copy` loader, ESBuild sets this to the size of the file *after*
+      // the path substitutions have been made (i.e. the result of the onLoad callback). This
+      // restores it to the input file's size
+      input.bytes = htmlResult.inputBytes;
     }
   }
 

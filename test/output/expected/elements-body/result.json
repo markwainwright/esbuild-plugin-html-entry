@@ -4,7 +4,7 @@
   "metafile": {
     "inputs": {
       "test/input/pages/elements-body.html": {
-        "bytes": 300,
+        "bytes": 138,
         "imports": [
           {
             "path": "test/input/scripts/with-both.js",

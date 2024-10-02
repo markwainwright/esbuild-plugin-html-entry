@@ -4,7 +4,7 @@
   "metafile": {
     "inputs": {
       "test/input/pages/typescript.html": {
-        "bytes": 305,
+        "bytes": 140,
         "imports": [
           {
             "path": "test/input/scripts/with-both-ts.ts",

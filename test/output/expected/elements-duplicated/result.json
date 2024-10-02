@@ -4,7 +4,7 @@
   "metafile": {
     "inputs": {
       "test/input/pages/elements-duplicated.html": {
-        "bytes": 961,
+        "bytes": 373,
         "imports": [
           {
             "path": "test/input/stylesheets/with-none.css",

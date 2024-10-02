@@ -4,7 +4,7 @@
   "metafile": {
     "inputs": {
       "test/input/pages/href-data.html": {
-        "bytes": 278,
+        "bytes": 300,
         "imports": []
       }
     },
