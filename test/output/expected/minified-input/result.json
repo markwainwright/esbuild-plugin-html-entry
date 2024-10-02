@@ -3,7 +3,7 @@
   "warnings": [],
   "metafile": {
     "inputs": {
-      "test/input/pages/minified.html": {
+      "html-entry:test/input/pages/minified.html": {
         "bytes": 175,
         "imports": [
           {
@@ -73,12 +73,12 @@
         "imports": [],
         "exports": [],
         "inputs": {
-          "test/input/pages/minified.html": {
+          "html-entry:test/input/pages/minified.html": {
             "bytesInOutput": 383
           }
         },
         "bytes": 383,
-        "entryPoint": "test/input/pages/minified.html"
+        "entryPoint": "html-entry:test/input/pages/minified.html"
       },
       "test/output/actual/minified-input/from-html-css.gif": {
         "imports": [],

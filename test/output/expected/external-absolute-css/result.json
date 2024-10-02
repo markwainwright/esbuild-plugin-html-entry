@@ -3,7 +3,7 @@
   "warnings": [],
   "metafile": {
     "inputs": {
-      "test/input/pages/page.html": {
+      "html-entry:test/input/pages/page.html": {
         "bytes": 204,
         "imports": [
           {
@@ -54,12 +54,12 @@
         "imports": [],
         "exports": [],
         "inputs": {
-          "test/input/pages/page.html": {
+          "html-entry:test/input/pages/page.html": {
             "bytesInOutput": 364
           }
         },
         "bytes": 364,
-        "entryPoint": "test/input/pages/page.html"
+        "entryPoint": "html-entry:test/input/pages/page.html"
       },
       "test/output/actual/external-absolute-css/from-js-css.gif": {
         "imports": [],

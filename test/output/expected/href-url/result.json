@@ -3,7 +3,7 @@
   "warnings": [],
   "metafile": {
     "inputs": {
-      "test/input/pages/href-url.html": {
+      "html-entry:test/input/pages/href-url.html": {
         "bytes": 230,
         "imports": []
       }
@@ -13,12 +13,12 @@
         "imports": [],
         "exports": [],
         "inputs": {
-          "test/input/pages/href-url.html": {
+          "html-entry:test/input/pages/href-url.html": {
             "bytesInOutput": 224
           }
         },
         "bytes": 224,
-        "entryPoint": "test/input/pages/href-url.html"
+        "entryPoint": "html-entry:test/input/pages/href-url.html"
       }
     }
   }

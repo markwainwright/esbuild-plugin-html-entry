@@ -3,7 +3,7 @@
   "warnings": [],
   "metafile": {
     "inputs": {
-      "pages/page.html": {
+      "html-entry:pages/page.html": {
         "bytes": 204,
         "imports": [
           {
@@ -18,7 +18,7 @@
           }
         ]
       },
-      "pages/nested/nested-page.html": {
+      "html-entry:pages/nested/nested-page.html": {
         "bytes": 364,
         "imports": [
           {
@@ -134,23 +134,23 @@
         "imports": [],
         "exports": [],
         "inputs": {
-          "pages/page.html": {
+          "html-entry:pages/page.html": {
             "bytesInOutput": 525
           }
         },
         "bytes": 525,
-        "entryPoint": "pages/page.html"
+        "entryPoint": "html-entry:pages/page.html"
       },
       "../output/actual/public-paths-relative-cwd/entries/pages/nested/nested-page.html": {
         "imports": [],
         "exports": [],
         "inputs": {
-          "pages/nested/nested-page.html": {
+          "html-entry:pages/nested/nested-page.html": {
             "bytesInOutput": 1030
           }
         },
         "bytes": 1030,
-        "entryPoint": "pages/nested/nested-page.html"
+        "entryPoint": "html-entry:pages/nested/nested-page.html"
       },
       "../output/actual/public-paths-relative-cwd/assets/images/from-html-css-QROD6PU2.gif": {
         "imports": [],

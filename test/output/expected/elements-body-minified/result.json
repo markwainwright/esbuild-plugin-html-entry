@@ -3,7 +3,7 @@
   "warnings": [],
   "metafile": {
     "inputs": {
-      "test/input/pages/elements-body-minified.html": {
+      "html-entry:test/input/pages/elements-body-minified.html": {
         "bytes": 112,
         "imports": [
           {
@@ -54,12 +54,12 @@
         "imports": [],
         "exports": [],
         "inputs": {
-          "test/input/pages/elements-body-minified.html": {
+          "html-entry:test/input/pages/elements-body-minified.html": {
             "bytesInOutput": 273
           }
         },
         "bytes": 273,
-        "entryPoint": "test/input/pages/elements-body-minified.html"
+        "entryPoint": "html-entry:test/input/pages/elements-body-minified.html"
       },
       "test/output/actual/elements-body-minified/from-js-css.gif": {
         "imports": [],

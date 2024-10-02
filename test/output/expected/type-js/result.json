@@ -3,7 +3,7 @@
   "warnings": [],
   "metafile": {
     "inputs": {
-      "test/input/pages/type-js.html": {
+      "html-entry:test/input/pages/type-js.html": {
         "bytes": 167,
         "imports": [
           {
@@ -24,12 +24,12 @@
         "imports": [],
         "exports": [],
         "inputs": {
-          "test/input/pages/type-js.html": {
+          "html-entry:test/input/pages/type-js.html": {
             "bytesInOutput": 216
           }
         },
         "bytes": 216,
-        "entryPoint": "test/input/pages/type-js.html"
+        "entryPoint": "html-entry:test/input/pages/type-js.html"
       },
       "test/output/actual/type-js/with-none.js": {
         "imports": [],

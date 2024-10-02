@@ -3,59 +3,59 @@
   "warnings": [],
   "outputFiles": [
     {
-      "path": "output/actual/no-write/entries/pages/page.html",
+      "path": "test/output/actual/no-write/entries/pages/page.html",
       "hash": "6w6XWo9tVYE",
       "text": "<!DOCTYPE html><html><head>\n    <link rel=\"stylesheet\" href=\"../../subresources/stylesheets/with-asset-LEAA4KCL.css\" integrity=\"sha256-dt9J9jIFnSSgeKOV9HGlARN3PQlYQg/daDHCSzgpTm0=\">\n    <link rel=\"stylesheet\" href=\"../../subresources/scripts/with-both-XJ66VXDU.css\" integrity=\"sha256-cFQ5TlJzEjsf5F7xAiMDUFa09PUEKQ32GJKQvYeOXtA=\">\n    <script src=\"../../subresources/scripts/with-both-BBPWIGRB.js\" integrity=\"sha256-sPo5XZbMiXtQYJh3HbwZY9wwwz8QiZtZ2WguyAzUEdc=\"></script>\n  </head>\n  <body>\n    Hello world\n  \n\n</body></html>"
     },
     {
-      "path": "output/actual/no-write/entries/pages/nested/nested-page.html",
+      "path": "test/output/actual/no-write/entries/pages/nested/nested-page.html",
       "hash": "jOPCklqNjVU",
       "text": "<!DOCTYPE html><html><head>\n    <link rel=\"stylesheet\" href=\"../../../subresources/stylesheets/nested/nested-with-asset-NFY7L5XW.css\" integrity=\"sha256-187C4pidOXVdea71+AlCKDsBNc2vvbA/AhqSg1d30zg=\">\n    <link rel=\"stylesheet\" href=\"../../../subresources/scripts/nested/nested-with-both-PPU33YHE.css\" integrity=\"sha256-oFXbkrX6FUcOohIxlU93i7WHoqepX490tkVCBxivlNQ=\">\n    <script src=\"../../../subresources/scripts/nested/nested-with-both-QJNLCMES.js\" integrity=\"sha256-Ph8uIU9q/UElgd+eNDUvCdfvf0RIKwwxjZ47iYzsM8Y=\"></script>\n\n    <link rel=\"stylesheet\" href=\"../../../subresources/stylesheets/with-asset-LEAA4KCL.css\" integrity=\"sha256-dt9J9jIFnSSgeKOV9HGlARN3PQlYQg/daDHCSzgpTm0=\">\n    <link rel=\"stylesheet\" href=\"../../../subresources/scripts/with-both-XJ66VXDU.css\" integrity=\"sha256-cFQ5TlJzEjsf5F7xAiMDUFa09PUEKQ32GJKQvYeOXtA=\">\n    <script src=\"../../../subresources/scripts/with-both-BBPWIGRB.js\" integrity=\"sha256-sPo5XZbMiXtQYJh3HbwZY9wwwz8QiZtZ2WguyAzUEdc=\"></script>\n  </head>\n  <body>\n    Hello world\n  \n\n</body></html>"
     },
     {
-      "path": "output/actual/no-write/assets/images/from-html-css-QROD6PU2.gif",
+      "path": "test/output/actual/no-write/assets/images/from-html-css-QROD6PU2.gif",
       "hash": "jKA4mj4/XIQ",
       "text": "Hello world\n"
     },
     {
-      "path": "output/actual/no-write/assets/images/from-js-css-QROD6PU2.gif",
+      "path": "test/output/actual/no-write/assets/images/from-js-css-QROD6PU2.gif",
       "hash": "jKA4mj4/XIQ",
       "text": "Hello world\n"
     },
     {
-      "path": "output/actual/no-write/subresources/scripts/nested/nested-with-both-PPU33YHE.css",
+      "path": "test/output/actual/no-write/subresources/scripts/nested/nested-with-both-PPU33YHE.css",
       "hash": "2ppZxRPZZFs",
       "text": "/* test/input/stylesheets/nested/nested-from-js.css */\nbody {\n  background-image: url(\"../../../assets/images/from-js-css-QROD6PU2.gif\");\n  background-color: yellow;\n}\n"
     },
     {
-      "path": "output/actual/no-write/subresources/scripts/nested/nested-with-both-QJNLCMES.js",
+      "path": "test/output/actual/no-write/subresources/scripts/nested/nested-with-both-QJNLCMES.js",
       "hash": "Xn7MoEEeBBU",
       "text": "\"use strict\";\n(() => {\n  // test/input/scripts/sub.js\n  function sub() {\n    console.log(\"scripts/sub.js\");\n  }\n\n  // test/input/scripts/nested/nested-with-both.js\n  console.log(\"scripts/nested/nested-with-both.js\");\n  sub();\n})();\n"
     },
     {
-      "path": "output/actual/no-write/subresources/scripts/with-both-BBPWIGRB.js",
+      "path": "test/output/actual/no-write/subresources/scripts/with-both-BBPWIGRB.js",
       "hash": "Kb3hORF2AB4",
       "text": "\"use strict\";\n(() => {\n  // test/input/scripts/sub.js\n  function sub() {\n    console.log(\"scripts/sub.js\");\n  }\n\n  // test/input/scripts/with-both.js\n  console.log(\"scripts/with-both.js\");\n  sub();\n})();\n"
     },
     {
-      "path": "output/actual/no-write/subresources/scripts/with-both-XJ66VXDU.css",
+      "path": "test/output/actual/no-write/subresources/scripts/with-both-XJ66VXDU.css",
       "hash": "cPRgnWgc/aE",
       "text": "/* test/input/stylesheets/from-js.css */\nbody {\n  background-image: url(\"../../assets/images/from-js-css-QROD6PU2.gif\");\n  background-color: rebeccapurple;\n}\n"
     },
     {
-      "path": "output/actual/no-write/subresources/stylesheets/nested/nested-with-asset-NFY7L5XW.css",
+      "path": "test/output/actual/no-write/subresources/stylesheets/nested/nested-with-asset-NFY7L5XW.css",
       "hash": "+Zq3FPv2alw",
       "text": "/* test/input/stylesheets/nested/nested-with-asset.css */\nbody {\n  background-image: url(\"../../../assets/images/from-html-css-QROD6PU2.gif\");\n  background-color: blue;\n}\n"
     },
     {
-      "path": "output/actual/no-write/subresources/stylesheets/with-asset-LEAA4KCL.css",
+      "path": "test/output/actual/no-write/subresources/stylesheets/with-asset-LEAA4KCL.css",
       "hash": "+pVZXJZyoho",
       "text": "/* test/input/stylesheets/with-asset.css */\nbody {\n  background-image: url(\"../../assets/images/from-html-css-QROD6PU2.gif\");\n  background-color: red;\n}\n"
     }
   ],
   "metafile": {
     "inputs": {
-      "test/input/pages/page.html": {
+      "html-entry:test/input/pages/page.html": {
         "bytes": 204,
         "imports": [
           {
@@ -70,7 +70,7 @@
           }
         ]
       },
-      "test/input/pages/nested/nested-page.html": {
+      "html-entry:test/input/pages/nested/nested-page.html": {
         "bytes": 364,
         "imports": [
           {
@@ -186,23 +186,23 @@
         "imports": [],
         "exports": [],
         "inputs": {
-          "test/input/pages/page.html": {
+          "html-entry:test/input/pages/page.html": {
             "bytesInOutput": 525
           }
         },
         "bytes": 525,
-        "entryPoint": "test/input/pages/page.html"
+        "entryPoint": "html-entry:test/input/pages/page.html"
       },
       "test/output/actual/no-write/entries/pages/nested/nested-page.html": {
         "imports": [],
         "exports": [],
         "inputs": {
-          "test/input/pages/nested/nested-page.html": {
+          "html-entry:test/input/pages/nested/nested-page.html": {
             "bytesInOutput": 1030
           }
         },
         "bytes": 1030,
-        "entryPoint": "test/input/pages/nested/nested-page.html"
+        "entryPoint": "html-entry:test/input/pages/nested/nested-page.html"
       },
       "test/output/actual/no-write/assets/images/from-html-css-QROD6PU2.gif": {
         "imports": [],

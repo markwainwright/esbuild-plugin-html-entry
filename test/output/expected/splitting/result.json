@@ -3,7 +3,7 @@
   "warnings": [],
   "metafile": {
     "inputs": {
-      "test/input/pages/splitting.html": {
+      "html-entry:test/input/pages/splitting.html": {
         "bytes": 215,
         "imports": [
           {
@@ -18,7 +18,7 @@
           }
         ]
       },
-      "test/input/pages/splitting2.html": {
+      "html-entry:test/input/pages/splitting2.html": {
         "bytes": 266,
         "imports": [
           {
@@ -33,7 +33,7 @@
           }
         ]
       },
-      "test/input/pages/splitting3.html": {
+      "html-entry:test/input/pages/splitting3.html": {
         "bytes": 202,
         "imports": [
           {
@@ -111,34 +111,34 @@
         "imports": [],
         "exports": [],
         "inputs": {
-          "test/input/pages/splitting.html": {
+          "html-entry:test/input/pages/splitting.html": {
             "bytesInOutput": 389
           }
         },
         "bytes": 389,
-        "entryPoint": "test/input/pages/splitting.html"
+        "entryPoint": "html-entry:test/input/pages/splitting.html"
       },
       "test/output/actual/splitting/entries/pages/splitting2.html": {
         "imports": [],
         "exports": [],
         "inputs": {
-          "test/input/pages/splitting2.html": {
+          "html-entry:test/input/pages/splitting2.html": {
             "bytesInOutput": 529
           }
         },
         "bytes": 529,
-        "entryPoint": "test/input/pages/splitting2.html"
+        "entryPoint": "html-entry:test/input/pages/splitting2.html"
       },
       "test/output/actual/splitting/entries/pages/splitting3.html": {
         "imports": [],
         "exports": [],
         "inputs": {
-          "test/input/pages/splitting3.html": {
+          "html-entry:test/input/pages/splitting3.html": {
             "bytesInOutput": 525
           }
         },
         "bytes": 525,
-        "entryPoint": "test/input/pages/splitting3.html"
+        "entryPoint": "html-entry:test/input/pages/splitting3.html"
       },
       "test/output/actual/splitting/assets/images/from-js-css-QROD6PU2.gif": {
         "imports": [],

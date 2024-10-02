@@ -1,12 +1,13 @@
 import type { Metafile, OutputFile } from "esbuild";
 
-export interface HtmlResult {
+interface HtmlResult {
   /** Map of resolved entry point path to original import href */
   imports: Map<string, string>;
   inputBytes: number;
 }
 
 export interface Results {
+  /** Map of absolute entry point path to result metadata */
   htmlEntryPoints: Map<string, HtmlResult>;
   inputs: Metafile["inputs"];
   outputs: Metafile["outputs"];
@@ -43,9 +44,10 @@ export function augmentMetafile(metafile: Metafile, results: Results): Metafile 
   */
 
   for (const [path, htmlResult] of results.htmlEntryPoints) {
-    const input = metafile.inputs[path];
+    const input = metafile.inputs[`html-entry:${path}`];
 
     if (input) {
+      // TODO: verify behaviour with multiple same imports
       for (const [path, original] of htmlResult.imports) {
         input.imports.push({ path, kind: "import-statement", original });
       }

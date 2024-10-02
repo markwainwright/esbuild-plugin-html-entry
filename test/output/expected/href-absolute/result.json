@@ -3,7 +3,7 @@
   "warnings": [],
   "metafile": {
     "inputs": {
-      "test/input/pages/href-absolute.html": {
+      "html-entry:test/input/pages/href-absolute.html": {
         "bytes": 199,
         "imports": []
       }
@@ -13,12 +13,12 @@
         "imports": [],
         "exports": [],
         "inputs": {
-          "test/input/pages/href-absolute.html": {
+          "html-entry:test/input/pages/href-absolute.html": {
             "bytesInOutput": 193
           }
         },
         "bytes": 193,
-        "entryPoint": "test/input/pages/href-absolute.html"
+        "entryPoint": "html-entry:test/input/pages/href-absolute.html"
       }
     }
   }

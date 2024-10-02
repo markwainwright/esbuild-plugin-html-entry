@@ -3,7 +3,7 @@
   "warnings": [],
   "metafile": {
     "inputs": {
-      "test/input/pages/elements-duplicated.html": {
+      "html-entry:test/input/pages/elements-duplicated.html": {
         "bytes": 373,
         "imports": [
           {
@@ -63,12 +63,12 @@
         "imports": [],
         "exports": [],
         "inputs": {
-          "test/input/pages/elements-duplicated.html": {
+          "html-entry:test/input/pages/elements-duplicated.html": {
             "bytesInOutput": 961
           }
         },
         "bytes": 961,
-        "entryPoint": "test/input/pages/elements-duplicated.html"
+        "entryPoint": "html-entry:test/input/pages/elements-duplicated.html"
       },
       "test/output/actual/elements-duplicated/from-js-css.gif": {
         "imports": [],

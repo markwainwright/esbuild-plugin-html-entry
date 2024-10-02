@@ -3,7 +3,7 @@
   "warnings": [],
   "metafile": {
     "inputs": {
-      "test/input/pages/page.html": {
+      "html-entry:test/input/pages/page.html": {
         "bytes": 204,
         "imports": [
           {
@@ -18,7 +18,7 @@
           }
         ]
       },
-      "test/input/pages/nested/nested-page.html": {
+      "html-entry:test/input/pages/nested/nested-page.html": {
         "bytes": 364,
         "imports": [
           {
@@ -134,23 +134,23 @@
         "imports": [],
         "exports": [],
         "inputs": {
-          "test/input/pages/page.html": {
+          "html-entry:test/input/pages/page.html": {
             "bytesInOutput": 576
           }
         },
         "bytes": 576,
-        "entryPoint": "test/input/pages/page.html"
+        "entryPoint": "html-entry:test/input/pages/page.html"
       },
       "test/output/actual/public-paths-absolute/entries/pages/nested/nested-page.html": {
         "imports": [],
         "exports": [],
         "inputs": {
-          "test/input/pages/nested/nested-page.html": {
+          "html-entry:test/input/pages/nested/nested-page.html": {
             "bytesInOutput": 1114
           }
         },
         "bytes": 1114,
-        "entryPoint": "test/input/pages/nested/nested-page.html"
+        "entryPoint": "html-entry:test/input/pages/nested/nested-page.html"
       },
       "test/output/actual/public-paths-absolute/assets/images/from-html-css-QROD6PU2.gif": {
         "imports": [],

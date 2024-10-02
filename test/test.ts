@@ -236,6 +236,7 @@ await testBuild(
       "test/input/pages/splitting.html",
       "test/input/pages/splitting2.html",
       "test/input/pages/splitting3.html",
+      "test/input/pages/splitting3.html",
     ],
     format: "esm",
     splitting: true,

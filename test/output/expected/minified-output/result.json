@@ -3,7 +3,7 @@
   "warnings": [],
   "metafile": {
     "inputs": {
-      "test/input/pages/dead-end.html": {
+      "html-entry:test/input/pages/dead-end.html": {
         "bytes": 203,
         "imports": [
           {
@@ -33,12 +33,12 @@
         "imports": [],
         "exports": [],
         "inputs": {
-          "test/input/pages/dead-end.html": {
+          "html-entry:test/input/pages/dead-end.html": {
             "bytesInOutput": 273
           }
         },
         "bytes": 273,
-        "entryPoint": "test/input/pages/dead-end.html"
+        "entryPoint": "html-entry:test/input/pages/dead-end.html"
       },
       "test/output/actual/minified-output/with-none.css": {
         "imports": [],

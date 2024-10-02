@@ -3,7 +3,7 @@
   "warnings": [],
   "metafile": {
     "inputs": {
-      "test/input/pages/type-other.html": {
+      "html-entry:test/input/pages/type-other.html": {
         "bytes": 151,
         "imports": []
       }
@@ -13,12 +13,12 @@
         "imports": [],
         "exports": [],
         "inputs": {
-          "test/input/pages/type-other.html": {
+          "html-entry:test/input/pages/type-other.html": {
             "bytesInOutput": 147
           }
         },
         "bytes": 147,
-        "entryPoint": "test/input/pages/type-other.html"
+        "entryPoint": "html-entry:test/input/pages/type-other.html"
       }
     }
   }

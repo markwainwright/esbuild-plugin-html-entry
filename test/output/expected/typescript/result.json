@@ -3,7 +3,7 @@
   "warnings": [],
   "metafile": {
     "inputs": {
-      "test/input/pages/typescript.html": {
+      "html-entry:test/input/pages/typescript.html": {
         "bytes": 140,
         "imports": [
           {
@@ -54,12 +54,12 @@
         "imports": [],
         "exports": [],
         "inputs": {
-          "test/input/pages/typescript.html": {
+          "html-entry:test/input/pages/typescript.html": {
             "bytesInOutput": 305
           }
         },
         "bytes": 305,
-        "entryPoint": "test/input/pages/typescript.html"
+        "entryPoint": "html-entry:test/input/pages/typescript.html"
       },
       "test/output/actual/typescript/from-js-css.gif": {
         "imports": [],

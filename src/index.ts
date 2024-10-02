@@ -8,8 +8,10 @@ import { build, type BuildResult } from "./build.js";
 import { createDeferred, Deferred } from "./deferred.js";
 import { findElements, getHref, insertLinkElement, setAttributes } from "./dom.js";
 import { getIntegrity } from "./integrity.js";
+import { NAMESPACE } from "./namespace.js";
 import { getPublicPath, getPublicPathContext } from "./public-paths.js";
-import { augmentMetafile, augmentOutputFiles, type HtmlResult, type Results } from "./results.js";
+import { augmentMetafile, augmentOutputFiles, type Results } from "./results.js";
+import { timeout } from "./timeout.js";
 import { getWorkingDirAbs } from "./working-dir.js";
 
 export interface EsbuildPluginHtmlEntryOptions {
@@ -24,24 +26,26 @@ type Format = "esm" | "iife";
 type BuildInput = Record<Format, Set<string>>;
 type BuildOutput = Record<Format, BuildResult>;
 interface State {
-  buildInput: BuildInput;
-  deferredBuildOutput: Deferred<BuildOutput>;
-  results: Results;
+  readonly htmlEntryPointPaths: Set<string>;
+  readonly buildInput: BuildInput;
+  readonly deferredBuildOutput: Deferred<BuildOutput>;
+  readonly results: Results;
 }
 
 function createState(): State {
   return {
+    htmlEntryPointPaths: new Set(),
+    buildInput: {
+      esm: new Set(),
+      iife: new Set(),
+    },
+    deferredBuildOutput: createDeferred<BuildOutput>(),
     results: {
       htmlEntryPoints: new Map(),
       inputs: {},
       outputs: {},
       outputFiles: new Map(),
     },
-    buildInput: {
-      esm: new Set(),
-      iife: new Set(),
-    },
-    deferredBuildOutput: createDeferred<BuildOutput>(),
   };
 }
 
@@ -76,29 +80,28 @@ export function esbuildPluginHtmlEntry(pluginOptions: EsbuildPluginHtmlEntryOpti
       const metafileOriginallyEnabled = !!buildOptions.metafile;
       buildOptions.metafile = true;
 
-      // TODO: Cover all entryPoints types
-      const entryPointCount = Array.isArray(buildOptions.entryPoints)
-        ? buildOptions.entryPoints.filter(e => typeof e === "string" && e.endsWith(".html")).length
-        : 1;
-
       let state = createState();
 
-      build.onLoad({ filter: /\.html?$/ }, async args => {
-        const { buildInput, deferredBuildOutput, results } = state;
+      build.onResolve({ filter: /\.html?$/ }, async ({ path, ...args }) => {
+        if (args.kind !== "entry-point" || args.namespace === NAMESPACE) {
+          return;
+        }
+
+        const resolveResult = await build.resolve(path, { ...args, namespace: NAMESPACE });
+
+        state.htmlEntryPointPaths.add(resolveResult.path);
+
+        return { ...resolveResult, namespace: NAMESPACE };
+      });
+
+      build.onLoad({ namespace: NAMESPACE, filter: /.*/ }, async args => {
+        const { htmlEntryPointPaths, buildInput, deferredBuildOutput, results } = state;
 
         const htmlPathAbs = args.path;
-        const htmlPathRel = relative(workingDirAbs, htmlPathAbs);
-        const htmlDirAbs = dirname(htmlPathAbs);
-
         const htmlContents = await readFile(htmlPathAbs);
         const htmlContentsString = htmlContents.toString("utf-8");
 
         const [$, elements] = findElements(htmlContentsString);
-
-        const htmlResult: HtmlResult = {
-          imports: new Map(),
-          inputBytes: htmlContents.byteLength,
-        };
 
         const errors: Message[] = [];
         const warnings: Message[] = [];
@@ -107,7 +110,7 @@ export function esbuildPluginHtmlEntry(pluginOptions: EsbuildPluginHtmlEntryOpti
         const resolveOptions = {
           kind: "import-statement" as const,
           importer: htmlPathAbs,
-          resolveDir: htmlDirAbs,
+          resolveDir: dirname(htmlPathAbs),
         };
 
         const assets = (
@@ -136,20 +139,23 @@ export function esbuildPluginHtmlEntry(pluginOptions: EsbuildPluginHtmlEntryOpti
           )
         ).filter(asset => asset !== null);
 
+        const htmlResult = {
+          imports: new Map(),
+          inputBytes: htmlContents.byteLength,
+        };
+        results.htmlEntryPoints.set(htmlPathAbs, htmlResult);
+
         assets.forEach(({ assetPathRel, assetHref, element }) => {
           htmlResult.imports.set(assetPathRel, assetHref);
           buildInput[element.format].add(assetPathRel);
         });
 
-        results.htmlEntryPoints.set(htmlPathRel, htmlResult);
-
-        if (results.htmlEntryPoints.size === entryPointCount) {
-          const o = await buildAssets(buildOptions, pluginOptions, buildInput);
-          deferredBuildOutput.resolve(o);
+        if (results.htmlEntryPoints.size === htmlEntryPointPaths.size) {
+          deferredBuildOutput.resolve(await buildAssets(buildOptions, pluginOptions, buildInput));
         }
 
         const [buildOutput, publicPathContext] = await Promise.all([
-          deferredBuildOutput, // TODO: timeout
+          timeout(3000, "Timed out waiting for all HTML entry points", deferredBuildOutput),
           getPublicPathContext(htmlPathAbs, buildOptions),
         ]);
 
