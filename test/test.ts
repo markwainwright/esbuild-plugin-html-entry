@@ -51,6 +51,20 @@ await testBuild(
 );
 
 await testBuild(
+  "public paths - relative - no write",
+  {
+    entryPoints: ["test/input/pages/page.html", "test/input/pages/nested/nested-page.html"],
+    entryNames: "entries/[dir]/[name]",
+    assetNames: "assets/[dir]/[name]-[hash]",
+    chunkNames: "chunks/[dir]/[name]-[hash]",
+    write: false,
+  },
+  {
+    subresourceNames: "subresources/[dir]/[name]-[hash]",
+  }
+);
+
+await testBuild(
   "public paths - absolute",
   {
     entryPoints: ["test/input/pages/page.html", "test/input/pages/nested/nested-page.html"],
@@ -89,6 +103,21 @@ await testBuild(
     assetNames: "assets/[dir]/[name]-[hash]",
     chunkNames: "chunks/[dir]/[name]-[hash]",
     outbase: "test",
+  },
+  {
+    subresourceNames: "subresources/[dir]/[name]-[hash]",
+  }
+);
+
+await testBuild(
+  "public paths - absolute - no write",
+  {
+    entryPoints: ["test/input/pages/page.html", "test/input/pages/nested/nested-page.html"],
+    publicPath: "/public-paths-absolute-no-write",
+    entryNames: "entries/[dir]/[name]",
+    assetNames: "assets/[dir]/[name]-[hash]",
+    chunkNames: "chunks/[dir]/[name]-[hash]",
+    write: false,
   },
   {
     subresourceNames: "subresources/[dir]/[name]-[hash]",
@@ -176,7 +205,7 @@ await testBuild(
 );
 
 await testBuild(
-  "mixed entrypoints",
+  "entrypoints - mixed",
   {
     entryPoints: [
       "test/input/pages/dead-end.html",
@@ -191,16 +220,16 @@ await testBuild(
 );
 
 await testBuild(
-  "no write",
+  "entrypoints - objects",
   {
-    entryPoints: ["test/input/pages/page.html", "test/input/pages/nested/nested-page.html"],
+    entryPoints: [
+      { in: "test/input/pages/type-js.html", out: "pages/type-js" }, // same as when string
+      { in: "test/input/pages/page.html", out: "custom/outdir/custom-outname" },
+    ],
     entryNames: "entries/[dir]/[name]",
-    assetNames: "assets/[dir]/[name]-[hash]",
-    chunkNames: "chunks/[dir]/[name]-[hash]",
-    write: false,
   },
   {
-    subresourceNames: "subresources/[dir]/[name]-[hash]",
+    integrity: undefined,
   }
 );
 
@@ -246,8 +275,7 @@ await testBuild(
   },
   {
     subresourceNames: "subresources/[dir]/[name]-[hash]",
-  },
-  { only: true }
+  }
 );
 
 await testBuild("external - absolute - CSS", {

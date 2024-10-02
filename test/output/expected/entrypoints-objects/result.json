@@ -1,0 +1,186 @@
+{
+  "errors": [],
+  "warnings": [],
+  "metafile": {
+    "inputs": {
+      "html-entry:test/input/pages/type-js.html": {
+        "bytes": 167,
+        "imports": [
+          {
+            "path": "test/input/scripts/with-none.js",
+            "kind": "import-statement",
+            "original": "../scripts/with-none.js"
+          }
+        ]
+      },
+      "html-entry:test/input/pages/page.html": {
+        "bytes": 204,
+        "imports": [
+          {
+            "path": "test/input/stylesheets/with-asset.css",
+            "kind": "import-statement",
+            "original": "../stylesheets/with-asset.css"
+          },
+          {
+            "path": "test/input/scripts/with-both.js",
+            "kind": "import-statement",
+            "original": "../scripts/with-both.js"
+          }
+        ]
+      },
+      "test/input/images/from-html-css.gif": {
+        "bytes": 12,
+        "imports": []
+      },
+      "test/input/images/from-js-css.gif": {
+        "bytes": 12,
+        "imports": []
+      },
+      "test/input/scripts/sub.js": {
+        "bytes": 67,
+        "imports": [],
+        "format": "esm"
+      },
+      "test/input/scripts/with-both.js": {
+        "bytes": 110,
+        "imports": [
+          {
+            "path": "test/input/stylesheets/from-js.css",
+            "kind": "import-statement",
+            "original": "../stylesheets/from-js.css"
+          },
+          {
+            "path": "test/input/scripts/sub.js",
+            "kind": "import-statement",
+            "original": "./sub.js"
+          }
+        ],
+        "format": "esm"
+      },
+      "test/input/scripts/with-none.js": {
+        "bytes": 37,
+        "imports": [],
+        "format": "esm"
+      },
+      "test/input/stylesheets/from-js.css": {
+        "bytes": 98,
+        "imports": [
+          {
+            "path": "test/input/images/from-js-css.gif",
+            "kind": "url-token",
+            "original": "../images/from-js-css.gif"
+          }
+        ]
+      },
+      "test/input/stylesheets/with-asset.css": {
+        "bytes": 90,
+        "imports": [
+          {
+            "path": "test/input/images/from-html-css.gif",
+            "kind": "url-token",
+            "original": "../images/from-html-css.gif"
+          }
+        ]
+      }
+    },
+    "outputs": {
+      "test/output/actual/entrypoints-objects/entries/pages/type-js.html": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "html-entry:test/input/pages/type-js.html": {
+            "bytesInOutput": 158
+          }
+        },
+        "bytes": 158,
+        "entryPoint": "html-entry:test/input/pages/type-js.html"
+      },
+      "test/output/actual/entrypoints-objects/entries/custom/outdir/custom-outname.html": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "html-entry:test/input/pages/page.html": {
+            "bytesInOutput": 248
+          }
+        },
+        "bytes": 248,
+        "entryPoint": "html-entry:test/input/pages/page.html"
+      },
+      "test/output/actual/entrypoints-objects/from-html-css.gif": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "test/input/images/from-html-css.gif": {
+            "bytesInOutput": 12
+          }
+        },
+        "bytes": 12
+      },
+      "test/output/actual/entrypoints-objects/from-js-css.gif": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "test/input/images/from-js-css.gif": {
+            "bytesInOutput": 12
+          }
+        },
+        "bytes": 12
+      },
+      "test/output/actual/entrypoints-objects/with-asset.css": {
+        "imports": [
+          {
+            "path": "test/output/actual/entrypoints-objects/from-html-css.gif",
+            "kind": "url-token"
+          }
+        ],
+        "inputs": {
+          "test/input/stylesheets/with-asset.css": {
+            "bytesInOutput": 82
+          }
+        },
+        "bytes": 126
+      },
+      "test/output/actual/entrypoints-objects/with-both.css": {
+        "imports": [
+          {
+            "path": "test/output/actual/entrypoints-objects/from-js-css.gif",
+            "kind": "url-token"
+          }
+        ],
+        "inputs": {
+          "test/input/stylesheets/from-js.css": {
+            "bytesInOutput": 90
+          }
+        },
+        "bytes": 131
+      },
+      "test/output/actual/entrypoints-objects/with-both.js": {
+        "imports": [],
+        "exports": [],
+        "cssBundle": "test/output/actual/entrypoints-objects/with-both.css",
+        "inputs": {
+          "test/input/stylesheets/from-js.css": {
+            "bytesInOutput": 0
+          },
+          "test/input/scripts/sub.js": {
+            "bytesInOutput": 58
+          },
+          "test/input/scripts/with-both.js": {
+            "bytesInOutput": 48
+          }
+        },
+        "bytes": 204
+      },
+      "test/output/actual/entrypoints-objects/with-none.js": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "test/input/scripts/with-none.js": {
+            "bytesInOutput": 39
+          }
+        },
+        "bytes": 105
+      }
+    }
+  }
+}

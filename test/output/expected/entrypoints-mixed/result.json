@@ -78,7 +78,7 @@
       }
     },
     "outputs": {
-      "test/output/actual/mixed-entrypoints/entries/dead-end.html": {
+      "test/output/actual/entrypoints-mixed/entries/dead-end.html": {
         "imports": [],
         "exports": [],
         "inputs": {
@@ -89,11 +89,11 @@
         "bytes": 177,
         "entryPoint": "html-entry:test/input/pages/dead-end.html"
       },
-      "test/output/actual/mixed-entrypoints/entries/with-both.js": {
+      "test/output/actual/entrypoints-mixed/entries/with-both.js": {
         "imports": [],
         "exports": [],
         "entryPoint": "test/input/scripts/with-both.js",
-        "cssBundle": "test/output/actual/mixed-entrypoints/entries/with-both.css",
+        "cssBundle": "test/output/actual/entrypoints-mixed/entries/with-both.css",
         "inputs": {
           "test/input/stylesheets/from-js.css": {
             "bytesInOutput": 0
@@ -107,7 +107,7 @@
         },
         "bytes": 204
       },
-      "test/output/actual/mixed-entrypoints/from-js-css.gif": {
+      "test/output/actual/entrypoints-mixed/from-js-css.gif": {
         "imports": [],
         "exports": [],
         "inputs": {
@@ -117,10 +117,10 @@
         },
         "bytes": 12
       },
-      "test/output/actual/mixed-entrypoints/entries/with-both.css": {
+      "test/output/actual/entrypoints-mixed/entries/with-both.css": {
         "imports": [
           {
-            "path": "test/output/actual/mixed-entrypoints/from-js-css.gif",
+            "path": "test/output/actual/entrypoints-mixed/from-js-css.gif",
             "kind": "url-token"
           }
         ],
@@ -131,7 +131,7 @@
         },
         "bytes": 132
       },
-      "test/output/actual/mixed-entrypoints/from-html-css.gif": {
+      "test/output/actual/entrypoints-mixed/from-html-css.gif": {
         "imports": [],
         "exports": [],
         "inputs": {
@@ -141,10 +141,10 @@
         },
         "bytes": 12
       },
-      "test/output/actual/mixed-entrypoints/entries/with-asset.css": {
+      "test/output/actual/entrypoints-mixed/entries/with-asset.css": {
         "imports": [
           {
-            "path": "test/output/actual/mixed-entrypoints/from-html-css.gif",
+            "path": "test/output/actual/entrypoints-mixed/from-html-css.gif",
             "kind": "url-token"
           }
         ],
@@ -156,7 +156,7 @@
         },
         "bytes": 127
       },
-      "test/output/actual/mixed-entrypoints/with-none.css": {
+      "test/output/actual/entrypoints-mixed/with-none.css": {
         "imports": [],
         "inputs": {
           "test/input/stylesheets/with-none.css": {
@@ -165,7 +165,7 @@
         },
         "bytes": 80
       },
-      "test/output/actual/mixed-entrypoints/with-none.js": {
+      "test/output/actual/entrypoints-mixed/with-none.js": {
         "imports": [],
         "exports": [],
         "inputs": {
