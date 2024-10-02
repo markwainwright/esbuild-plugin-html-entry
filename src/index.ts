@@ -123,7 +123,12 @@ export function esbuildPluginHtmlEntry(pluginOptions: EsbuildPluginHtmlEntryOpti
         }
 
         const html = $.html();
-        let contents = buildOptions.minify ? await minify(html, pluginOptions.minifyOptions) : html;
+        let contents = buildOptions.minify
+          ? await minify(html, {
+              maxLineLength: buildOptions.lineLimit ?? undefined,
+              ...pluginOptions.minifyOptions,
+            })
+          : html;
 
         if (pluginOptions.banner) {
           contents = `${pluginOptions.banner}\n${contents}`;

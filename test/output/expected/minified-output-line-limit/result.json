@@ -1,0 +1,64 @@
+{
+  "errors": [],
+  "warnings": [],
+  "metafile": {
+    "inputs": {
+      "test/input/pages/dead-end.html": {
+        "bytes": 203,
+        "imports": [
+          {
+            "path": "test/input/stylesheets/with-none.css",
+            "kind": "import-statement",
+            "original": "../stylesheets/with-none.css"
+          },
+          {
+            "path": "test/input/scripts/with-none.js",
+            "kind": "import-statement",
+            "original": "../scripts/with-none.js"
+          }
+        ]
+      },
+      "test/input/scripts/with-none.js": {
+        "bytes": 37,
+        "imports": [],
+        "format": "esm"
+      },
+      "test/input/stylesheets/with-none.css": {
+        "bytes": 37,
+        "imports": []
+      }
+    },
+    "outputs": {
+      "test/output/actual/minified-output-line-limit/dead-end.html": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "test/input/pages/dead-end.html": {
+            "bytesInOutput": 280
+          }
+        },
+        "bytes": 280,
+        "entryPoint": "test/input/pages/dead-end.html"
+      },
+      "test/output/actual/minified-output-line-limit/with-none.css": {
+        "imports": [],
+        "inputs": {
+          "test/input/stylesheets/with-none.css": {
+            "bytesInOutput": 29
+          }
+        },
+        "bytes": 30
+      },
+      "test/output/actual/minified-output-line-limit/with-none.js": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "test/input/scripts/with-none.js": {
+            "bytesInOutput": 38
+          }
+        },
+        "bytes": 63
+      }
+    }
+  }
+}

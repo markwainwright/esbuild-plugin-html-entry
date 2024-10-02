@@ -132,6 +132,20 @@ await testBuild(
   }
 );
 
+await testBuild(
+  "minified output - line limit",
+  {
+    entryPoints: ["test/input/pages/dead-end.html"],
+    minify: true,
+    lineLimit: 30,
+  },
+  {
+    minifyOptions: {
+      collapseWhitespace: true,
+    },
+  }
+);
+
 await testBuild("minified input", { entryPoints: ["test/input/pages/minified.html"] });
 
 await testBuild("typescript", { entryPoints: ["test/input/pages/typescript.html"] });
