@@ -1,14 +1,13 @@
 import { isAbsolute } from "node:path";
 
 import { load, type CheerioAPI } from "cheerio";
-import type { Format } from "esbuild";
 
-type AnyNode = ReturnType<CheerioAPI>[0];
+type Element = ReturnType<CheerioAPI>[0]; // actually AnyNode
 
 interface AnnotatedElement {
-  element: AnyNode;
-  attribute: string;
-  format: Format;
+  element: Element;
+  hrefAttribute: string;
+  format: "iife" | "esm";
 }
 
 const SELECTOR =
@@ -38,32 +37,37 @@ export function findElements(html: string): [CheerioAPI, AnnotatedElement[]] {
         if (isScript) {
           return {
             element,
-            attribute: "src",
+            hrefAttribute: "src",
             format: $element.attr("type") === "module" ? ("esm" as const) : ("iife" as const),
           };
         }
 
-        return { element, attribute: "href", format: "iife" as const };
+        return { element, hrefAttribute: "href", format: "iife" as const };
       })
       .filter(element => element !== null),
   ];
 }
 
+export function getHref($: CheerioAPI, element: AnnotatedElement): string {
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  return $(element.element).attr(element.hrefAttribute)!;
+}
+
 export function setAttributes(
   $: CheerioAPI,
   element: AnnotatedElement,
-  publicPath: string,
+  href: string,
   integrity: string | null
 ): void {
   const $element = $(element.element);
-  $element.attr(element.attribute, publicPath);
+  $element.attr(element.hrefAttribute, href);
 
   if (integrity) {
     $element.attr("integrity", integrity);
   }
 }
 
-export function insertLinkElement($: CheerioAPI, scriptElement: AnyNode): AnyNode {
+export function insertLinkElement($: CheerioAPI, scriptElement: Element): AnnotatedElement {
   const $scriptElementSiblings = $(scriptElement).parent().contents();
   const nodeBeforeScriptElement = $scriptElementSiblings.get(
     $scriptElementSiblings.index(scriptElement) - 1
@@ -84,5 +88,9 @@ export function insertLinkElement($: CheerioAPI, scriptElement: AnyNode): AnyNod
     $(newNode).insertBefore(scriptElement);
   }
 
-  return linkElement;
+  return {
+    element: linkElement,
+    hrefAttribute: "href",
+    format: "iife",
+  };
 }

@@ -1,37 +1,49 @@
-import { build, type BuildOptions, type Format } from "esbuild";
+import { build as _build, type BuildOptions, type Metafile, type OutputFile } from "esbuild";
+import { resolve } from "path";
+import { getWorkingDirAbs } from "./working-dir.js";
 
-import type { AssetResult } from "./results.js";
+export interface BuildResult {
+  mainOutputPathAbs: string;
+  cssOutputPathAbs: string | undefined;
+  watchFiles: string[];
+  outputFiles: OutputFile[] | undefined;
+  inputs: Metafile["inputs"];
+  outputs: Metafile["outputs"];
+}
 
-export async function buildAsset(
+export async function build(
   buildOptions: BuildOptions,
   assetNames: string | undefined,
-  entryPoint: string,
-  format: Format
-): Promise<AssetResult> {
-  const { metafile, outputFiles } = await build({
+  entryPoints: string[]
+): Promise<BuildResult[]> {
+  const workingDirAbs = getWorkingDirAbs(buildOptions);
+  const { metafile, outputFiles } = await _build({
     ...buildOptions,
     entryNames: assetNames,
-    entryPoints: [entryPoint],
+    entryPoints,
     metafile: true,
-    format,
   });
 
-  const output = Object.entries(metafile.outputs).find(
-    ([, output]) => output.entryPoint === entryPoint
-  );
+  return entryPoints.map(entryPoint => {
+    const output = Object.entries(metafile.outputs).find(
+      ([, output]) => output.entryPoint === entryPoint
+    );
 
-  if (!output) {
-    throw new Error(`Output not present for entry point "${entryPoint}"`);
-  }
+    if (!output) {
+      throw new Error(`Output not present for entry point "${entryPoint}"`);
+    }
 
-  const [mainOutputPathRel, outputMeta] = output;
+    const [mainOutputPathRel, outputMeta] = output;
 
-  return {
-    mainOutputPathRel,
-    cssOutputPathRel: outputMeta.cssBundle,
-    watchFiles: Object.keys(metafile.inputs),
-    outputFiles,
-    inputs: metafile.inputs,
-    outputs: metafile.outputs,
-  };
+    return {
+      mainOutputPathAbs: resolve(workingDirAbs, mainOutputPathRel),
+      cssOutputPathAbs: outputMeta.cssBundle
+        ? resolve(workingDirAbs, outputMeta.cssBundle)
+        : undefined,
+      watchFiles: Object.keys(metafile.inputs), // TODO
+      outputFiles, // TODO
+      inputs: metafile.inputs,
+      outputs: metafile.outputs,
+    };
+  });
 }

@@ -2,16 +2,18 @@ import { dirname, extname, join, relative, resolve } from "node:path";
 
 import { build, type BuildOptions } from "esbuild";
 
+import { getWorkingDirAbs } from "./working-dir.js";
+
 type PublicPathContext =
   | { type: "absolute"; publicPath: string; outDirAbs: string }
   | { type: "relative"; htmlOutputDirAbs: string };
 
 export async function getPublicPathContext(
-  workingDirAbs: string,
   inputPathAbs: string,
   buildOptions: BuildOptions
 ): Promise<PublicPathContext> {
   const { publicPath, outdir: outDirRel } = buildOptions;
+  const workingDirAbs = getWorkingDirAbs(buildOptions);
 
   if (publicPath) {
     if (!outDirRel) {

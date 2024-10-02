@@ -1,15 +1,15 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { readFile } from "node:fs/promises";
-import { dirname, relative, resolve } from "node:path";
+import { dirname, relative } from "node:path";
 
-import type { Plugin } from "esbuild";
+import type { BuildOptions, Message, Plugin } from "esbuild";
 import { minify, type Options as MinifyOptions } from "html-minifier-terser";
 
-import { buildAsset } from "./build.js";
-import { findElements, insertLinkElement, setAttributes } from "./dom.js";
+import { build, type BuildResult } from "./build.js";
+import { findElements, getHref, insertLinkElement, setAttributes } from "./dom.js";
 import { getIntegrity } from "./integrity.js";
 import { getPublicPath, getPublicPathContext } from "./public-paths.js";
 import { augmentMetafile, augmentOutputFiles, type HtmlResult, type Results } from "./results.js";
+import { getWorkingDirAbs } from "./working-dir.js";
 
 export interface EsbuildPluginHtmlEntryOptions {
   subresourceNames?: string;
@@ -19,20 +19,121 @@ export interface EsbuildPluginHtmlEntryOptions {
   footer?: string;
 }
 
+type BuildResultsCache = Map<string, Promise<BuildResult>>;
+
+function createResults(): Results {
+  return {
+    htmls: new Map(),
+    inputs: {},
+    outputs: {},
+    outputFiles: new Map(),
+  };
+}
+
+function createBuildResultsCache(): BuildResultsCache {
+  return new Map();
+}
+
+function uniqueBy<T>(values: T[], callback: (t: T) => string): T[] {
+  const map = new Map<string, T>();
+  values.forEach(value => map.set(callback(value), value));
+  return [...map.values()];
+}
+
+function getAssetPathRel(asset: { assetPathRel: string }) {
+  return asset.assetPathRel;
+}
+
+function getCacheKey(asset: { cacheKey: string }) {
+  return asset.cacheKey;
+}
+
+function buildAssets<E extends { format: "iife" | "esm" }>(
+  buildOptions: BuildOptions,
+  pluginOptions: EsbuildPluginHtmlEntryOptions,
+  buildResultsCache: BuildResultsCache,
+  assets: { assetPathRel: string; element: E }[]
+): Promise<{ element: E; buildResult: BuildResult }[]> {
+  const assetNames = pluginOptions.subresourceNames ?? buildOptions.assetNames;
+
+  const esmAssets = assets.filter(asset => asset.element.format === "esm");
+  const uniqueEsmAssetPathsRel = uniqueBy(esmAssets, getAssetPathRel).map(getAssetPathRel);
+  const esmAssetsWithCacheKey = esmAssets.map(asset => ({
+    ...asset,
+    cacheKey:
+      buildOptions.splitting === true
+        ? `${asset.assetPathRel}:esm:${uniqueEsmAssetPathsRel.sort().join(",")}`
+        : `${asset.assetPathRel}:esm`,
+  }));
+  const esmAssetsToBuild = uniqueBy(esmAssetsWithCacheKey, getCacheKey).filter(
+    asset => !buildResultsCache.has(asset.cacheKey)
+  );
+
+  if (esmAssetsToBuild.length !== 0) {
+    const buildPromise = build(
+      { ...buildOptions, format: "esm" },
+      assetNames,
+      esmAssetsToBuild.map(getAssetPathRel)
+    );
+
+    esmAssetsToBuild.forEach(({ cacheKey }, index) =>
+      buildResultsCache.set(
+        cacheKey,
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        buildPromise.then(buildResults => buildResults[index]!)
+      )
+    );
+  }
+
+  const iifeAssets = assets.filter(asset => asset.element.format === "iife");
+  const iifeAssetsWithCacheKey = iifeAssets.map(asset => ({
+    ...asset,
+    cacheKey: `${asset.assetPathRel}:iife`,
+  }));
+  const iifeAssetsToBuild = uniqueBy(iifeAssetsWithCacheKey, getCacheKey).filter(
+    asset => !buildResultsCache.has(asset.cacheKey)
+  );
+
+  if (iifeAssetsToBuild.length !== 0) {
+    const buildPromise = build(
+      { ...buildOptions, format: "iife", splitting: false },
+      assetNames,
+      iifeAssetsToBuild.map(getAssetPathRel)
+    );
+
+    iifeAssetsToBuild.forEach(({ cacheKey }, index) =>
+      buildResultsCache.set(
+        cacheKey,
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        buildPromise.then(buildResults => buildResults[index]!)
+      )
+    );
+  }
+
+  return Promise.all(
+    [...esmAssetsWithCacheKey, ...iifeAssetsWithCacheKey].map(async ({ element, cacheKey }) => ({
+      element,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      buildResult: await buildResultsCache.get(cacheKey)!,
+    }))
+  );
+}
+
 export function esbuildPluginHtmlEntry(pluginOptions: EsbuildPluginHtmlEntryOptions = {}): Plugin {
   return {
     name: "html-entry",
 
     setup(build) {
       const buildOptions = build.initialOptions;
-      const workingDirAbs = buildOptions.absWorkingDir ?? process.cwd();
+      const workingDirAbs = getWorkingDirAbs(buildOptions);
 
-      const results: Results = { htmls: new Map(), assets: new Map() };
+      let results = createResults();
+      let buildResultsCache = createBuildResultsCache();
 
       const metafileOriginallyEnabled = !!buildOptions.metafile;
       buildOptions.metafile = true;
 
-      build.onLoad({ filter: /\.html$/ }, async args => {
+      build.onLoad({ filter: /\.html?$/ }, async args => {
         const htmlPathAbs = args.path;
         const htmlPathRel = relative(workingDirAbs, htmlPathAbs);
         const htmlDirAbs = dirname(htmlPathAbs);
@@ -49,78 +150,87 @@ export function esbuildPluginHtmlEntry(pluginOptions: EsbuildPluginHtmlEntryOpti
         };
         results.htmls.set(htmlPathRel, htmlResult);
 
-        const errors = [];
-        const warnings = [];
+        const errors: Message[] = [];
+        const warnings: Message[] = [];
 
-        const publicPathContext = await getPublicPathContext(
-          workingDirAbs,
-          htmlPathAbs,
-          buildOptions
+        const resolveOptions = {
+          kind: "import-statement" as const,
+          importer: htmlPathAbs,
+          resolveDir: htmlDirAbs,
+        };
+
+        const assets = (
+          await Promise.all(
+            elements.map(async element => {
+              const assetHref = getHref($, element);
+              const resolveResult = await build.resolve(assetHref, resolveOptions);
+
+              if (resolveResult.external) {
+                return null;
+              }
+
+              if (resolveResult.errors.length) {
+                errors.push(...resolveResult.errors);
+                return null;
+              }
+
+              if (resolveResult.warnings.length) {
+                warnings.push(...resolveResult.warnings);
+              }
+
+              const assetPathRel = relative(workingDirAbs, resolveResult.path);
+
+              return { assetPathRel, assetHref, element };
+            })
+          )
+        ).filter(asset => asset !== null);
+
+        assets.forEach(({ assetPathRel, assetHref }) =>
+          htmlResult.imports.set(assetPathRel, assetHref)
         );
 
-        for (const element of elements) {
-          const assetHref = $(element.element).attr(element.attribute)!;
-          const assetResolveResult = await build.resolve(assetHref, {
-            kind: "import-statement",
-            importer: htmlPathAbs,
-            resolveDir: htmlDirAbs,
-          });
+        const [buildResults, publicPathContext] = await Promise.all([
+          buildAssets(buildOptions, pluginOptions, buildResultsCache, assets),
+          getPublicPathContext(htmlPathAbs, buildOptions),
+        ]);
 
-          if (assetResolveResult.external) {
-            continue;
-          }
+        await Promise.all(
+          buildResults.map(async ({ element, buildResult }) => {
+            const {
+              mainOutputPathAbs,
+              cssOutputPathAbs,
+              watchFiles,
+              outputFiles,
+              outputs,
+              inputs,
+            } = buildResult;
 
-          if (assetResolveResult.errors.length) {
-            errors.push(...assetResolveResult.errors);
-            continue;
-          }
-          if (assetResolveResult.warnings.length) {
-            warnings.push(...assetResolveResult.warnings);
-          }
+            watchFiles.forEach(watchFile => htmlResult.watchFiles.add(watchFile));
 
-          const assetPathRel = relative(workingDirAbs, assetResolveResult.path);
-
-          htmlResult.imports.set(assetPathRel, assetHref);
-
-          let resultPromise = results.assets.get(assetPathRel);
-          if (!resultPromise) {
-            // Cannot batch multiple assets into a single build because they may have different
-            // `format`s and esbuild only allows a single value
-            resultPromise = buildAsset(
-              buildOptions,
-              pluginOptions.subresourceNames ?? buildOptions.assetNames,
-              assetPathRel,
-              element.format
+            outputFiles?.forEach(({ path, ...outputFile }) =>
+              results.outputFiles.set(path, outputFile)
             );
-            results.assets.set(assetPathRel, resultPromise);
-          }
 
-          const { mainOutputPathRel, cssOutputPathRel, watchFiles, outputFiles } =
-            await resultPromise;
+            Object.assign(results.outputs, outputs);
+            Object.assign(results.inputs, inputs);
 
-          for (const watchFile of watchFiles) {
-            htmlResult.watchFiles.add(watchFile);
-          }
-
-          const mainOutputPathAbs = resolve(workingDirAbs, mainOutputPathRel);
-          setAttributes(
-            $,
-            element,
-            getPublicPath(publicPathContext, mainOutputPathAbs),
-            await getIntegrity(pluginOptions.integrity, mainOutputPathAbs, outputFiles)
-          );
-
-          if (cssOutputPathRel) {
-            const cssOutputPathAbs = resolve(workingDirAbs, cssOutputPathRel);
-            const linkElement = insertLinkElement($, element.element);
             setAttributes(
               $,
-              { element: linkElement, attribute: "href", format: "iife" },
-              getPublicPath(publicPathContext, cssOutputPathAbs),
-              await getIntegrity(pluginOptions.integrity, cssOutputPathAbs, outputFiles)
+              element,
+              getPublicPath(publicPathContext, mainOutputPathAbs),
+              await getIntegrity(pluginOptions.integrity, mainOutputPathAbs, outputFiles)
             );
-          }
-        }
+
+            if (cssOutputPathAbs) {
+              setAttributes(
+                $,
+                insertLinkElement($, element.element),
+                getPublicPath(publicPathContext, cssOutputPathAbs),
+                await getIntegrity(pluginOptions.integrity, cssOutputPathAbs, outputFiles)
+              );
+            }
+          })
+        );
 
         const html = $.html();
         let contents = buildOptions.minify
@@ -147,18 +257,18 @@ export function esbuildPluginHtmlEntry(pluginOptions: EsbuildPluginHtmlEntryOpti
         };
       });
 
-      build.onEnd(async result => {
+      build.onEnd(result => {
         result.outputFiles = result.outputFiles
-          ? await augmentOutputFiles(results.assets, result.outputFiles)
+          ? augmentOutputFiles(result.outputFiles, results.outputFiles)
           : undefined;
 
         result.metafile =
           metafileOriginallyEnabled && result.metafile
-            ? await augmentMetafile(results, result.metafile)
+            ? augmentMetafile(result.metafile, results)
             : undefined;
 
-        results.htmls = new Map();
-        results.assets = new Map();
+        results = createResults();
+        buildResultsCache = createBuildResultsCache();
       });
     },
   };

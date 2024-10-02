@@ -7,18 +7,11 @@ export interface HtmlResult {
   watchFiles: Set<string>;
 }
 
-export interface AssetResult {
-  mainOutputPathRel: string;
-  cssOutputPathRel?: string;
-  watchFiles: string[];
-  outputFiles?: OutputFile[];
-  inputs: Metafile["inputs"];
-  outputs: Metafile["outputs"];
-}
-
 export interface Results {
   htmls: Map<string, HtmlResult>;
-  assets: Map<string, Promise<AssetResult>>;
+  inputs: Metafile["inputs"];
+  outputs: Metafile["outputs"];
+  outputFiles: Map<string, Omit<OutputFile, "path">>;
 }
 
 function createSortBy<V>(callback: (value: V) => string) {
@@ -27,27 +20,23 @@ function createSortBy<V>(callback: (value: V) => string) {
   };
 }
 
-export async function augmentOutputFiles(
-  assetResults: Results["assets"],
-  outputFiles: OutputFile[]
-): Promise<OutputFile[] | undefined> {
-  let assetOutputFiles: OutputFile[] = [];
-
-  for (const assetResultPromise of assetResults.values()) {
-    const assetResult = await assetResultPromise;
-
-    if (assetResult.outputFiles) {
-      assetOutputFiles = assetOutputFiles.concat(assetResult.outputFiles);
-    }
-  }
-
-  return [...outputFiles, ...assetOutputFiles.sort(createSortBy(f => f.path))];
+function sortByKey(object: Record<string, unknown>) {
+  return Object.fromEntries(Object.entries(object).sort(createSortBy(([key]) => key)));
 }
 
-export async function augmentMetafile(
-  results: Results,
-  metafile: Metafile
-): Promise<Metafile | undefined> {
+export function augmentOutputFiles(
+  htmlOutputFiles: OutputFile[],
+  assetOutputFiles: Results["outputFiles"]
+): OutputFile[] | undefined {
+  return [
+    ...htmlOutputFiles,
+    ...[...assetOutputFiles.entries()]
+      .map(([path, outputFile]) => ({ path, ...outputFile }))
+      .sort(createSortBy(f => f.path)),
+  ];
+}
+
+export function augmentMetafile(metafile: Metafile, results: Results): Metafile | undefined {
   // Note: this will also be run in the onEnd hook for the sub-builds created by this plugin
 
   /*
@@ -85,28 +74,13 @@ export async function augmentMetafile(
     outputs (for assets)
   */
 
-  let assetInputEntries: [string, Metafile["inputs"][string]][] = [];
-  let assetOutputEntries: [string, Metafile["outputs"][string]][] = [];
-
-  for (const assetResult of results.assets.values()) {
-    const { inputs, outputs } = await assetResult;
-
-    assetInputEntries = assetInputEntries.concat(Object.entries(inputs));
-
-    for (const output of Object.values(outputs)) {
-      delete output.entryPoint;
-    }
-    assetOutputEntries = assetOutputEntries.concat(Object.entries(outputs));
+  for (const output of Object.values(results.outputs)) {
+    delete output.entryPoint;
   }
 
-  Object.assign(
-    metafile.inputs,
-    Object.fromEntries(assetInputEntries.sort(createSortBy(e => e[0])))
-  );
-  Object.assign(
-    metafile.outputs,
-    Object.fromEntries(assetOutputEntries.sort(createSortBy(e => e[0])))
-  );
+  Object.assign(metafile.inputs, sortByKey(results.inputs));
+
+  Object.assign(metafile.outputs, sortByKey(results.outputs));
 
   return metafile;
 }

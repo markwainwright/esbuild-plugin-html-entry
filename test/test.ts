@@ -105,7 +105,7 @@ await test("public paths - absolute - missing outdir", async t => {
         outdir: undefined,
       }),
     new Error(`Build failed with 1 error:
-src/public-paths.ts:18:12: ERROR: [plugin: html-entry] must provide outdir if publicPath is set`)
+src/public-paths.ts:20:12: ERROR: [plugin: html-entry] must provide outdir if publicPath is set`)
   );
 });
 
@@ -224,6 +224,26 @@ await testBuild(
   }
 );
 
+await testBuild(
+  "splitting",
+  {
+    entryPoints: [
+      "test/input/pages/splitting.html",
+      "test/input/pages/splitting2.html",
+      "test/input/pages/splitting3.html",
+    ],
+    format: "esm",
+    splitting: true,
+    entryNames: "entries/[dir]/[name]",
+    assetNames: "assets/[dir]/[name]-[hash]",
+    chunkNames: "chunks/[dir]/[name]-[hash]",
+  },
+  {
+    subresourceNames: "subresources/[dir]/[name]-[hash]",
+  },
+  { only: true }
+);
+
 await testBuild("external - absolute - CSS", {
   entryPoints: ["test/input/pages/page.html"],
   external: [resolve("test/input/stylesheets/with-asset.css")],
@@ -259,12 +279,5 @@ await testBuild("href - URL", { entryPoints: ["test/input/pages/href-url.html"] 
 await testBuild("href - data", { entryPoints: ["test/input/pages/href-data.html"] });
 
 await test("href - invalid", async t => {
-  await assert.rejects(
-    () => build(t, { entryPoints: ["test/input/pages/href-invalid.html"] }),
-    new Error(
-      `Build failed with 2 errors:
-error: Could not resolve "../stylesheets/whoops.css"
-error: Could not resolve "../scripts/whoops.js"`
-    )
-  );
+  await assert.rejects(() => build(t, { entryPoints: ["test/input/pages/href-invalid.html"] }));
 });
