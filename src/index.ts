@@ -70,9 +70,8 @@ export function esbuildPluginHtmlEntry(pluginOptions: EsbuildPluginHtmlEntryOpti
     setup(build) {
       const buildOptions = build.initialOptions;
 
-      if (buildOptions.publicPath && !buildOptions.outdir) {
-        // see getPublicPathContext
-        throw new Error("must provide outdir if publicPath is set");
+      if (!buildOptions.outdir) {
+        throw new Error("Must provide outdir");
       }
 
       const workingDirAbs = getWorkingDirAbs(buildOptions);

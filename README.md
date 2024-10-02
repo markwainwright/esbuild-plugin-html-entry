@@ -60,11 +60,10 @@ esbuild.build({
 
 ## esbuild config restrictions
 
-- To use [`serve`]:
-  1. [`write`](https://esbuild.github.io/api/#write) cannot be set to `false`
-  1. `servedir` must be set equal to [`outdir`]
-- To use [`publicPath`] (absolute URLs):
-  1. [`outdir`] must be set
+1. [`outdir`] must be set
+1. To use [`serve`]:
+   1. [`write`](https://esbuild.github.io/api/#write) cannot be set to `false`
+   1. `servedir` must be set equal to [`outdir`]
 
 [`publicPath`]: https://esbuild.github.io/api/#public-path
 [`serve`]: https://esbuild.github.io/api/#serve

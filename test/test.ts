@@ -124,12 +124,11 @@ await testBuild(
   }
 );
 
-await test("public paths - absolute - missing outdir", async t => {
+await test("outdir missing", async t => {
   let error;
   try {
     await build(t, {
       entryPoints: ["test/input/pages/dead-end.html"],
-      publicPath: "/foo",
       loader: undefined,
       outdir: undefined,
     });
@@ -139,7 +138,7 @@ await test("public paths - absolute - missing outdir", async t => {
 
   assert.equal(error instanceof Error, true);
   if (error instanceof Error) {
-    assert.match(error.message, /\[plugin: html-entry\] must provide outdir if publicPath is set/);
+    assert.match(error.message, /\[plugin: html-entry\] Must provide outdir/);
   }
 });
 
