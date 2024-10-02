@@ -3,25 +3,25 @@
   "warnings": [],
   "metafile": {
     "inputs": {
-      "input/pages/page.html": {
+      "test/input/pages/page.html": {
         "bytes": 247,
         "imports": [
           {
-            "path": "input/stylesheets/with-asset.css",
+            "path": "test/input/stylesheets/with-asset.css",
             "kind": "import-statement",
             "original": "../stylesheets/with-asset.css"
           }
         ]
       },
-      "input/images/from-html-css.gif": {
+      "test/input/images/from-html-css.gif": {
         "bytes": 12,
         "imports": []
       },
-      "input/stylesheets/with-asset.css": {
+      "test/input/stylesheets/with-asset.css": {
         "bytes": 90,
         "imports": [
           {
-            "path": "input/images/from-html-css.gif",
+            "path": "test/input/images/from-html-css.gif",
             "kind": "url-token",
             "original": "../images/from-html-css.gif"
           }
@@ -29,40 +29,40 @@
       }
     },
     "outputs": {
-      "output/actual/external-absolute-js/page.html": {
+      "test/output/actual/external-absolute-js/page.html": {
         "imports": [],
         "exports": [],
         "inputs": {
-          "input/pages/page.html": {
+          "test/input/pages/page.html": {
             "bytesInOutput": 247
           }
         },
         "bytes": 247,
-        "entryPoint": "input/pages/page.html"
+        "entryPoint": "test/input/pages/page.html"
       },
-      "output/actual/external-absolute-js/from-html-css.gif": {
+      "test/output/actual/external-absolute-js/from-html-css.gif": {
         "imports": [],
         "exports": [],
         "inputs": {
-          "input/images/from-html-css.gif": {
+          "test/input/images/from-html-css.gif": {
             "bytesInOutput": 12
           }
         },
         "bytes": 12
       },
-      "output/actual/external-absolute-js/with-asset.css": {
+      "test/output/actual/external-absolute-js/with-asset.css": {
         "imports": [
           {
-            "path": "output/actual/external-absolute-js/from-html-css.gif",
+            "path": "test/output/actual/external-absolute-js/from-html-css.gif",
             "kind": "url-token"
           }
         ],
         "inputs": {
-          "input/stylesheets/with-asset.css": {
+          "test/input/stylesheets/with-asset.css": {
             "bytesInOutput": 82
           }
         },
-        "bytes": 121
+        "bytes": 126
       }
     }
   }

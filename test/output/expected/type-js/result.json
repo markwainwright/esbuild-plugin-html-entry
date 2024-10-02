@@ -3,43 +3,43 @@
   "warnings": [],
   "metafile": {
     "inputs": {
-      "input/pages/type-js.html": {
+      "test/input/pages/type-js.html": {
         "bytes": 216,
         "imports": [
           {
-            "path": "input/scripts/with-none.js",
+            "path": "test/input/scripts/with-none.js",
             "kind": "import-statement",
             "original": "../scripts/with-none.js"
           }
         ]
       },
-      "input/scripts/with-none.js": {
+      "test/input/scripts/with-none.js": {
         "bytes": 37,
         "imports": [],
         "format": "esm"
       }
     },
     "outputs": {
-      "output/actual/type-js/type-js.html": {
+      "test/output/actual/type-js/type-js.html": {
         "imports": [],
         "exports": [],
         "inputs": {
-          "input/pages/type-js.html": {
+          "test/input/pages/type-js.html": {
             "bytesInOutput": 216
           }
         },
         "bytes": 216,
-        "entryPoint": "input/pages/type-js.html"
+        "entryPoint": "test/input/pages/type-js.html"
       },
-      "output/actual/type-js/with-none.js": {
+      "test/output/actual/type-js/with-none.js": {
         "imports": [],
         "exports": [],
         "inputs": {
-          "input/scripts/with-none.js": {
+          "test/input/scripts/with-none.js": {
             "bytesInOutput": 39
           }
         },
-        "bytes": 100
+        "bytes": 105
       }
     }
   }

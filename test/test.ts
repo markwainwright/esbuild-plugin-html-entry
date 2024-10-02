@@ -5,13 +5,13 @@ import { resolve } from "node:path";
 import { build, testBuild } from "./helpers/test-build.js";
 
 await testBuild("no transitive dependencies", {
-  entryPoints: ["input/pages/dead-end.html"],
+  entryPoints: ["test/input/pages/dead-end.html"],
 });
 
 await testBuild(
-  "relative public paths",
+  "public paths - relative",
   {
-    entryPoints: ["input/pages/page.html", "input/pages/nested/nested-page.html"],
+    entryPoints: ["test/input/pages/page.html", "test/input/pages/nested/nested-page.html"],
     entryNames: "entries/[dir]/[name]",
     assetNames: "assets/[dir]/[name]-[hash]",
     chunkNames: "chunks/[dir]/[name]-[hash]",
@@ -22,10 +22,39 @@ await testBuild(
 );
 
 await testBuild(
-  "absolute public paths",
+  "public paths - relative - cwd",
   {
-    entryPoints: ["input/pages/page.html", "input/pages/nested/nested-page.html"],
-    publicPath: "/absolute-public-paths",
+    entryPoints: ["pages/page.html", "pages/nested/nested-page.html"],
+    entryNames: "entries/[dir]/[name]",
+    assetNames: "assets/[dir]/[name]-[hash]",
+    chunkNames: "chunks/[dir]/[name]-[hash]",
+    absWorkingDir: resolve("test/input"),
+    outbase: ".",
+  },
+  {
+    subresourceNames: "subresources/[dir]/[name]-[hash]",
+  }
+);
+
+await testBuild(
+  "public paths - relative - outbase",
+  {
+    entryPoints: ["test/input/pages/page.html", "test/input/pages/nested/nested-page.html"],
+    entryNames: "entries/[dir]/[name]",
+    assetNames: "assets/[dir]/[name]-[hash]",
+    chunkNames: "chunks/[dir]/[name]-[hash]",
+    outbase: "test",
+  },
+  {
+    subresourceNames: "subresources/[dir]/[name]-[hash]",
+  }
+);
+
+await testBuild(
+  "public paths - absolute",
+  {
+    entryPoints: ["test/input/pages/page.html", "test/input/pages/nested/nested-page.html"],
+    publicPath: "/public-paths-absolute",
     entryNames: "entries/[dir]/[name]",
     assetNames: "assets/[dir]/[name]-[hash]",
     chunkNames: "chunks/[dir]/[name]-[hash]",
@@ -35,27 +64,55 @@ await testBuild(
   }
 );
 
-await test("absolute public paths with missing outdir", async t => {
+await testBuild(
+  "public paths - absolute - cwd",
+  {
+    entryPoints: ["pages/page.html", "pages/nested/nested-page.html"],
+    publicPath: "/public-paths-absolute-cwd",
+    entryNames: "entries/[dir]/[name]",
+    assetNames: "assets/[dir]/[name]-[hash]",
+    chunkNames: "chunks/[dir]/[name]-[hash]",
+    absWorkingDir: resolve("test/input"),
+    outbase: ".",
+  },
+  {
+    subresourceNames: "subresources/[dir]/[name]-[hash]",
+  }
+);
+
+await testBuild(
+  "public paths - absolute - outbase",
+  {
+    entryPoints: ["test/input/pages/page.html", "test/input/pages/nested/nested-page.html"],
+    publicPath: "/public-paths-absolute-outbase",
+    entryNames: "entries/[dir]/[name]",
+    assetNames: "assets/[dir]/[name]-[hash]",
+    chunkNames: "chunks/[dir]/[name]-[hash]",
+    outbase: "test",
+  },
+  {
+    subresourceNames: "subresources/[dir]/[name]-[hash]",
+  }
+);
+
+await test("public paths - absolute - missing outdir", async t => {
   await assert.rejects(
     () =>
       build(t, {
-        entryPoints: ["input/pages/dead-end.html"],
+        entryPoints: ["test/input/pages/dead-end.html"],
         publicPath: "/foo",
         loader: undefined,
         outdir: undefined,
       }),
     new Error(`Build failed with 1 error:
-../src/public-paths.ts:18:12: ERROR: [plugin: html-entry] must provide outdir if publicPath is set`)
+src/public-paths.ts:18:12: ERROR: [plugin: html-entry] must provide outdir if publicPath is set`)
   );
 });
 
 await testBuild(
-  "flat output paths",
+  "output paths - flat",
   {
-    entryPoints: ["input/pages/page.html", "input/pages/nested/nested-page.html"],
-    entryNames: "[name]",
-    assetNames: "[name]",
-    chunkNames: "[name]",
+    entryPoints: ["test/input/pages/page.html", "test/input/pages/nested/nested-page.html"],
   },
   {
     subresourceNames: "[name]",
@@ -65,7 +122,7 @@ await testBuild(
 await testBuild(
   "minified output",
   {
-    entryPoints: ["input/pages/dead-end.html"],
+    entryPoints: ["test/input/pages/dead-end.html"],
     minify: true,
   },
   {
@@ -75,18 +132,24 @@ await testBuild(
   }
 );
 
-await testBuild("minified input", { entryPoints: ["input/pages/minified.html"] });
+await testBuild("minified input", { entryPoints: ["test/input/pages/minified.html"] });
 
-await testBuild("body elements", { entryPoints: ["input/pages/body-elements.html"] });
+await testBuild("typescript", { entryPoints: ["test/input/pages/typescript.html"] });
 
-await testBuild("body elements minified", {
-  entryPoints: ["input/pages/body-elements-minified.html"],
+await testBuild("elements - body", { entryPoints: ["test/input/pages/elements-body.html"] });
+
+await testBuild("elements - body - minified", {
+  entryPoints: ["test/input/pages/elements-body-minified.html"],
+});
+
+await testBuild("elements - duplicated", {
+  entryPoints: ["test/input/pages/elements-duplicated.html"],
 });
 
 await testBuild(
   "no integrity",
   {
-    entryPoints: ["input/pages/dead-end.html"],
+    entryPoints: ["test/input/pages/dead-end.html"],
   },
   {
     integrity: undefined,
@@ -97,9 +160,9 @@ await testBuild(
   "mixed entrypoints",
   {
     entryPoints: [
-      "input/pages/dead-end.html",
-      "input/scripts/with-both.js",
-      "input/stylesheets/with-asset.css",
+      "test/input/pages/dead-end.html",
+      "test/input/scripts/with-both.js",
+      "test/input/stylesheets/with-asset.css",
     ],
     entryNames: "entries/[name]",
   },
@@ -111,7 +174,7 @@ await testBuild(
 await testBuild(
   "no write",
   {
-    entryPoints: ["input/pages/page.html", "input/pages/nested/nested-page.html"],
+    entryPoints: ["test/input/pages/page.html", "test/input/pages/nested/nested-page.html"],
     entryNames: "entries/[dir]/[name]",
     assetNames: "assets/[dir]/[name]-[hash]",
     chunkNames: "chunks/[dir]/[name]-[hash]",
@@ -122,45 +185,43 @@ await testBuild(
   }
 );
 
-await testBuild("external absolute CSS", {
-  entryPoints: ["input/pages/page.html"],
+await testBuild("external - absolute - CSS", {
+  entryPoints: ["test/input/pages/page.html"],
   external: [resolve("test/input/stylesheets/with-asset.css")],
 });
 
-await testBuild("external relative CSS", {
-  entryPoints: ["input/pages/page.html"],
+await testBuild("external - relative - CSS", {
+  entryPoints: ["test/input/pages/page.html"],
   external: ["../stylesheets/with-asset.css"],
 });
 
-await testBuild("external absolute JS", {
-  entryPoints: ["input/pages/page.html"],
+await testBuild("external - absolute - JS", {
+  entryPoints: ["test/input/pages/page.html"],
   external: [resolve("test/input/scripts/with-both.js")],
 });
 
-await testBuild("external relative JS", {
-  entryPoints: ["input/pages/page.html"],
+await testBuild("external - relative - JS", {
+  entryPoints: ["test/input/pages/page.html"],
   external: ["../scripts/with-both.js"],
 });
 
-await testBuild("duplicate elements", { entryPoints: ["input/pages/duplicate-elements.html"] });
+await testBuild("type - JS", { entryPoints: ["test/input/pages/type-js.html"] });
 
-await testBuild("type JS", { entryPoints: ["input/pages/type-js.html"] });
+await testBuild("type - empty", { entryPoints: ["test/input/pages/type-empty.html"] });
 
-await testBuild("type empty", { entryPoints: ["input/pages/type-empty.html"] });
+await testBuild("type - module", { entryPoints: ["test/input/pages/type-module.html"] });
 
-await testBuild("type module", { entryPoints: ["input/pages/type-module.html"] });
+await testBuild("type - other", { entryPoints: ["test/input/pages/type-other.html"] });
 
-await testBuild("type other", { entryPoints: ["input/pages/type-other.html"] });
+await testBuild("href - absolute", { entryPoints: ["test/input/pages/href-absolute.html"] });
 
-await testBuild("href absolute", { entryPoints: ["input/pages/href-absolute.html"] });
+await testBuild("href - URL", { entryPoints: ["test/input/pages/href-url.html"] });
 
-await testBuild("href URL", { entryPoints: ["input/pages/href-url.html"] });
+await testBuild("href - data", { entryPoints: ["test/input/pages/href-data.html"] });
 
-await testBuild("href data", { entryPoints: ["input/pages/href-data.html"] });
-
-await test("href invalid", async t => {
+await test("href - invalid", async t => {
   await assert.rejects(
-    () => build(t, { entryPoints: ["input/pages/href-invalid.html"] }),
+    () => build(t, { entryPoints: ["test/input/pages/href-invalid.html"] }),
     new Error(
       `Build failed with 2 errors:
 error: Could not resolve "../stylesheets/whoops.css"

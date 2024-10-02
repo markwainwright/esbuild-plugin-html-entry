@@ -3,22 +3,22 @@
   "warnings": [],
   "metafile": {
     "inputs": {
-      "input/pages/href-url.html": {
+      "test/input/pages/href-url.html": {
         "bytes": 224,
         "imports": []
       }
     },
     "outputs": {
-      "output/actual/href-url/href-url.html": {
+      "test/output/actual/href-url/href-url.html": {
         "imports": [],
         "exports": [],
         "inputs": {
-          "input/pages/href-url.html": {
+          "test/input/pages/href-url.html": {
             "bytesInOutput": 224
           }
         },
         "bytes": 224,
-        "entryPoint": "input/pages/href-url.html"
+        "entryPoint": "test/input/pages/href-url.html"
       }
     }
   }

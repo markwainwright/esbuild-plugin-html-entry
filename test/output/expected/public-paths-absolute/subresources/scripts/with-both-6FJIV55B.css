@@ -1,0 +1,5 @@
+/* test/input/stylesheets/from-js.css */
+body {
+  background-image: url("/public-paths-absolute/assets/images/from-js-css-QROD6PU2.gif");
+  background-color: rebeccapurple;
+}

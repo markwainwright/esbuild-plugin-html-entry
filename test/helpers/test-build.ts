@@ -10,7 +10,7 @@ import { rimraf } from "rimraf";
 import { esbuildPluginHtmlEntry, type EsbuildPluginHtmlEntryOptions } from "../../src/index.js";
 
 function getTestNameDir(testName: string) {
-  return testName.replaceAll(" > ", "/").toLowerCase().replace(/\s/g, "-");
+  return testName.replaceAll(" > ", "/").replaceAll(" - ", "-").toLowerCase().replace(/\s/g, "-");
 }
 
 export async function testBuild(
@@ -34,11 +34,10 @@ export async function build(
   await rimraf(actualOutputDir);
 
   return await esbuild.build({
-    absWorkingDir: resolve("test"),
     loader: { ".gif": "file" },
     platform: "browser",
     bundle: true,
-    outbase: "input",
+    outbase: "test/input",
     metafile: true,
     entryNames: "[name]",
     assetNames: "[name]",

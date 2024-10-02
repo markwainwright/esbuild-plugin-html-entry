@@ -3,22 +3,22 @@
   "warnings": [],
   "metafile": {
     "inputs": {
-      "input/pages/type-other.html": {
+      "test/input/pages/type-other.html": {
         "bytes": 147,
         "imports": []
       }
     },
     "outputs": {
-      "output/actual/type-other/type-other.html": {
+      "test/output/actual/type-other/type-other.html": {
         "imports": [],
         "exports": [],
         "inputs": {
-          "input/pages/type-other.html": {
+          "test/input/pages/type-other.html": {
             "bytesInOutput": 147
           }
         },
         "bytes": 147,
-        "entryPoint": "input/pages/type-other.html"
+        "entryPoint": "test/input/pages/type-other.html"
       }
     }
   }

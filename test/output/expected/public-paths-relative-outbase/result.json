@@ -1,0 +1,267 @@
+{
+  "errors": [],
+  "warnings": [],
+  "metafile": {
+    "inputs": {
+      "test/input/pages/page.html": {
+        "bytes": 552,
+        "imports": [
+          {
+            "path": "test/input/stylesheets/with-asset.css",
+            "kind": "import-statement",
+            "original": "../stylesheets/with-asset.css"
+          },
+          {
+            "path": "test/input/scripts/with-both.js",
+            "kind": "import-statement",
+            "original": "../scripts/with-both.js"
+          }
+        ]
+      },
+      "test/input/pages/nested/nested-page.html": {
+        "bytes": 1084,
+        "imports": [
+          {
+            "path": "test/input/stylesheets/nested/nested-with-asset.css",
+            "kind": "import-statement",
+            "original": "../../stylesheets/nested/nested-with-asset.css"
+          },
+          {
+            "path": "test/input/scripts/nested/nested-with-both.js",
+            "kind": "import-statement",
+            "original": "../../scripts/nested/nested-with-both.js"
+          },
+          {
+            "path": "test/input/stylesheets/with-asset.css",
+            "kind": "import-statement",
+            "original": "../../stylesheets/with-asset.css"
+          },
+          {
+            "path": "test/input/scripts/with-both.js",
+            "kind": "import-statement",
+            "original": "../../scripts/with-both.js"
+          }
+        ]
+      },
+      "test/input/images/from-html-css.gif": {
+        "bytes": 12,
+        "imports": []
+      },
+      "test/input/images/from-js-css.gif": {
+        "bytes": 12,
+        "imports": []
+      },
+      "test/input/scripts/nested/nested-with-both.js": {
+        "bytes": 142,
+        "imports": [
+          {
+            "path": "test/input/stylesheets/nested/nested-from-js.css",
+            "kind": "import-statement",
+            "original": "../../stylesheets/nested/nested-from-js.css"
+          },
+          {
+            "path": "test/input/scripts/sub.js",
+            "kind": "import-statement",
+            "original": "../sub.js"
+          }
+        ],
+        "format": "esm"
+      },
+      "test/input/scripts/sub.js": {
+        "bytes": 67,
+        "imports": [],
+        "format": "esm"
+      },
+      "test/input/scripts/with-both.js": {
+        "bytes": 110,
+        "imports": [
+          {
+            "path": "test/input/stylesheets/from-js.css",
+            "kind": "import-statement",
+            "original": "../stylesheets/from-js.css"
+          },
+          {
+            "path": "test/input/scripts/sub.js",
+            "kind": "import-statement",
+            "original": "./sub.js"
+          }
+        ],
+        "format": "esm"
+      },
+      "test/input/stylesheets/from-js.css": {
+        "bytes": 98,
+        "imports": [
+          {
+            "path": "test/input/images/from-js-css.gif",
+            "kind": "url-token",
+            "original": "../images/from-js-css.gif"
+          }
+        ]
+      },
+      "test/input/stylesheets/nested/nested-from-js.css": {
+        "bytes": 94,
+        "imports": [
+          {
+            "path": "test/input/images/from-js-css.gif",
+            "kind": "url-token",
+            "original": "../../images/from-js-css.gif"
+          }
+        ]
+      },
+      "test/input/stylesheets/nested/nested-with-asset.css": {
+        "bytes": 94,
+        "imports": [
+          {
+            "path": "test/input/images/from-html-css.gif",
+            "kind": "url-token",
+            "original": "../../images/from-html-css.gif"
+          }
+        ]
+      },
+      "test/input/stylesheets/with-asset.css": {
+        "bytes": 90,
+        "imports": [
+          {
+            "path": "test/input/images/from-html-css.gif",
+            "kind": "url-token",
+            "original": "../images/from-html-css.gif"
+          }
+        ]
+      }
+    },
+    "outputs": {
+      "test/output/actual/public-paths-relative-outbase/entries/input/pages/page.html": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "test/input/pages/page.html": {
+            "bytesInOutput": 552
+          }
+        },
+        "bytes": 552,
+        "entryPoint": "test/input/pages/page.html"
+      },
+      "test/output/actual/public-paths-relative-outbase/entries/input/pages/nested/nested-page.html": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "test/input/pages/nested/nested-page.html": {
+            "bytesInOutput": 1084
+          }
+        },
+        "bytes": 1084,
+        "entryPoint": "test/input/pages/nested/nested-page.html"
+      },
+      "test/output/actual/public-paths-relative-outbase/assets/input/images/from-html-css-QROD6PU2.gif": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "test/input/images/from-html-css.gif": {
+            "bytesInOutput": 12
+          }
+        },
+        "bytes": 12
+      },
+      "test/output/actual/public-paths-relative-outbase/assets/input/images/from-js-css-QROD6PU2.gif": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "test/input/images/from-js-css.gif": {
+            "bytesInOutput": 12
+          }
+        },
+        "bytes": 12
+      },
+      "test/output/actual/public-paths-relative-outbase/subresources/input/scripts/nested/nested-with-both-7G36ITYH.js": {
+        "imports": [],
+        "exports": [],
+        "cssBundle": "test/output/actual/public-paths-relative-outbase/subresources/input/scripts/nested/nested-with-both-7IKHOKF5.css",
+        "inputs": {
+          "test/input/stylesheets/nested/nested-from-js.css": {
+            "bytesInOutput": 0
+          },
+          "test/input/scripts/sub.js": {
+            "bytesInOutput": 58
+          },
+          "test/input/scripts/nested/nested-with-both.js": {
+            "bytesInOutput": 62
+          }
+        },
+        "bytes": 232
+      },
+      "test/output/actual/public-paths-relative-outbase/subresources/input/scripts/nested/nested-with-both-7IKHOKF5.css": {
+        "imports": [
+          {
+            "path": "test/output/actual/public-paths-relative-outbase/assets/input/images/from-js-css-QROD6PU2.gif",
+            "kind": "url-token"
+          }
+        ],
+        "inputs": {
+          "test/input/stylesheets/nested/nested-from-js.css": {
+            "bytesInOutput": 122
+          }
+        },
+        "bytes": 177
+      },
+      "test/output/actual/public-paths-relative-outbase/subresources/input/scripts/with-both-2OMOWY4M.js": {
+        "imports": [],
+        "exports": [],
+        "cssBundle": "test/output/actual/public-paths-relative-outbase/subresources/input/scripts/with-both-ZCNXVNCA.css",
+        "inputs": {
+          "test/input/stylesheets/from-js.css": {
+            "bytesInOutput": 0
+          },
+          "test/input/scripts/sub.js": {
+            "bytesInOutput": 58
+          },
+          "test/input/scripts/with-both.js": {
+            "bytesInOutput": 48
+          }
+        },
+        "bytes": 204
+      },
+      "test/output/actual/public-paths-relative-outbase/subresources/input/scripts/with-both-ZCNXVNCA.css": {
+        "imports": [
+          {
+            "path": "test/output/actual/public-paths-relative-outbase/assets/input/images/from-js-css-QROD6PU2.gif",
+            "kind": "url-token"
+          }
+        ],
+        "inputs": {
+          "test/input/stylesheets/from-js.css": {
+            "bytesInOutput": 126
+          }
+        },
+        "bytes": 167
+      },
+      "test/output/actual/public-paths-relative-outbase/subresources/input/stylesheets/nested/nested-with-asset-2IWYK6J4.css": {
+        "imports": [
+          {
+            "path": "test/output/actual/public-paths-relative-outbase/assets/input/images/from-html-css-QROD6PU2.gif",
+            "kind": "url-token"
+          }
+        ],
+        "inputs": {
+          "test/input/stylesheets/nested/nested-with-asset.css": {
+            "bytesInOutput": 122
+          }
+        },
+        "bytes": 180
+      },
+      "test/output/actual/public-paths-relative-outbase/subresources/input/stylesheets/with-asset-UC464D6I.css": {
+        "imports": [
+          {
+            "path": "test/output/actual/public-paths-relative-outbase/assets/input/images/from-html-css-QROD6PU2.gif",
+            "kind": "url-token"
+          }
+        ],
+        "inputs": {
+          "test/input/stylesheets/with-asset.css": {
+            "bytesInOutput": 118
+          }
+        },
+        "bytes": 162
+      }
+    }
+  }
+}

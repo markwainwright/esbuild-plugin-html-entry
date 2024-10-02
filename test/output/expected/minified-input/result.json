@@ -3,65 +3,65 @@
   "warnings": [],
   "metafile": {
     "inputs": {
-      "input/pages/minified.html": {
+      "test/input/pages/minified.html": {
         "bytes": 383,
         "imports": [
           {
-            "path": "input/stylesheets/with-asset.css",
+            "path": "test/input/stylesheets/with-asset.css",
             "kind": "import-statement",
             "original": "../stylesheets/with-asset.css"
           },
           {
-            "path": "input/scripts/with-both.js",
+            "path": "test/input/scripts/with-both.js",
             "kind": "import-statement",
             "original": "../scripts/with-both.js"
           }
         ]
       },
-      "input/images/from-html-css.gif": {
+      "test/input/images/from-html-css.gif": {
         "bytes": 12,
         "imports": []
       },
-      "input/images/from-js-css.gif": {
+      "test/input/images/from-js-css.gif": {
         "bytes": 12,
         "imports": []
       },
-      "input/scripts/sub.js": {
+      "test/input/scripts/sub.js": {
         "bytes": 67,
         "imports": [],
         "format": "esm"
       },
-      "input/scripts/with-both.js": {
+      "test/input/scripts/with-both.js": {
         "bytes": 110,
         "imports": [
           {
-            "path": "input/stylesheets/from-js.css",
+            "path": "test/input/stylesheets/from-js.css",
             "kind": "import-statement",
             "original": "../stylesheets/from-js.css"
           },
           {
-            "path": "input/scripts/sub.js",
+            "path": "test/input/scripts/sub.js",
             "kind": "import-statement",
             "original": "./sub.js"
           }
         ],
         "format": "esm"
       },
-      "input/stylesheets/from-js.css": {
+      "test/input/stylesheets/from-js.css": {
         "bytes": 98,
         "imports": [
           {
-            "path": "input/images/from-js-css.gif",
+            "path": "test/input/images/from-js-css.gif",
             "kind": "url-token",
             "original": "../images/from-js-css.gif"
           }
         ]
       },
-      "input/stylesheets/with-asset.css": {
+      "test/input/stylesheets/with-asset.css": {
         "bytes": 90,
         "imports": [
           {
-            "path": "input/images/from-html-css.gif",
+            "path": "test/input/images/from-html-css.gif",
             "kind": "url-token",
             "original": "../images/from-html-css.gif"
           }
@@ -69,81 +69,81 @@
       }
     },
     "outputs": {
-      "output/actual/minified-input/minified.html": {
+      "test/output/actual/minified-input/minified.html": {
         "imports": [],
         "exports": [],
         "inputs": {
-          "input/pages/minified.html": {
+          "test/input/pages/minified.html": {
             "bytesInOutput": 383
           }
         },
         "bytes": 383,
-        "entryPoint": "input/pages/minified.html"
+        "entryPoint": "test/input/pages/minified.html"
       },
-      "output/actual/minified-input/from-html-css.gif": {
+      "test/output/actual/minified-input/from-html-css.gif": {
         "imports": [],
         "exports": [],
         "inputs": {
-          "input/images/from-html-css.gif": {
+          "test/input/images/from-html-css.gif": {
             "bytesInOutput": 12
           }
         },
         "bytes": 12
       },
-      "output/actual/minified-input/from-js-css.gif": {
+      "test/output/actual/minified-input/from-js-css.gif": {
         "imports": [],
         "exports": [],
         "inputs": {
-          "input/images/from-js-css.gif": {
+          "test/input/images/from-js-css.gif": {
             "bytesInOutput": 12
           }
         },
         "bytes": 12
       },
-      "output/actual/minified-input/with-asset.css": {
+      "test/output/actual/minified-input/with-asset.css": {
         "imports": [
           {
-            "path": "output/actual/minified-input/from-html-css.gif",
+            "path": "test/output/actual/minified-input/from-html-css.gif",
             "kind": "url-token"
           }
         ],
         "inputs": {
-          "input/stylesheets/with-asset.css": {
+          "test/input/stylesheets/with-asset.css": {
             "bytesInOutput": 82
-          }
-        },
-        "bytes": 121
-      },
-      "output/actual/minified-input/with-both.css": {
-        "imports": [
-          {
-            "path": "output/actual/minified-input/from-js-css.gif",
-            "kind": "url-token"
-          }
-        ],
-        "inputs": {
-          "input/stylesheets/from-js.css": {
-            "bytesInOutput": 90
           }
         },
         "bytes": 126
       },
-      "output/actual/minified-input/with-both.js": {
+      "test/output/actual/minified-input/with-both.css": {
+        "imports": [
+          {
+            "path": "test/output/actual/minified-input/from-js-css.gif",
+            "kind": "url-token"
+          }
+        ],
+        "inputs": {
+          "test/input/stylesheets/from-js.css": {
+            "bytesInOutput": 90
+          }
+        },
+        "bytes": 131
+      },
+      "test/output/actual/minified-input/with-both.js": {
         "imports": [],
         "exports": [],
-        "cssBundle": "output/actual/minified-input/with-both.css",
+        "cssBundle": "test/output/actual/minified-input/with-both.css",
         "inputs": {
-          "input/stylesheets/from-js.css": {
+          "test/input/stylesheets/from-js.css": {
             "bytesInOutput": 0
           },
-          "input/scripts/sub.js": {
+          "test/input/scripts/sub.js": {
             "bytesInOutput": 58
           },
-          "input/scripts/with-both.js": {
+          "test/input/scripts/with-both.js": {
             "bytesInOutput": 48
           }
         },
-        "bytes": 194
+        "bytes": 204
       }
     }
   }

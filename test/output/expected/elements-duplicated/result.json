@@ -1,0 +1,125 @@
+{
+  "errors": [],
+  "warnings": [],
+  "metafile": {
+    "inputs": {
+      "test/input/pages/elements-duplicated.html": {
+        "bytes": 961,
+        "imports": [
+          {
+            "path": "test/input/stylesheets/with-none.css",
+            "kind": "import-statement",
+            "original": "../stylesheets/with-none.css"
+          },
+          {
+            "path": "test/input/scripts/with-both.js",
+            "kind": "import-statement",
+            "original": "../scripts/with-both.js"
+          }
+        ]
+      },
+      "test/input/images/from-js-css.gif": {
+        "bytes": 12,
+        "imports": []
+      },
+      "test/input/scripts/sub.js": {
+        "bytes": 67,
+        "imports": [],
+        "format": "esm"
+      },
+      "test/input/scripts/with-both.js": {
+        "bytes": 110,
+        "imports": [
+          {
+            "path": "test/input/stylesheets/from-js.css",
+            "kind": "import-statement",
+            "original": "../stylesheets/from-js.css"
+          },
+          {
+            "path": "test/input/scripts/sub.js",
+            "kind": "import-statement",
+            "original": "./sub.js"
+          }
+        ],
+        "format": "esm"
+      },
+      "test/input/stylesheets/from-js.css": {
+        "bytes": 98,
+        "imports": [
+          {
+            "path": "test/input/images/from-js-css.gif",
+            "kind": "url-token",
+            "original": "../images/from-js-css.gif"
+          }
+        ]
+      },
+      "test/input/stylesheets/with-none.css": {
+        "bytes": 37,
+        "imports": []
+      }
+    },
+    "outputs": {
+      "test/output/actual/elements-duplicated/elements-duplicated.html": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "test/input/pages/elements-duplicated.html": {
+            "bytesInOutput": 961
+          }
+        },
+        "bytes": 961,
+        "entryPoint": "test/input/pages/elements-duplicated.html"
+      },
+      "test/output/actual/elements-duplicated/from-js-css.gif": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "test/input/images/from-js-css.gif": {
+            "bytesInOutput": 12
+          }
+        },
+        "bytes": 12
+      },
+      "test/output/actual/elements-duplicated/with-both.css": {
+        "imports": [
+          {
+            "path": "test/output/actual/elements-duplicated/from-js-css.gif",
+            "kind": "url-token"
+          }
+        ],
+        "inputs": {
+          "test/input/stylesheets/from-js.css": {
+            "bytesInOutput": 90
+          }
+        },
+        "bytes": 131
+      },
+      "test/output/actual/elements-duplicated/with-both.js": {
+        "imports": [],
+        "exports": [],
+        "cssBundle": "test/output/actual/elements-duplicated/with-both.css",
+        "inputs": {
+          "test/input/stylesheets/from-js.css": {
+            "bytesInOutput": 0
+          },
+          "test/input/scripts/sub.js": {
+            "bytesInOutput": 58
+          },
+          "test/input/scripts/with-both.js": {
+            "bytesInOutput": 48
+          }
+        },
+        "bytes": 204
+      },
+      "test/output/actual/elements-duplicated/with-none.css": {
+        "imports": [],
+        "inputs": {
+          "test/input/stylesheets/with-none.css": {
+            "bytesInOutput": 37
+          }
+        },
+        "bytes": 80
+      }
+    }
+  }
+}

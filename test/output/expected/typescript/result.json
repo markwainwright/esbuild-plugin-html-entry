@@ -1,0 +1,107 @@
+{
+  "errors": [],
+  "warnings": [],
+  "metafile": {
+    "inputs": {
+      "test/input/pages/typescript.html": {
+        "bytes": 305,
+        "imports": [
+          {
+            "path": "test/input/scripts/with-both-ts.ts",
+            "kind": "import-statement",
+            "original": "../scripts/with-both-ts.ts"
+          }
+        ]
+      },
+      "test/input/images/from-js-css.gif": {
+        "bytes": 12,
+        "imports": []
+      },
+      "test/input/scripts/sub-ts.ts": {
+        "bytes": 76,
+        "imports": [],
+        "format": "esm"
+      },
+      "test/input/scripts/with-both-ts.ts": {
+        "bytes": 116,
+        "imports": [
+          {
+            "path": "test/input/stylesheets/from-js.css",
+            "kind": "import-statement",
+            "original": "../stylesheets/from-js.css"
+          },
+          {
+            "path": "test/input/scripts/sub-ts.ts",
+            "kind": "import-statement",
+            "original": "./sub-ts.js"
+          }
+        ],
+        "format": "esm"
+      },
+      "test/input/stylesheets/from-js.css": {
+        "bytes": 98,
+        "imports": [
+          {
+            "path": "test/input/images/from-js-css.gif",
+            "kind": "url-token",
+            "original": "../images/from-js-css.gif"
+          }
+        ]
+      }
+    },
+    "outputs": {
+      "test/output/actual/typescript/typescript.html": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "test/input/pages/typescript.html": {
+            "bytesInOutput": 305
+          }
+        },
+        "bytes": 305,
+        "entryPoint": "test/input/pages/typescript.html"
+      },
+      "test/output/actual/typescript/from-js-css.gif": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "test/input/images/from-js-css.gif": {
+            "bytesInOutput": 12
+          }
+        },
+        "bytes": 12
+      },
+      "test/output/actual/typescript/with-both-ts.css": {
+        "imports": [
+          {
+            "path": "test/output/actual/typescript/from-js-css.gif",
+            "kind": "url-token"
+          }
+        ],
+        "inputs": {
+          "test/input/stylesheets/from-js.css": {
+            "bytesInOutput": 90
+          }
+        },
+        "bytes": 131
+      },
+      "test/output/actual/typescript/with-both-ts.js": {
+        "imports": [],
+        "exports": [],
+        "cssBundle": "test/output/actual/typescript/with-both-ts.css",
+        "inputs": {
+          "test/input/stylesheets/from-js.css": {
+            "bytesInOutput": 0
+          },
+          "test/input/scripts/sub-ts.ts": {
+            "bytesInOutput": 61
+          },
+          "test/input/scripts/with-both-ts.ts": {
+            "bytesInOutput": 51
+          }
+        },
+        "bytes": 216
+      }
+    }
+  }
+}

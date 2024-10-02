@@ -1,5 +1,5 @@
 "use strict";
 (() => {
-  // input/scripts/with-none.js
+  // test/input/scripts/with-none.js
   console.log("scripts/with-none.js");
 })();

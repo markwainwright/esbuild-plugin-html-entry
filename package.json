@@ -37,6 +37,7 @@
     "test:coverage": "c8 node --test --test-reporter spec --import tsx/esm test/test.ts",
     "test:update": "rm -rf test/output/{actual,expected}/* && npm test > /dev/null ; cp -r test/output/actual/* test/output/expected/",
     "test:watch": "node --test --watch --import=tsx/esm test/test.ts",
+    "test:only": "node --test --test-only --import tsx/esm test/test.ts",
     "test": "node --test --import tsx/esm test/test.ts test/esm/test.mjs test/cjs/test.cjs"
   },
   "dependencies": {

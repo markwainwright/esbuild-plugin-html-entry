@@ -3,26 +3,26 @@
   "warnings": [],
   "metafile": {
     "inputs": {
-      "input/pages/type-module.html": {
+      "test/input/pages/type-module.html": {
         "bytes": 198,
         "imports": [
           {
-            "path": "input/scripts/with-js.js",
+            "path": "test/input/scripts/with-js.js",
             "kind": "import-statement",
             "original": "../scripts/with-js.js"
           }
         ]
       },
-      "input/scripts/sub.js": {
+      "test/input/scripts/sub.js": {
         "bytes": 67,
         "imports": [],
         "format": "esm"
       },
-      "input/scripts/with-js.js": {
+      "test/input/scripts/with-js.js": {
         "bytes": 71,
         "imports": [
           {
-            "path": "input/scripts/sub.js",
+            "path": "test/input/scripts/sub.js",
             "kind": "import-statement",
             "original": "./sub.js"
           }
@@ -31,29 +31,29 @@
       }
     },
     "outputs": {
-      "output/actual/type-module/type-module.html": {
+      "test/output/actual/type-module/type-module.html": {
         "imports": [],
         "exports": [],
         "inputs": {
-          "input/pages/type-module.html": {
+          "test/input/pages/type-module.html": {
             "bytesInOutput": 198
           }
         },
         "bytes": 198,
-        "entryPoint": "input/pages/type-module.html"
+        "entryPoint": "test/input/pages/type-module.html"
       },
-      "output/actual/type-module/with-js.js": {
+      "test/output/actual/type-module/with-js.js": {
         "imports": [],
         "exports": [],
         "inputs": {
-          "input/scripts/sub.js": {
+          "test/input/scripts/sub.js": {
             "bytesInOutput": 52
           },
-          "input/scripts/with-js.js": {
+          "test/input/scripts/with-js.js": {
             "bytesInOutput": 42
           }
         },
-        "bytes": 147
+        "bytes": 157
       }
     }
   }

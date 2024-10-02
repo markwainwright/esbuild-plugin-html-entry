@@ -1,0 +1,5 @@
+/* test/input/stylesheets/with-asset.css */
+body {
+  background-image: url("/public-paths-absolute-outbase/assets/input/images/from-html-css-QROD6PU2.gif");
+  background-color: red;
+}
