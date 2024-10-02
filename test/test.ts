@@ -96,14 +96,22 @@ await testBuild(
 );
 
 await test("public paths - absolute - missing outdir", async t => {
-  await assert.rejects(() =>
-    build(t, {
+  let error;
+  try {
+    await build(t, {
       entryPoints: ["test/input/pages/dead-end.html"],
       publicPath: "/foo",
       loader: undefined,
       outdir: undefined,
-    })
-  );
+    });
+  } catch (err) {
+    error = err;
+  }
+
+  assert.equal(error instanceof Error, true);
+  if (error instanceof Error) {
+    assert.match(error.message, /\[plugin: html-entry\] must provide outdir if publicPath is set/);
+  }
 });
 
 await testBuild(
@@ -276,5 +284,17 @@ await testBuild("href - URL", { entryPoints: ["test/input/pages/href-url.html"] 
 await testBuild("href - data", { entryPoints: ["test/input/pages/href-data.html"] });
 
 await test("href - invalid", async t => {
-  await assert.rejects(() => build(t, { entryPoints: ["test/input/pages/href-invalid.html"] }));
+  let error;
+  try {
+    await build(t, { entryPoints: ["test/input/pages/href-invalid.html"] });
+  } catch (err) {
+    error = err;
+  }
+
+  assert.equal(error instanceof Error, true);
+  if (error instanceof Error) {
+    assert.match(error.message, /Build failed with 2 errors:/);
+    assert.match(error.message, /error: Could not resolve "..\/stylesheets\/whoops.css"/);
+    assert.match(error.message, /error: Could not resolve "..\/scripts\/whoops.js"/);
+  }
 });
