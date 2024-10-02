@@ -12,6 +12,21 @@
             "original": "../stylesheets/with-none.css"
           },
           {
+            "path": "test/input/stylesheets/with-none.css",
+            "kind": "import-statement",
+            "original": "../stylesheets/with-none.css"
+          },
+          {
+            "path": "test/input/scripts/with-both.js",
+            "kind": "import-statement",
+            "original": "../scripts/with-both.js"
+          },
+          {
+            "path": "test/input/scripts/with-both.js",
+            "kind": "import-statement",
+            "original": "../scripts/with-both.js"
+          },
+          {
             "path": "test/input/scripts/with-both.js",
             "kind": "import-statement",
             "original": "../scripts/with-both.js"

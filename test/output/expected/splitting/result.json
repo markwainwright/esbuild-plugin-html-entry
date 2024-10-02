@@ -30,6 +30,11 @@
             "path": "test/input/scripts/with-js-2.js",
             "kind": "import-statement",
             "original": "../scripts/with-js-2.js"
+          },
+          {
+            "path": "test/input/scripts/with-js.js",
+            "kind": "import-statement",
+            "original": "../scripts/with-js.js"
           }
         ]
       },

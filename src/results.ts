@@ -1,8 +1,8 @@
 import type { Metafile, OutputFile } from "esbuild";
 
-interface HtmlResult {
+export interface HtmlResult {
   /** Map of resolved entry point path to original import href */
-  imports: Map<string, string>;
+  imports: Metafile["inputs"][string]["imports"];
   inputBytes: number;
 }
 
@@ -47,15 +47,12 @@ export function augmentMetafile(metafile: Metafile, results: Results): Metafile 
     const input = metafile.inputs[`html-entry:${path}`];
 
     if (input) {
-      // TODO: verify behaviour with multiple same imports
-      for (const [path, original] of htmlResult.imports) {
-        input.imports.push({ path, kind: "import-statement", original });
-      }
-
       // Because we're using the `copy` loader, ESBuild sets this to the size of the file *after*
       // the path substitutions have been made (i.e. the result of the onLoad callback). This
       // restores it to the input file's size
       input.bytes = htmlResult.inputBytes;
+
+      input.imports = htmlResult.imports;
     }
   }
 

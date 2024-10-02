@@ -10,7 +10,7 @@ import { findElements, getHref, insertLinkElement, setAttributes } from "./dom.j
 import { getIntegrity } from "./integrity.js";
 import { NAMESPACE } from "./namespace.js";
 import { getPublicPath, getPublicPathContext } from "./public-paths.js";
-import { augmentMetafile, augmentOutputFiles, type Results } from "./results.js";
+import { augmentMetafile, augmentOutputFiles, type HtmlResult, type Results } from "./results.js";
 import { timeout } from "./timeout.js";
 import { getWorkingDirAbs } from "./working-dir.js";
 
@@ -139,14 +139,18 @@ export function esbuildPluginHtmlEntry(pluginOptions: EsbuildPluginHtmlEntryOpti
           )
         ).filter(asset => asset !== null);
 
-        const htmlResult = {
-          imports: new Map(),
+        const htmlResult: HtmlResult = {
+          imports: [],
           inputBytes: htmlContents.byteLength,
         };
         results.htmlEntryPoints.set(htmlPathAbs, htmlResult);
 
         assets.forEach(({ assetPathRel, assetHref, element }) => {
-          htmlResult.imports.set(assetPathRel, assetHref);
+          htmlResult.imports.push({
+            path: assetPathRel,
+            kind: "import-statement",
+            original: assetHref,
+          });
           buildInput[element.format].add(assetPathRel);
         });
 
