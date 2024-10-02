@@ -16,14 +16,11 @@ export async function getPublicPathContext(
   const workingDirAbs = getWorkingDirAbs(buildOptions);
 
   if (publicPath) {
-    if (!outDirRel) {
-      throw new Error("must provide outdir if publicPath is set");
-    }
-
     return {
       type: "absolute",
       publicPath,
-      outDirAbs: resolve(workingDirAbs, outDirRel),
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- asserted in plugin setup()
+      outDirAbs: resolve(workingDirAbs, outDirRel!),
     };
   }
 
@@ -43,7 +40,7 @@ export async function getPublicPathContext(
 
   return {
     type: "relative",
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- reliable esbuild behaviour
     htmlOutputDirAbs: dirname(outputFiles[0]!.path),
   };
 }

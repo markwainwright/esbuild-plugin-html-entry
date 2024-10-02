@@ -34,18 +34,43 @@
         ]
       },
       "test/input/pages/splitting3.html": {
-        "bytes": 149,
+        "bytes": 202,
         "imports": [
           {
             "path": "test/input/scripts/with-js.js",
             "kind": "import-statement",
             "original": "../scripts/with-js.js"
+          },
+          {
+            "path": "test/input/scripts/with-both.js",
+            "kind": "import-statement",
+            "original": "../scripts/with-both.js"
           }
         ]
+      },
+      "test/input/images/from-js-css.gif": {
+        "bytes": 12,
+        "imports": []
       },
       "test/input/scripts/sub.js": {
         "bytes": 67,
         "imports": [],
+        "format": "esm"
+      },
+      "test/input/scripts/with-both.js": {
+        "bytes": 110,
+        "imports": [
+          {
+            "path": "test/input/stylesheets/from-js.css",
+            "kind": "import-statement",
+            "original": "../stylesheets/from-js.css"
+          },
+          {
+            "path": "test/input/scripts/sub.js",
+            "kind": "import-statement",
+            "original": "./sub.js"
+          }
+        ],
         "format": "esm"
       },
       "test/input/scripts/with-js-2.js": {
@@ -69,6 +94,16 @@
           }
         ],
         "format": "esm"
+      },
+      "test/input/stylesheets/from-js.css": {
+        "bytes": 98,
+        "imports": [
+          {
+            "path": "test/input/images/from-js-css.gif",
+            "kind": "url-token",
+            "original": "../images/from-js-css.gif"
+          }
+        ]
       }
     },
     "outputs": {
@@ -99,11 +134,21 @@
         "exports": [],
         "inputs": {
           "test/input/pages/splitting3.html": {
-            "bytesInOutput": 234
+            "bytesInOutput": 525
           }
         },
-        "bytes": 234,
+        "bytes": 525,
         "entryPoint": "test/input/pages/splitting3.html"
+      },
+      "test/output/actual/splitting/assets/images/from-js-css-QROD6PU2.gif": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "test/input/images/from-js-css.gif": {
+            "bytesInOutput": 12
+          }
+        },
+        "bytes": 12
       },
       "test/output/actual/splitting/chunks/chunk-HVCVQQB4.js": {
         "imports": [],
@@ -116,6 +161,37 @@
           }
         },
         "bytes": 100
+      },
+      "test/output/actual/splitting/subresources/scripts/with-both-BBPWIGRB.js": {
+        "imports": [],
+        "exports": [],
+        "cssBundle": "test/output/actual/splitting/subresources/scripts/with-both-XJ66VXDU.css",
+        "inputs": {
+          "test/input/stylesheets/from-js.css": {
+            "bytesInOutput": 0
+          },
+          "test/input/scripts/sub.js": {
+            "bytesInOutput": 58
+          },
+          "test/input/scripts/with-both.js": {
+            "bytesInOutput": 48
+          }
+        },
+        "bytes": 204
+      },
+      "test/output/actual/splitting/subresources/scripts/with-both-XJ66VXDU.css": {
+        "imports": [
+          {
+            "path": "test/output/actual/splitting/assets/images/from-js-css-QROD6PU2.gif",
+            "kind": "url-token"
+          }
+        ],
+        "inputs": {
+          "test/input/stylesheets/from-js.css": {
+            "bytesInOutput": 117
+          }
+        },
+        "bytes": 158
       },
       "test/output/actual/splitting/subresources/scripts/with-js-2-3IUZUK6S.js": {
         "imports": [
@@ -159,19 +235,6 @@
           }
         },
         "bytes": 132
-      },
-      "test/output/actual/splitting/subresources/scripts/with-js-QSIOL2J3.js": {
-        "imports": [],
-        "exports": [],
-        "inputs": {
-          "test/input/scripts/sub.js": {
-            "bytesInOutput": 52
-          },
-          "test/input/scripts/with-js.js": {
-            "bytesInOutput": 42
-          }
-        },
-        "bytes": 157
       }
     }
   }

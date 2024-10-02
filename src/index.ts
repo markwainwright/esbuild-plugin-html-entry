@@ -5,6 +5,7 @@ import type { BuildOptions, Message, Plugin } from "esbuild";
 import { minify, type Options as MinifyOptions } from "html-minifier-terser";
 
 import { build, type BuildResult } from "./build.js";
+import { createDeferred, Deferred } from "./deferred.js";
 import { findElements, getHref, insertLinkElement, setAttributes } from "./dom.js";
 import { getIntegrity } from "./integrity.js";
 import { getPublicPath, getPublicPathContext } from "./public-paths.js";
@@ -19,104 +20,43 @@ export interface EsbuildPluginHtmlEntryOptions {
   footer?: string;
 }
 
-type BuildResultsCache = Map<string, Promise<BuildResult>>;
+type Format = "esm" | "iife";
+type BuildInput = Record<Format, Set<string>>;
+type BuildOutput = Record<Format, BuildResult>;
+interface State {
+  buildInput: BuildInput;
+  deferredBuildOutput: Deferred<BuildOutput>;
+  results: Results;
+}
 
-function createResults(): Results {
+function createState(): State {
   return {
-    htmls: new Map(),
-    inputs: {},
-    outputs: {},
-    outputFiles: new Map(),
+    results: {
+      htmlEntryPoints: new Map(),
+      inputs: {},
+      outputs: {},
+      outputFiles: new Map(),
+    },
+    buildInput: {
+      esm: new Set(),
+      iife: new Set(),
+    },
+    deferredBuildOutput: createDeferred<BuildOutput>(),
   };
 }
 
-function createBuildResultsCache(): BuildResultsCache {
-  return new Map();
-}
-
-function uniqueBy<T>(values: T[], callback: (t: T) => string): T[] {
-  const map = new Map<string, T>();
-  values.forEach(value => map.set(callback(value), value));
-  return [...map.values()];
-}
-
-function getAssetPathRel(asset: { assetPathRel: string }) {
-  return asset.assetPathRel;
-}
-
-function getCacheKey(asset: { cacheKey: string }) {
-  return asset.cacheKey;
-}
-
-function buildAssets<E extends { format: "iife" | "esm" }>(
+async function buildAssets(
   buildOptions: BuildOptions,
   pluginOptions: EsbuildPluginHtmlEntryOptions,
-  buildResultsCache: BuildResultsCache,
-  assets: { assetPathRel: string; element: E }[]
-): Promise<{ element: E; buildResult: BuildResult }[]> {
+  buildInput: BuildInput
+): Promise<BuildOutput> {
   const assetNames = pluginOptions.subresourceNames ?? buildOptions.assetNames;
+  const [esm, iife] = await Promise.all([
+    build({ ...buildOptions, format: "esm" }, assetNames, [...buildInput.esm]),
+    build({ ...buildOptions, format: "iife", splitting: false }, assetNames, [...buildInput.iife]),
+  ]);
 
-  const esmAssets = assets.filter(asset => asset.element.format === "esm");
-  const uniqueEsmAssetPathsRel = uniqueBy(esmAssets, getAssetPathRel).map(getAssetPathRel);
-  const esmAssetsWithCacheKey = esmAssets.map(asset => ({
-    ...asset,
-    cacheKey:
-      buildOptions.splitting === true
-        ? `${asset.assetPathRel}:esm:${uniqueEsmAssetPathsRel.sort().join(",")}`
-        : `${asset.assetPathRel}:esm`,
-  }));
-  const esmAssetsToBuild = uniqueBy(esmAssetsWithCacheKey, getCacheKey).filter(
-    asset => !buildResultsCache.has(asset.cacheKey)
-  );
-
-  if (esmAssetsToBuild.length !== 0) {
-    const buildPromise = build(
-      { ...buildOptions, format: "esm" },
-      assetNames,
-      esmAssetsToBuild.map(getAssetPathRel)
-    );
-
-    esmAssetsToBuild.forEach(({ cacheKey }, index) =>
-      buildResultsCache.set(
-        cacheKey,
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        buildPromise.then(buildResults => buildResults[index]!)
-      )
-    );
-  }
-
-  const iifeAssets = assets.filter(asset => asset.element.format === "iife");
-  const iifeAssetsWithCacheKey = iifeAssets.map(asset => ({
-    ...asset,
-    cacheKey: `${asset.assetPathRel}:iife`,
-  }));
-  const iifeAssetsToBuild = uniqueBy(iifeAssetsWithCacheKey, getCacheKey).filter(
-    asset => !buildResultsCache.has(asset.cacheKey)
-  );
-
-  if (iifeAssetsToBuild.length !== 0) {
-    const buildPromise = build(
-      { ...buildOptions, format: "iife", splitting: false },
-      assetNames,
-      iifeAssetsToBuild.map(getAssetPathRel)
-    );
-
-    iifeAssetsToBuild.forEach(({ cacheKey }, index) =>
-      buildResultsCache.set(
-        cacheKey,
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        buildPromise.then(buildResults => buildResults[index]!)
-      )
-    );
-  }
-
-  return Promise.all(
-    [...esmAssetsWithCacheKey, ...iifeAssetsWithCacheKey].map(async ({ element, cacheKey }) => ({
-      element,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      buildResult: await buildResultsCache.get(cacheKey)!,
-    }))
-  );
+  return { esm, iife };
 }
 
 export function esbuildPluginHtmlEntry(pluginOptions: EsbuildPluginHtmlEntryOptions = {}): Plugin {
@@ -125,15 +65,27 @@ export function esbuildPluginHtmlEntry(pluginOptions: EsbuildPluginHtmlEntryOpti
 
     setup(build) {
       const buildOptions = build.initialOptions;
-      const workingDirAbs = getWorkingDirAbs(buildOptions);
 
-      let results = createResults();
-      let buildResultsCache = createBuildResultsCache();
+      if (buildOptions.publicPath && !buildOptions.outdir) {
+        // see getPublicPathContext
+        throw new Error("must provide outdir if publicPath is set");
+      }
+
+      const workingDirAbs = getWorkingDirAbs(buildOptions);
 
       const metafileOriginallyEnabled = !!buildOptions.metafile;
       buildOptions.metafile = true;
 
+      // TODO: Cover all entryPoints types
+      const entryPointCount = Array.isArray(buildOptions.entryPoints)
+        ? buildOptions.entryPoints.filter(e => typeof e === "string" && e.endsWith(".html")).length
+        : 1;
+
+      let state = createState();
+
       build.onLoad({ filter: /\.html?$/ }, async args => {
+        const { buildInput, deferredBuildOutput, results } = state;
+
         const htmlPathAbs = args.path;
         const htmlPathRel = relative(workingDirAbs, htmlPathAbs);
         const htmlDirAbs = dirname(htmlPathAbs);
@@ -145,13 +97,12 @@ export function esbuildPluginHtmlEntry(pluginOptions: EsbuildPluginHtmlEntryOpti
 
         const htmlResult: HtmlResult = {
           imports: new Map(),
-          watchFiles: new Set(),
           inputBytes: htmlContents.byteLength,
         };
-        results.htmls.set(htmlPathRel, htmlResult);
 
         const errors: Message[] = [];
         const warnings: Message[] = [];
+        const watchFiles = new Set<string>();
 
         const resolveOptions = {
           kind: "import-statement" as const,
@@ -185,27 +136,34 @@ export function esbuildPluginHtmlEntry(pluginOptions: EsbuildPluginHtmlEntryOpti
           )
         ).filter(asset => asset !== null);
 
-        assets.forEach(({ assetPathRel, assetHref }) =>
-          htmlResult.imports.set(assetPathRel, assetHref)
-        );
+        assets.forEach(({ assetPathRel, assetHref, element }) => {
+          htmlResult.imports.set(assetPathRel, assetHref);
+          buildInput[element.format].add(assetPathRel);
+        });
 
-        const [buildResults, publicPathContext] = await Promise.all([
-          buildAssets(buildOptions, pluginOptions, buildResultsCache, assets),
+        results.htmlEntryPoints.set(htmlPathRel, htmlResult);
+
+        if (results.htmlEntryPoints.size === entryPointCount) {
+          const o = await buildAssets(buildOptions, pluginOptions, buildInput);
+          deferredBuildOutput.resolve(o);
+        }
+
+        const [buildOutput, publicPathContext] = await Promise.all([
+          deferredBuildOutput, // TODO: timeout
           getPublicPathContext(htmlPathAbs, buildOptions),
         ]);
 
         await Promise.all(
-          buildResults.map(async ({ element, buildResult }) => {
-            const {
-              mainOutputPathAbs,
-              cssOutputPathAbs,
-              watchFiles,
-              outputFiles,
-              outputs,
-              inputs,
-            } = buildResult;
+          assets.map(async ({ element, assetPathRel }) => {
+            const output = buildOutput[element.format].get(assetPathRel);
 
-            watchFiles.forEach(watchFile => htmlResult.watchFiles.add(watchFile));
+            if (!output) {
+              throw new Error(`Missing build output for ${element.format} ${assetPathRel}`);
+            }
+
+            const { mainOutputPathAbs, cssOutputPathAbs, outputFiles, outputs, inputs } = output;
+
+            output.watchFiles.forEach(watchFile => watchFiles.add(watchFile));
 
             outputFiles?.forEach(({ path, ...outputFile }) =>
               results.outputFiles.set(path, outputFile)
@@ -253,11 +211,13 @@ export function esbuildPluginHtmlEntry(pluginOptions: EsbuildPluginHtmlEntryOpti
           resolveDir: dirname(htmlPathAbs),
           errors,
           warnings,
-          watchFiles: [...htmlResult.watchFiles],
+          watchFiles: [...watchFiles],
         };
       });
 
       build.onEnd(result => {
+        const { results } = state;
+
         result.outputFiles = result.outputFiles
           ? augmentOutputFiles(result.outputFiles, results.outputFiles)
           : undefined;
@@ -267,8 +227,7 @@ export function esbuildPluginHtmlEntry(pluginOptions: EsbuildPluginHtmlEntryOpti
             ? augmentMetafile(result.metafile, results)
             : undefined;
 
-        results = createResults();
-        buildResultsCache = createBuildResultsCache();
+        state = createState();
       });
     },
   };

@@ -4,11 +4,10 @@ export interface HtmlResult {
   /** Map of resolved entry point path to original import href */
   imports: Map<string, string>;
   inputBytes: number;
-  watchFiles: Set<string>;
 }
 
 export interface Results {
-  htmls: Map<string, HtmlResult>;
+  htmlEntryPoints: Map<string, HtmlResult>;
   inputs: Metafile["inputs"];
   outputs: Metafile["outputs"];
   outputFiles: Map<string, Omit<OutputFile, "path">>;
@@ -43,7 +42,7 @@ export function augmentMetafile(metafile: Metafile, results: Results): Metafile 
     inputs[].imports
   */
 
-  for (const [path, htmlResult] of results.htmls) {
+  for (const [path, htmlResult] of results.htmlEntryPoints) {
     const input = metafile.inputs[path];
 
     if (input) {
