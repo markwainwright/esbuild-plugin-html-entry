@@ -15,6 +15,8 @@ export interface EsbuildPluginHtmlEntryOptions {
   subresourceNames?: string;
   integrity?: string;
   minifyOptions?: MinifyOptions;
+  banner?: string;
+  footer?: string;
 }
 
 export function esbuildPluginHtmlEntry(pluginOptions: EsbuildPluginHtmlEntryOptions = {}): Plugin {
@@ -121,12 +123,17 @@ export function esbuildPluginHtmlEntry(pluginOptions: EsbuildPluginHtmlEntryOpti
         }
 
         const html = $.html();
-        const contents = buildOptions.minify
-          ? await minify(html, pluginOptions.minifyOptions)
-          : html;
+        let contents = buildOptions.minify ? await minify(html, pluginOptions.minifyOptions) : html;
+
+        if (pluginOptions.banner) {
+          contents = `${pluginOptions.banner}\n${contents}`;
+        }
+        if (pluginOptions.footer) {
+          contents += `\n${pluginOptions.footer}`;
+        }
 
         return {
-          contents: contents,
+          contents,
           loader: "copy",
           resolveDir: dirname(htmlPathAbs),
           errors,

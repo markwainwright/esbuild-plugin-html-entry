@@ -185,6 +185,31 @@ await testBuild(
   }
 );
 
+await testBuild(
+  "banner and footer",
+  {
+    entryPoints: ["test/input/pages/dead-end.html"],
+    banner: { js: "// banner", css: "/* banner */" },
+    footer: { js: "// footer", css: "/* footer */" },
+  },
+  { banner: "<!-- banner -->", footer: "<!-- footer -->" }
+);
+
+await testBuild(
+  "banner and footer - minify",
+  {
+    entryPoints: ["test/input/pages/dead-end.html"],
+    minify: true,
+    banner: { js: "// banner", css: "/* banner */" },
+    footer: { js: "// footer", css: "/* footer */" },
+  },
+  {
+    banner: "<!-- banner -->",
+    footer: "<!-- footer -->",
+    minifyOptions: { collapseWhitespace: true },
+  }
+);
+
 await testBuild("external - absolute - CSS", {
   entryPoints: ["test/input/pages/page.html"],
   external: [resolve("test/input/stylesheets/with-asset.css")],

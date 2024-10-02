@@ -24,6 +24,7 @@ writing:
   - It respects options like [`external`]
   - Other plugins can influence path resolution behaviour
 - Ensures that a script or stylesheet referenced by multiple HTML entry points is only built once
+- Supports [`banner`] and [`footer`] for HTML files
 - Does not have a large abstraction layer between the plugin and esbuild (c.f.
   [@chialab/esbuild-plugin-html]) – this should hopefully make it easier to fix bugs and maintain
 - Should work with a broad set of esbuild options, with only a couple of restrictions (see below)
@@ -54,6 +55,8 @@ esbuild.build({
   [esbuild docs](https://esbuild.github.io/api/#asset-names). Defaults to value of `assetNames`
 - `integrity` (optional)
 - `minifyOptions` (optional) – options passed to [html-minifier-terser] if `minify` is `true`
+- `banner` (optional) - prepend a string to each output HTML file. See [`banner`]
+- `footer` (optional) - append a string to each output HTML file. See [`footer`]
 
 ## esbuild config restrictions
 
@@ -70,6 +73,8 @@ esbuild.build({
 [`external`]: https://esbuild.github.io/api/#external
 [`outputFiles`]: https://esbuild.github.io/api/#write
 [`external`]: https://esbuild.github.io/api/#external
+[`banner`]: https://esbuild.github.io/api/#banner
+[`footer`]: https://esbuild.github.io/api/#footer
 [@chialab/esbuild-plugin-html]:
   https://github.com/chialab/rna/tree/main/packages/esbuild-plugin-html
 [html-minifier-terser]: https://www.npmjs.com/package/html-minifier-terser
