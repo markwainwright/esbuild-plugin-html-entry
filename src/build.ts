@@ -29,6 +29,7 @@ export async function build(
     entryNames: assetNames,
     entryPoints,
     metafile: true,
+    platform: "browser",
   });
 
   return new Map(
