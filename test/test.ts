@@ -338,6 +338,10 @@ await testBuild("JS importing HTML", {
   loader: { ".html": "text" },
 });
 
+await testBuild("extension HTM", {
+  entryPoints: ["test/input/pages/page.htm"],
+});
+
 await testBuild("charset - default", {
   entryPoints: ["test/input/pages/charset.html"],
 });

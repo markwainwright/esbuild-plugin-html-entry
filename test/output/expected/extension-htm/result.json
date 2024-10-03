@@ -1,0 +1,45 @@
+{
+  "errors": [],
+  "warnings": [],
+  "metafile": {
+    "inputs": {
+      "html-entry:test/input/pages/page.htm": {
+        "bytes": 137,
+        "imports": [
+          {
+            "path": "test/input/scripts/with-none.js",
+            "kind": "import-statement",
+            "original": "../scripts/with-none.js"
+          }
+        ]
+      },
+      "test/input/scripts/with-none.js": {
+        "bytes": 37,
+        "imports": [],
+        "format": "esm"
+      }
+    },
+    "outputs": {
+      "test/output/actual/extension-htm/page.htm": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "html-entry:test/input/pages/page.htm": {
+            "bytesInOutput": 190
+          }
+        },
+        "bytes": 190
+      },
+      "test/output/actual/extension-htm/with-none.js": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "test/input/scripts/with-none.js": {
+            "bytesInOutput": 39
+          }
+        },
+        "bytes": 105
+      }
+    }
+  }
+}
