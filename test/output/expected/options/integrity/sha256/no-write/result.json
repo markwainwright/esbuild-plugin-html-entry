@@ -1,0 +1,81 @@
+{
+  "errors": [],
+  "warnings": [],
+  "outputFiles": [
+    {
+      "path": "test/output/actual/options/integrity/sha256/no-write/simple.html",
+      "hash": "7LxapUXFrBs",
+      "text": "<!doctype html>\n<html>\n  <head>\n    <link href=\"from-html-without-asset.css\" rel=\"stylesheet\" integrity=\"sha256-UDPqhHkhqwHlx27/62RgDMKwYMLnyyPJBcfpcyv2PmI=\">\n    <script src=\"with-none.js\" integrity=\"sha256-+dPC0eV1Ec5va3duW3YDzaN9ajrszkw+IjyZyuRozDw=\"></script>\n  </head>\n  <body>\n    simple.html\n  </body>\n</html>\n"
+    },
+    {
+      "path": "test/output/actual/options/integrity/sha256/no-write/from-html-without-asset.css",
+      "hash": "JvF+Wj67IQ4",
+      "text": "/* test/input/stylesheets/from-html-without-asset.css */\nbody {\n  background-color: peru;\n}\n"
+    },
+    {
+      "path": "test/output/actual/options/integrity/sha256/no-write/with-none.js",
+      "hash": "Ofw/kfcsqYk",
+      "text": "\"use strict\";\n(() => {\n  // test/input/scripts/with-none.js\n  console.log(\"scripts/with-none.js\");\n})();\n"
+    }
+  ],
+  "metafile": {
+    "inputs": {
+      "html-entry:test/input/pages/simple.html": {
+        "bytes": 217,
+        "imports": [
+          {
+            "path": "test/input/stylesheets/from-html-without-asset.css",
+            "kind": "import-statement",
+            "original": "../stylesheets/from-html-without-asset.css"
+          },
+          {
+            "path": "test/input/scripts/with-none.js",
+            "kind": "import-statement",
+            "original": "../scripts/with-none.js"
+          }
+        ]
+      },
+      "test/input/scripts/with-none.js": {
+        "bytes": 37,
+        "imports": [],
+        "format": "esm"
+      },
+      "test/input/stylesheets/from-html-without-asset.css": {
+        "bytes": 35,
+        "imports": []
+      }
+    },
+    "outputs": {
+      "test/output/actual/options/integrity/sha256/no-write/simple.html": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "html-entry:test/input/pages/simple.html": {
+            "bytesInOutput": 317
+          }
+        },
+        "bytes": 317,
+        "entryPoint": "html-entry:test/input/pages/simple.html"
+      },
+      "test/output/actual/options/integrity/sha256/no-write/from-html-without-asset.css": {
+        "imports": [],
+        "inputs": {
+          "test/input/stylesheets/from-html-without-asset.css": {
+            "bytesInOutput": 35
+          }
+        },
+        "bytes": 92
+      },
+      "test/output/actual/options/integrity/sha256/no-write/with-none.js": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "test/input/scripts/with-none.js": {
+            "bytesInOutput": 39
+          }
+        },
+        "bytes": 105
+      }
+    }
+  }
+}

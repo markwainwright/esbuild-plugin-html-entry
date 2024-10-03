@@ -1,0 +1,100 @@
+{
+  "errors": [],
+  "warnings": [],
+  "metafile": {
+    "inputs": {
+      "html-entry:test/input/pages/elements-body.html": {
+        "bytes": 218,
+        "imports": [
+          {
+            "path": "test/input/stylesheets/from-html-without-asset.css",
+            "kind": "import-statement",
+            "original": "../stylesheets/from-html-without-asset.css"
+          },
+          {
+            "path": "test/input/scripts/with-both.js",
+            "kind": "import-statement",
+            "original": "../scripts/with-both.js"
+          }
+        ]
+      },
+      "test/input/scripts/sub.js": {
+        "bytes": 67,
+        "imports": [],
+        "format": "esm"
+      },
+      "test/input/scripts/with-both.js": {
+        "bytes": 124,
+        "imports": [
+          {
+            "path": "test/input/stylesheets/from-js-without-asset.css",
+            "kind": "import-statement",
+            "original": "../stylesheets/from-js-without-asset.css"
+          },
+          {
+            "path": "test/input/scripts/sub.js",
+            "kind": "import-statement",
+            "original": "./sub.js"
+          }
+        ],
+        "format": "esm"
+      },
+      "test/input/stylesheets/from-html-without-asset.css": {
+        "bytes": 35,
+        "imports": []
+      },
+      "test/input/stylesheets/from-js-without-asset.css": {
+        "bytes": 37,
+        "imports": []
+      }
+    },
+    "outputs": {
+      "test/output/actual/elements/body/elements-body.html": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "html-entry:test/input/pages/elements-body.html": {
+            "bytesInOutput": 239
+          }
+        },
+        "bytes": 239,
+        "entryPoint": "html-entry:test/input/pages/elements-body.html"
+      },
+      "test/output/actual/elements/body/from-html-without-asset.css": {
+        "imports": [],
+        "inputs": {
+          "test/input/stylesheets/from-html-without-asset.css": {
+            "bytesInOutput": 35
+          }
+        },
+        "bytes": 92
+      },
+      "test/output/actual/elements/body/with-both.css": {
+        "imports": [],
+        "inputs": {
+          "test/input/stylesheets/from-js-without-asset.css": {
+            "bytesInOutput": 37
+          }
+        },
+        "bytes": 92
+      },
+      "test/output/actual/elements/body/with-both.js": {
+        "imports": [],
+        "exports": [],
+        "cssBundle": "test/output/actual/elements/body/with-both.css",
+        "inputs": {
+          "test/input/stylesheets/from-js-without-asset.css": {
+            "bytesInOutput": 0
+          },
+          "test/input/scripts/sub.js": {
+            "bytesInOutput": 58
+          },
+          "test/input/scripts/with-both.js": {
+            "bytesInOutput": 48
+          }
+        },
+        "bytes": 204
+      }
+    }
+  }
+}

@@ -77,7 +77,10 @@ export function insertLinkElement($: CheerioAPI, scriptElement: Element): Annota
   );
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const linkElement = $("<link>").attr("rel", "stylesheet").insertBefore(scriptElement).get(0)!;
+  const linkElement = $("<link>")
+    .attr({ href: "", rel: "stylesheet" })
+    .insertBefore(scriptElement)
+    .get(0)!;
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
   if (nodeBeforeScriptElement?.type === "text") {

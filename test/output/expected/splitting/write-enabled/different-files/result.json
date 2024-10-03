@@ -1,0 +1,121 @@
+{
+  "errors": [],
+  "warnings": [],
+  "metafile": {
+    "inputs": {
+      "html-entry:test/input/pages/splitting-1.html": {
+        "bytes": 154,
+        "imports": [
+          {
+            "path": "test/input/scripts/with-js.js",
+            "kind": "import-statement",
+            "original": "../scripts/with-js.js"
+          }
+        ]
+      },
+      "html-entry:test/input/pages/splitting-2.html": {
+        "bytes": 156,
+        "imports": [
+          {
+            "path": "test/input/scripts/with-js-2.js",
+            "kind": "import-statement",
+            "original": "../scripts/with-js-2.js"
+          }
+        ]
+      },
+      "test/input/scripts/sub.js": {
+        "bytes": 67,
+        "imports": [],
+        "format": "esm"
+      },
+      "test/input/scripts/with-js-2.js": {
+        "bytes": 73,
+        "imports": [
+          {
+            "path": "test/input/scripts/sub.js",
+            "kind": "import-statement",
+            "original": "./sub.js"
+          }
+        ],
+        "format": "esm"
+      },
+      "test/input/scripts/with-js.js": {
+        "bytes": 71,
+        "imports": [
+          {
+            "path": "test/input/scripts/sub.js",
+            "kind": "import-statement",
+            "original": "./sub.js"
+          }
+        ],
+        "format": "esm"
+      }
+    },
+    "outputs": {
+      "test/output/actual/splitting/write-enabled/different-files/entries/splitting-1.html": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "html-entry:test/input/pages/splitting-1.html": {
+            "bytesInOutput": 168
+          }
+        },
+        "bytes": 168,
+        "entryPoint": "html-entry:test/input/pages/splitting-1.html"
+      },
+      "test/output/actual/splitting/write-enabled/different-files/entries/splitting-2.html": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "html-entry:test/input/pages/splitting-2.html": {
+            "bytesInOutput": 170
+          }
+        },
+        "bytes": 170,
+        "entryPoint": "html-entry:test/input/pages/splitting-2.html"
+      },
+      "test/output/actual/splitting/write-enabled/different-files/chunks/chunk-DM6P3FC4.js": {
+        "imports": [],
+        "exports": [
+          "sub"
+        ],
+        "inputs": {
+          "test/input/scripts/sub.js": {
+            "bytesInOutput": 52
+          }
+        },
+        "bytes": 100
+      },
+      "test/output/actual/splitting/write-enabled/different-files/subresources/with-js-2-RRD2FZ6D.js": {
+        "imports": [
+          {
+            "path": "test/output/actual/splitting/write-enabled/different-files/chunks/chunk-DM6P3FC4.js",
+            "kind": "import-statement"
+          }
+        ],
+        "exports": [],
+        "inputs": {
+          "test/input/scripts/with-js-2.js": {
+            "bytesInOutput": 44
+          }
+        },
+        "bytes": 133
+      },
+      "test/output/actual/splitting/write-enabled/different-files/subresources/with-js-A6CI7JDA.js": {
+        "imports": [
+          {
+            "path": "test/output/actual/splitting/write-enabled/different-files/chunks/chunk-DM6P3FC4.js",
+            "kind": "import-statement"
+          }
+        ],
+        "exports": [],
+        "inputs": {
+          "test/input/scripts/with-js.js": {
+            "bytesInOutput": 42
+          }
+        },
+        "bytes": 129
+      }
+    }
+  }
+}

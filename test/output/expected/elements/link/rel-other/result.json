@@ -1,0 +1,25 @@
+{
+  "errors": [],
+  "warnings": [],
+  "metafile": {
+    "inputs": {
+      "html-entry:test/input/pages/elements-link-rel-other.html": {
+        "bytes": 148,
+        "imports": []
+      }
+    },
+    "outputs": {
+      "test/output/actual/elements/link/rel-other/elements-link-rel-other.html": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "html-entry:test/input/pages/elements-link-rel-other.html": {
+            "bytesInOutput": 146
+          }
+        },
+        "bytes": 146,
+        "entryPoint": "html-entry:test/input/pages/elements-link-rel-other.html"
+      }
+    }
+  }
+}

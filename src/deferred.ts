@@ -1,6 +1,6 @@
 export interface Deferred<T> extends PromiseLike<T> {
   resolve: (value: T) => void;
-  reject: (reason?: Error) => void;
+  reject: (reason: Error) => void;
 }
 
 export function createDeferred<T>(): Deferred<T> {
@@ -13,9 +13,9 @@ export function createDeferred<T>(): Deferred<T> {
 
   return {
     then: promise.then.bind(promise),
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- promise executor called synchronously
     resolve: resolve!,
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- promise executor called synchronously
     reject: reject!,
   };
 }

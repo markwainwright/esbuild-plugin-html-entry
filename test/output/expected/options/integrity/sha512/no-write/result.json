@@ -1,0 +1,81 @@
+{
+  "errors": [],
+  "warnings": [],
+  "outputFiles": [
+    {
+      "path": "test/output/actual/options/integrity/sha512/no-write/simple.html",
+      "hash": "+MKF2eBSutA",
+      "text": "<!doctype html>\n<html>\n  <head>\n    <link href=\"from-html-without-asset.css\" rel=\"stylesheet\" integrity=\"sha512-VOkreWmcIh/nubGmgsmBoUPaSUeRJ9GBjawSY9LOJ8xgbjiQCRJU3wisjvRpv4i+htbN5Ja5mwOEdS9hf6Rfkg==\">\n    <script src=\"with-none.js\" integrity=\"sha512-qiBxQeb5eNz4ABquZ6UJSD9Us8f5w71k7Ol2iThc293rIkyljnZNRv73Fuyy+VOy7qz6dvATLRztoYj23f6IJQ==\"></script>\n  </head>\n  <body>\n    simple.html\n  </body>\n</html>\n"
+    },
+    {
+      "path": "test/output/actual/options/integrity/sha512/no-write/from-html-without-asset.css",
+      "hash": "JvF+Wj67IQ4",
+      "text": "/* test/input/stylesheets/from-html-without-asset.css */\nbody {\n  background-color: peru;\n}\n"
+    },
+    {
+      "path": "test/output/actual/options/integrity/sha512/no-write/with-none.js",
+      "hash": "Ofw/kfcsqYk",
+      "text": "\"use strict\";\n(() => {\n  // test/input/scripts/with-none.js\n  console.log(\"scripts/with-none.js\");\n})();\n"
+    }
+  ],
+  "metafile": {
+    "inputs": {
+      "html-entry:test/input/pages/simple.html": {
+        "bytes": 217,
+        "imports": [
+          {
+            "path": "test/input/stylesheets/from-html-without-asset.css",
+            "kind": "import-statement",
+            "original": "../stylesheets/from-html-without-asset.css"
+          },
+          {
+            "path": "test/input/scripts/with-none.js",
+            "kind": "import-statement",
+            "original": "../scripts/with-none.js"
+          }
+        ]
+      },
+      "test/input/scripts/with-none.js": {
+        "bytes": 37,
+        "imports": [],
+        "format": "esm"
+      },
+      "test/input/stylesheets/from-html-without-asset.css": {
+        "bytes": 35,
+        "imports": []
+      }
+    },
+    "outputs": {
+      "test/output/actual/options/integrity/sha512/no-write/simple.html": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "html-entry:test/input/pages/simple.html": {
+            "bytesInOutput": 405
+          }
+        },
+        "bytes": 405,
+        "entryPoint": "html-entry:test/input/pages/simple.html"
+      },
+      "test/output/actual/options/integrity/sha512/no-write/from-html-without-asset.css": {
+        "imports": [],
+        "inputs": {
+          "test/input/stylesheets/from-html-without-asset.css": {
+            "bytesInOutput": 35
+          }
+        },
+        "bytes": 92
+      },
+      "test/output/actual/options/integrity/sha512/no-write/with-none.js": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "test/input/scripts/with-none.js": {
+            "bytesInOutput": 39
+          }
+        },
+        "bytes": 105
+      }
+    }
+  }
+}

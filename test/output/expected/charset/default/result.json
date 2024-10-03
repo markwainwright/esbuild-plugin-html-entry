@@ -1,0 +1,46 @@
+{
+  "errors": [],
+  "warnings": [],
+  "metafile": {
+    "inputs": {
+      "html-entry:test/input/pages/charset.html": {
+        "bytes": 188,
+        "imports": [
+          {
+            "path": "test/input/scripts/charset.js",
+            "kind": "import-statement",
+            "original": "../scripts/charset.js"
+          }
+        ]
+      },
+      "test/input/scripts/charset.js": {
+        "bytes": 92,
+        "imports": [],
+        "format": "esm"
+      }
+    },
+    "outputs": {
+      "test/output/actual/charset/default/charset.html": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "html-entry:test/input/pages/charset.html": {
+            "bytesInOutput": 181
+          }
+        },
+        "bytes": 181,
+        "entryPoint": "html-entry:test/input/pages/charset.html"
+      },
+      "test/output/actual/charset/default/charset.js": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "test/input/scripts/charset.js": {
+            "bytesInOutput": 101
+          }
+        },
+        "bytes": 165
+      }
+    }
+  }
+}

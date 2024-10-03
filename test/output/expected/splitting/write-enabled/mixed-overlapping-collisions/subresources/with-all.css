@@ -1,0 +1,5 @@
+/* test/input/stylesheets/from-js-with-asset.css */
+body {
+  background-image: url("../assets/from-js-css.gif");
+  background-color: rebeccapurple;
+}

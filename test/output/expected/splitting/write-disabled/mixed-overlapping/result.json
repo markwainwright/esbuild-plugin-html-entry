@@ -1,0 +1,156 @@
+{
+  "errors": [],
+  "warnings": [],
+  "outputFiles": [
+    {
+      "path": "test/output/actual/splitting/write-disabled/mixed-overlapping/entries/splitting-mixed-overlapping.html",
+      "hash": "hjP4wcBG5B0",
+      "text": "<!doctype html>\n<html>\n  <head>\n    <link href=\"../subresources/with-all-VPENRBYF.css\" rel=\"stylesheet\">\n    <script src=\"../subresources/with-all-Y6EPOXLO.js\" type=\"module\"></script>\n\n    <link href=\"../subresources/with-all-VPENRBYF.css\" rel=\"stylesheet\">\n    <script src=\"../subresources/with-all-77MW5PZI.js\"></script>\n  </head>\n  <body>\n    splitting-mixed-overlapping.html\n  </body>\n</html>\n"
+    },
+    {
+      "path": "test/output/actual/splitting/write-disabled/mixed-overlapping/assets/from-js-css-QROD6PU2.gif",
+      "hash": "jKA4mj4/XIQ",
+      "text": "Hello world\n"
+    },
+    {
+      "path": "test/output/actual/splitting/write-disabled/mixed-overlapping/subresources/with-all-77MW5PZI.js",
+      "hash": "v5YeXAkLk10",
+      "text": "\"use strict\";\n(() => {\n  // test/input/scripts/sub.js\n  function sub() {\n    console.log(\"scripts/sub.js\");\n  }\n\n  // test/input/scripts/with-all.js\n  console.log(\"scripts/with-all.js\");\n  sub();\n})();\n"
+    },
+    {
+      "path": "test/output/actual/splitting/write-disabled/mixed-overlapping/subresources/with-all-VPENRBYF.css",
+      "hash": "7pDOiV1wDgM",
+      "text": "/* test/input/stylesheets/from-js-with-asset.css */\nbody {\n  background-image: url(\"../assets/from-js-css-QROD6PU2.gif\");\n  background-color: rebeccapurple;\n}\n"
+    },
+    {
+      "path": "test/output/actual/splitting/write-disabled/mixed-overlapping/subresources/with-all-Y6EPOXLO.js",
+      "hash": "hYNbOQ/e4zc",
+      "text": "// test/input/scripts/sub.js\nfunction sub() {\n  console.log(\"scripts/sub.js\");\n}\n\n// test/input/scripts/with-all.js\nconsole.log(\"scripts/with-all.js\");\nsub();\n"
+    }
+  ],
+  "metafile": {
+    "inputs": {
+      "html-entry:test/input/pages/splitting-mixed-overlapping.html": {
+        "bytes": 223,
+        "imports": [
+          {
+            "path": "test/input/scripts/with-all.js",
+            "kind": "import-statement",
+            "original": "../scripts/with-all.js"
+          },
+          {
+            "path": "test/input/scripts/with-all.js",
+            "kind": "import-statement",
+            "original": "../scripts/with-all.js"
+          }
+        ]
+      },
+      "test/input/images/from-js-css.gif": {
+        "bytes": 12,
+        "imports": []
+      },
+      "test/input/scripts/sub.js": {
+        "bytes": 67,
+        "imports": [],
+        "format": "esm"
+      },
+      "test/input/scripts/with-all.js": {
+        "bytes": 120,
+        "imports": [
+          {
+            "path": "test/input/stylesheets/from-js-with-asset.css",
+            "kind": "import-statement",
+            "original": "../stylesheets/from-js-with-asset.css"
+          },
+          {
+            "path": "test/input/scripts/sub.js",
+            "kind": "import-statement",
+            "original": "./sub.js"
+          }
+        ],
+        "format": "esm"
+      },
+      "test/input/stylesheets/from-js-with-asset.css": {
+        "bytes": 98,
+        "imports": [
+          {
+            "path": "test/input/images/from-js-css.gif",
+            "kind": "url-token",
+            "original": "../images/from-js-css.gif"
+          }
+        ]
+      }
+    },
+    "outputs": {
+      "test/output/actual/splitting/write-disabled/mixed-overlapping/entries/splitting-mixed-overlapping.html": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "html-entry:test/input/pages/splitting-mixed-overlapping.html": {
+            "bytesInOutput": 397
+          }
+        },
+        "bytes": 397,
+        "entryPoint": "html-entry:test/input/pages/splitting-mixed-overlapping.html"
+      },
+      "test/output/actual/splitting/write-disabled/mixed-overlapping/assets/from-js-css-QROD6PU2.gif": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "test/input/images/from-js-css.gif": {
+            "bytesInOutput": 12
+          }
+        },
+        "bytes": 12
+      },
+      "test/output/actual/splitting/write-disabled/mixed-overlapping/subresources/with-all-77MW5PZI.js": {
+        "imports": [],
+        "exports": [],
+        "cssBundle": "test/output/actual/splitting/write-disabled/mixed-overlapping/subresources/with-all-VPENRBYF.css",
+        "inputs": {
+          "test/input/stylesheets/from-js-with-asset.css": {
+            "bytesInOutput": 0
+          },
+          "test/input/scripts/sub.js": {
+            "bytesInOutput": 58
+          },
+          "test/input/scripts/with-all.js": {
+            "bytesInOutput": 47
+          }
+        },
+        "bytes": 202
+      },
+      "test/output/actual/splitting/write-disabled/mixed-overlapping/subresources/with-all-VPENRBYF.css": {
+        "imports": [
+          {
+            "path": "test/output/actual/splitting/write-disabled/mixed-overlapping/assets/from-js-css-QROD6PU2.gif",
+            "kind": "url-token"
+          }
+        ],
+        "inputs": {
+          "test/input/stylesheets/from-js-with-asset.css": {
+            "bytesInOutput": 107
+          }
+        },
+        "bytes": 159
+      },
+      "test/output/actual/splitting/write-disabled/mixed-overlapping/subresources/with-all-Y6EPOXLO.js": {
+        "imports": [],
+        "exports": [],
+        "cssBundle": "test/output/actual/splitting/write-disabled/mixed-overlapping/subresources/with-all-VPENRBYF.css",
+        "inputs": {
+          "test/input/stylesheets/from-js-with-asset.css": {
+            "bytesInOutput": 0
+          },
+          "test/input/scripts/sub.js": {
+            "bytesInOutput": 52
+          },
+          "test/input/scripts/with-all.js": {
+            "bytesInOutput": 43
+          }
+        },
+        "bytes": 159
+      }
+    }
+  }
+}

@@ -34,12 +34,12 @@
     "build": "./build.sh",
     "check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\" && eslint && tsc --noEmit",
     "prepare": "npm run build",
-    "test:coverage": "c8 node --test --test-reporter spec --import tsx/esm test/test.ts",
+    "test:coverage": "c8 node --test --test-reporter=@voxpelli/node-test-pretty-reporter --import tsx/esm test/*.ts test/esm/test.mjs test/cjs/test.cjs",
     "test:update": "rm -rf test/output/{actual,expected}/* && npm test > /dev/null ; cp -r test/output/actual/* test/output/expected/",
-    "test:watch:only": "node --test --test-only  --watch --import=tsx/esm test/test.ts",
-    "test:watch": "node --test --watch --import=tsx/esm test/test.ts",
-    "test:only": "node --test --test-only --import tsx/esm test/test.ts",
-    "test": "node --test --import tsx/esm test/test.ts test/esm/test.mjs test/cjs/test.cjs"
+    "test:watch:only": "node --test --test-only --watch --test-reporter=@voxpelli/node-test-pretty-reporter --import=tsx/esm test/*.ts",
+    "test:watch": "node --test --watch --test-reporter=@voxpelli/node-test-pretty-reporter --import=tsx/esm test/*.ts",
+    "test:only": "node --test --test-only --test-reporter=@voxpelli/node-test-pretty-reporter --import tsx/esm test/*.ts",
+    "test": "node --test --test-reporter=@voxpelli/node-test-pretty-reporter --import tsx/esm test/*.ts test/esm/test.mjs test/cjs/test.cjs"
   },
   "dependencies": {
     "@types/html-minifier-terser": "^7.0.2",
@@ -53,6 +53,7 @@
     "@eslint/js": "^9.11.1",
     "@tsconfig/node20": "^20.1.4",
     "@types/node": "^22.7.4",
+    "@voxpelli/node-test-pretty-reporter": "^1.1.2",
     "c8": "^10.1.2",
     "dir-compare": "^5.0.0",
     "esbuild": "^0.24.0",
@@ -74,9 +75,10 @@
     "include": [
       "src/**/*.ts"
     ],
-    "exclude": [
-      "src/types.ts"
-    ],
-    "check-coverage": true
+    "check-coverage": true,
+    "reporter": [
+      "text",
+      "html"
+    ]
   }
 }

@@ -1,0 +1,64 @@
+{
+  "errors": [],
+  "warnings": [],
+  "metafile": {
+    "inputs": {
+      "html-entry:test/input/pages/simple.html": {
+        "bytes": 217,
+        "imports": [
+          {
+            "path": "test/input/stylesheets/from-html-without-asset.css",
+            "kind": "import-statement",
+            "original": "../stylesheets/from-html-without-asset.css"
+          },
+          {
+            "path": "test/input/scripts/with-none.js",
+            "kind": "import-statement",
+            "original": "../scripts/with-none.js"
+          }
+        ]
+      },
+      "test/input/scripts/with-none.js": {
+        "bytes": 37,
+        "imports": [],
+        "format": "esm"
+      },
+      "test/input/stylesheets/from-html-without-asset.css": {
+        "bytes": 35,
+        "imports": []
+      }
+    },
+    "outputs": {
+      "test/output/actual/minify/enabled/linelimit/simple.html": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "html-entry:test/input/pages/simple.html": {
+            "bytesInOutput": 165
+          }
+        },
+        "bytes": 165,
+        "entryPoint": "html-entry:test/input/pages/simple.html"
+      },
+      "test/output/actual/minify/enabled/linelimit/from-html-without-asset.css": {
+        "imports": [],
+        "inputs": {
+          "test/input/stylesheets/from-html-without-asset.css": {
+            "bytesInOutput": 27
+          }
+        },
+        "bytes": 28
+      },
+      "test/output/actual/minify/enabled/linelimit/with-none.js": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "test/input/scripts/with-none.js": {
+            "bytesInOutput": 38
+          }
+        },
+        "bytes": 63
+      }
+    }
+  }
+}

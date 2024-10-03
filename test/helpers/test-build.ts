@@ -1,4 +1,3 @@
-import * as assert from "node:assert/strict";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { relative, resolve } from "node:path";
 import { cwd } from "node:process";
@@ -12,28 +11,52 @@ import { esbuildPluginHtmlEntry, type EsbuildPluginHtmlEntryOptions } from "../.
 import { NAMESPACE } from "../../src/namespace.js";
 
 function getTestNameDir(testName: string) {
-  return testName.replaceAll(" > ", "/").replaceAll(" - ", "-").toLowerCase().replace(/\s/g, "-");
+  return testName
+    .replaceAll(" > ", "/")
+    .toLowerCase()
+    .replaceAll(/[^a-z0-9/]+/g, "-");
 }
 
-export async function testBuild(
+export function testBuild(
   testName: string,
   buildOptions: BuildOptions,
   pluginOptions: EsbuildPluginHtmlEntryOptions = {},
-  testOptions: { only?: true; skip?: true } = {}
-): Promise<void> {
-  await test(testName, testOptions, async t => {
-    await buildAndAssert(t, buildOptions, pluginOptions);
+  testOptions: { only?: true; skip?: true; todo?: true } = {}
+): void {
+  test(testName, testOptions, async testContext => {
+    await buildAndAssert(testContext, buildOptions, pluginOptions);
   });
 }
 
-export async function build(
+export function testBuildError(
+  testName: string,
+  errorMessageRegexp: RegExp,
+  buildOptions: BuildOptions,
+  pluginOptions: EsbuildPluginHtmlEntryOptions = {},
+  testOptions: { only?: true; skip?: true; todo?: true } = {}
+): void {
+  test(testName, testOptions, async (testContext: TestContext) => {
+    let error;
+    try {
+      await build(testContext, { ...buildOptions, logLevel: "silent" }, pluginOptions);
+    } catch (err) {
+      error = err;
+    }
+
+    testContext.assert.strictEqual(error instanceof Error, true);
+    testContext.assert.match((error as Error).message, errorMessageRegexp);
+  });
+}
+
+async function build(
   testContext: TestContext,
   buildOptions: BuildOptions,
   pluginOptions: EsbuildPluginHtmlEntryOptions = {}
 ): Promise<BuildResult> {
-  const actualOutputDir = resolve("test/output/actual", getTestNameDir(testContext.name));
+  const actualOutputDir = resolve("test/output/actual", getTestNameDir(testContext.fullName));
 
   await rimraf(actualOutputDir);
+  await mkdir(actualOutputDir, { recursive: true });
 
   return await esbuild.build({
     loader: { ".gif": "file" },
@@ -43,9 +66,10 @@ export async function build(
     metafile: true,
     entryNames: "[name]",
     assetNames: "[name]",
+    chunkNames: "[name]-[hash]",
     outdir: actualOutputDir,
     ...buildOptions,
-    plugins: [esbuildPluginHtmlEntry({ integrity: "sha256", ...pluginOptions })],
+    plugins: [esbuildPluginHtmlEntry(pluginOptions)],
   });
 }
 
@@ -92,7 +116,7 @@ export async function buildAndAssert(
   buildOptions: BuildOptions,
   pluginOptions: EsbuildPluginHtmlEntryOptions = {}
 ): Promise<void> {
-  const testNameDir = getTestNameDir(testContext.name);
+  const testNameDir = getTestNameDir(testContext.fullName);
   const actualOutputDir = resolve("test/output/actual", testNameDir);
   const expectedOutputDir = resolve("test/output/expected", testNameDir);
 
@@ -105,35 +129,36 @@ export async function buildAndAssert(
     JSON.stringify(sanitizeResult(workingDirAbs, result), null, 2)
   );
 
-  const compareResult = await compare(expectedOutputDir, actualOutputDir, {
-    compareContent: true,
-  });
+  const { diffSet } = await compare(expectedOutputDir, actualOutputDir, { compareContent: true });
 
-  if (compareResult.diffSet) {
-    for (const file of compareResult.diffSet) {
-      const relativePath =
-        file.path1 && file.name1
-          ? relative(expectedOutputDir, resolve(file.path1, file.name1))
-          : // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            relative(actualOutputDir, resolve(file.path2!, file.name2!));
+  if (!diffSet) {
+    return;
+  }
 
-      await testContext.test(relativePath, async () => {
-        switch (file.state) {
-          case "right":
-            throw new Error("Unexpected output file");
+  for (const file of diffSet) {
+    switch (file.state) {
+      case "right":
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        throw new Error(`Unexpected output file: ${file.name2!}`);
 
-          case "left":
-            throw new Error("Missing output file");
+      case "left":
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        throw new Error(`Missing output file: ${file.name1!}`);
 
-          case "distinct":
-            assert.equal(
-              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-              await readFile(resolve(file.path2!, file.name2!), "utf-8"),
-              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-              await readFile(resolve(file.path1!, file.name1!), "utf-8")
-            );
-        }
-      });
+      case "distinct": {
+        const [actualContents, expectedContents] = await Promise.all([
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          readFile(resolve(file.path2!, file.name2!), "utf-8"),
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          readFile(resolve(file.path1!, file.name1!), "utf-8"),
+        ]);
+        testContext.assert.strictEqual(
+          actualContents,
+          expectedContents,
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          `Expected ${file.name1!} to match`
+        );
+      }
     }
   }
 }

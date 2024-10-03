@@ -1,0 +1,5 @@
+/* test/input/stylesheets/nested/nested-from-js-with-asset.css */
+body {
+  background-image: url("/public-paths/absolute/flat/from-js-css.gif");
+  background-color: yellow;
+}

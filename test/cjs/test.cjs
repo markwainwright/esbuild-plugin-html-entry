@@ -1,6 +1,5 @@
 const { readFile } = require("node:fs/promises");
-const assert = require("node:assert/strict");
-const { test, before } = require("node:test");
+const { suite, test } = require("node:test");
 const { resolve } = require("node:path");
 const { exec } = require("node:child_process");
 const { promisify } = require("node:util");
@@ -8,42 +7,43 @@ const { promisify } = require("node:util");
 const esbuild = require("esbuild");
 const { rimraf } = require("rimraf");
 
-before(() => promisify(exec)("npm ci --install-links --omit=peer", { cwd: resolve("test/cjs") }));
-
-async function assertFilesMatch(filename) {
+async function assertFilesMatch(testContext, filename) {
   const [actual, expected] = await Promise.all(
     ["actual", "expected"].map(dir =>
-      readFile(resolve("test/output", dir, "cjs", filename), "utf-8")
+      readFile(resolve("test/output", dir, "module/cjs", filename), "utf-8")
     )
   );
-  assert.equal(actual, expected);
+  testContext.assert.strictEqual(actual, expected);
 }
 
-test("require and run in CommonJS module", async () => {
-  const { esbuildPluginHtmlEntry } = require("esbuild-plugin-html-entry");
+suite("module CommonJS", () => {
+  test("run", async testContext => {
+    await promisify(exec)("npm ci --install-links --omit=peer", { cwd: resolve("test/cjs") });
+    const { esbuildPluginHtmlEntry } = require("esbuild-plugin-html-entry");
 
-  const actualOutputDir = resolve("test/output/actual/cjs");
-  await rimraf(actualOutputDir);
+    const actualOutputDir = resolve("test/output/actual/module/cjs");
+    await rimraf(actualOutputDir);
 
-  const results = await esbuild.build({
-    entryPoints: ["input/pages/page.html"],
-    absWorkingDir: resolve("test"),
-    loader: { ".gif": "file" },
-    platform: "browser",
-    bundle: true,
-    outbase: "input",
-    metafile: false,
-    entryNames: "[name]",
-    assetNames: "[name]",
-    outdir: actualOutputDir,
-    plugins: [esbuildPluginHtmlEntry({ integrity: "sha256" })],
+    const results = await esbuild.build({
+      entryPoints: ["input/pages/all.html"],
+      absWorkingDir: resolve("test"),
+      loader: { ".gif": "file" },
+      platform: "browser",
+      bundle: true,
+      outbase: "input",
+      metafile: false,
+      entryNames: "[name]",
+      assetNames: "[name]",
+      outdir: actualOutputDir,
+      plugins: [esbuildPluginHtmlEntry()],
+    });
+
+    testContext.assert.strictEqual(results.errors.length, 0);
+    testContext.assert.strictEqual(results.warnings.length, 0);
+
+    await assertFilesMatch(testContext, "all.html");
+    await assertFilesMatch(testContext, "with-all.js");
+    await assertFilesMatch(testContext, "with-all.css");
+    await assertFilesMatch(testContext, "from-html-with-asset.css");
   });
-
-  assert.equal(results.errors.length, 0);
-  assert.equal(results.warnings.length, 0);
-
-  await assertFilesMatch("page.html");
-  await assertFilesMatch("with-both.js");
-  await assertFilesMatch("with-both.css");
-  await assertFilesMatch("with-asset.css");
 });

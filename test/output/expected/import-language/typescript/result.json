@@ -1,0 +1,82 @@
+{
+  "errors": [],
+  "warnings": [],
+  "metafile": {
+    "inputs": {
+      "html-entry:test/input/pages/lang-typescript.html": {
+        "bytes": 149,
+        "imports": [
+          {
+            "path": "test/input/scripts/with-both-ts.ts",
+            "kind": "import-statement",
+            "original": "../scripts/with-both-ts.ts"
+          }
+        ]
+      },
+      "test/input/scripts/sub-ts.ts": {
+        "bytes": 76,
+        "imports": [],
+        "format": "esm"
+      },
+      "test/input/scripts/with-both-ts.ts": {
+        "bytes": 130,
+        "imports": [
+          {
+            "path": "test/input/stylesheets/from-js-without-asset.css",
+            "kind": "import-statement",
+            "original": "../stylesheets/from-js-without-asset.css"
+          },
+          {
+            "path": "test/input/scripts/sub-ts.ts",
+            "kind": "import-statement",
+            "original": "./sub-ts.js"
+          }
+        ],
+        "format": "esm"
+      },
+      "test/input/stylesheets/from-js-without-asset.css": {
+        "bytes": 37,
+        "imports": []
+      }
+    },
+    "outputs": {
+      "test/output/actual/import-language/typescript/lang-typescript.html": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "html-entry:test/input/pages/lang-typescript.html": {
+            "bytesInOutput": 190
+          }
+        },
+        "bytes": 190,
+        "entryPoint": "html-entry:test/input/pages/lang-typescript.html"
+      },
+      "test/output/actual/import-language/typescript/with-both-ts.css": {
+        "imports": [],
+        "inputs": {
+          "test/input/stylesheets/from-js-without-asset.css": {
+            "bytesInOutput": 37
+          }
+        },
+        "bytes": 92
+      },
+      "test/output/actual/import-language/typescript/with-both-ts.js": {
+        "imports": [],
+        "exports": [],
+        "cssBundle": "test/output/actual/import-language/typescript/with-both-ts.css",
+        "inputs": {
+          "test/input/stylesheets/from-js-without-asset.css": {
+            "bytesInOutput": 0
+          },
+          "test/input/scripts/sub-ts.ts": {
+            "bytesInOutput": 61
+          },
+          "test/input/scripts/with-both-ts.ts": {
+            "bytesInOutput": 51
+          }
+        },
+        "bytes": 216
+      }
+    }
+  }
+}

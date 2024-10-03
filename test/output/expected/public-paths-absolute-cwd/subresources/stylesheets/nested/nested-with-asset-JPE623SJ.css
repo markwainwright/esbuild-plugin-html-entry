@@ -1,5 +1,0 @@
-/* stylesheets/nested/nested-with-asset.css */
-body {
-  background-image: url("/public-paths-absolute-cwd/assets/images/from-html-css-QROD6PU2.gif");
-  background-color: blue;
-}

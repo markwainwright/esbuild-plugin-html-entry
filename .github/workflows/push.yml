@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
         esbuildVersion: ["0.19.5", "0.20.x", "0.21.x", "0.22.x", "0.23.x", "0.24.x"]
-        nodeVersion: ["18.x.x", "20.x.x", "22.x.x"]
+        nodeVersion: ["20.x.x", "22.x.x"]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

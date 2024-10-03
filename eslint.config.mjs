@@ -64,5 +64,10 @@ export default [
     },
   ].map(config => ({ ...config, files: ["**/*.ts"] })),
 
+  {
+    files: ["test/**/*.ts"],
+    rules: { "@typescript-eslint/no-floating-promises": "off" },
+  },
+
   eslintConfigPrettier,
 ];

@@ -1,0 +1,105 @@
+{
+  "errors": [],
+  "warnings": [],
+  "metafile": {
+    "inputs": {
+      "html-entry:test/input/pages/splitting.html": {
+        "bytes": 220,
+        "imports": [
+          {
+            "path": "test/input/scripts/with-js.js",
+            "kind": "import-statement",
+            "original": "../scripts/with-js.js"
+          },
+          {
+            "path": "test/input/scripts/with-js-2.js",
+            "kind": "import-statement",
+            "original": "../scripts/with-js-2.js"
+          }
+        ]
+      },
+      "test/input/scripts/sub.js": {
+        "bytes": 67,
+        "imports": [],
+        "format": "esm"
+      },
+      "test/input/scripts/with-js-2.js": {
+        "bytes": 73,
+        "imports": [
+          {
+            "path": "test/input/scripts/sub.js",
+            "kind": "import-statement",
+            "original": "./sub.js"
+          }
+        ],
+        "format": "esm"
+      },
+      "test/input/scripts/with-js.js": {
+        "bytes": 71,
+        "imports": [
+          {
+            "path": "test/input/scripts/sub.js",
+            "kind": "import-statement",
+            "original": "./sub.js"
+          }
+        ],
+        "format": "esm"
+      }
+    },
+    "outputs": {
+      "test/output/actual/splitting/write-enabled/same-file/entries/splitting.html": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "html-entry:test/input/pages/splitting.html": {
+            "bytesInOutput": 248
+          }
+        },
+        "bytes": 248,
+        "entryPoint": "html-entry:test/input/pages/splitting.html"
+      },
+      "test/output/actual/splitting/write-enabled/same-file/chunks/chunk-DM6P3FC4.js": {
+        "imports": [],
+        "exports": [
+          "sub"
+        ],
+        "inputs": {
+          "test/input/scripts/sub.js": {
+            "bytesInOutput": 52
+          }
+        },
+        "bytes": 100
+      },
+      "test/output/actual/splitting/write-enabled/same-file/subresources/with-js-2-RRD2FZ6D.js": {
+        "imports": [
+          {
+            "path": "test/output/actual/splitting/write-enabled/same-file/chunks/chunk-DM6P3FC4.js",
+            "kind": "import-statement"
+          }
+        ],
+        "exports": [],
+        "inputs": {
+          "test/input/scripts/with-js-2.js": {
+            "bytesInOutput": 44
+          }
+        },
+        "bytes": 133
+      },
+      "test/output/actual/splitting/write-enabled/same-file/subresources/with-js-A6CI7JDA.js": {
+        "imports": [
+          {
+            "path": "test/output/actual/splitting/write-enabled/same-file/chunks/chunk-DM6P3FC4.js",
+            "kind": "import-statement"
+          }
+        ],
+        "exports": [],
+        "inputs": {
+          "test/input/scripts/with-js.js": {
+            "bytesInOutput": 42
+          }
+        },
+        "bytes": 129
+      }
+    }
+  }
+}

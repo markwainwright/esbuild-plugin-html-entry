@@ -1,0 +1,69 @@
+{
+  "errors": [],
+  "warnings": [],
+  "metafile": {
+    "inputs": {
+      "html-entry:test/input/pages/all.html": {
+        "bytes": 210,
+        "imports": [
+          {
+            "path": "test/input/stylesheets/from-html-with-asset.css",
+            "kind": "import-statement",
+            "original": "../stylesheets/from-html-with-asset.css"
+          }
+        ]
+      },
+      "test/input/images/from-html-css.gif": {
+        "bytes": 12,
+        "imports": []
+      },
+      "test/input/stylesheets/from-html-with-asset.css": {
+        "bytes": 90,
+        "imports": [
+          {
+            "path": "test/input/images/from-html-css.gif",
+            "kind": "url-token",
+            "original": "../images/from-html-css.gif"
+          }
+        ]
+      }
+    },
+    "outputs": {
+      "test/output/actual/external/absolute/js/all.html": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "html-entry:test/input/pages/all.html": {
+            "bytesInOutput": 193
+          }
+        },
+        "bytes": 193,
+        "entryPoint": "html-entry:test/input/pages/all.html"
+      },
+      "test/output/actual/external/absolute/js/from-html-css.gif": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "test/input/images/from-html-css.gif": {
+            "bytesInOutput": 12
+          }
+        },
+        "bytes": 12
+      },
+      "test/output/actual/external/absolute/js/from-html-with-asset.css": {
+        "imports": [
+          {
+            "path": "test/output/actual/external/absolute/js/from-html-css.gif",
+            "kind": "url-token"
+          }
+        ],
+        "inputs": {
+          "test/input/stylesheets/from-html-with-asset.css": {
+            "bytesInOutput": 82
+          }
+        },
+        "bytes": 136
+      }
+    }
+  }
+}

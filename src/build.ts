@@ -1,5 +1,7 @@
+import { resolve } from "node:path";
+
 import { build as _build, type BuildOptions, type Metafile, type OutputFile } from "esbuild";
-import { resolve } from "path";
+
 import { getWorkingDirAbs } from "./working-dir.js";
 
 export type BuildResult = Map<

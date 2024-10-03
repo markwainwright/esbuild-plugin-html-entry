@@ -1,0 +1,59 @@
+{
+  "errors": [],
+  "warnings": [],
+  "metafile": {
+    "inputs": {
+      "html-entry:test/input/pages/lang-html.html": {
+        "bytes": 142,
+        "imports": [
+          {
+            "path": "test/input/scripts/with-html.js",
+            "kind": "import-statement",
+            "original": "../scripts/with-html.js"
+          }
+        ]
+      },
+      "test/input/pages/simple.html": {
+        "bytes": 217,
+        "imports": []
+      },
+      "test/input/scripts/with-html.js": {
+        "bytes": 85,
+        "imports": [
+          {
+            "path": "test/input/pages/simple.html",
+            "kind": "import-statement",
+            "original": "../pages/simple.html"
+          }
+        ],
+        "format": "esm"
+      }
+    },
+    "outputs": {
+      "test/output/actual/import-language/html/lang-html.html": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "html-entry:test/input/pages/lang-html.html": {
+            "bytesInOutput": 131
+          }
+        },
+        "bytes": 131,
+        "entryPoint": "html-entry:test/input/pages/lang-html.html"
+      },
+      "test/output/actual/import-language/html/with-html.js": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "test/input/pages/simple.html": {
+            "bytesInOutput": 255
+          },
+          "test/input/scripts/with-html.js": {
+            "bytesInOutput": 55
+          }
+        },
+        "bytes": 411
+      }
+    }
+  }
+}

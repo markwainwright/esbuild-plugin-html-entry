@@ -1,5 +1,0 @@
-/* test/input/stylesheets/with-asset.css */
-body {
-  background-image: url("../from-html-css.gif");
-  background-color: red;
-}
