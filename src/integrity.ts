@@ -14,11 +14,11 @@ async function generateHashFromFile(algorithm: string, path: string) {
 }
 
 export async function getIntegrity(
-  integrity: string | undefined,
+  algorithm: string | undefined,
   outputPathAbs: string,
   outputFiles?: OutputFile[]
 ): Promise<string | null> {
-  if (!integrity) {
+  if (!algorithm) {
     return null;
   }
 
@@ -28,10 +28,10 @@ export async function getIntegrity(
     if (!outputFile) {
       throw new Error(`failed to find "${outputPathAbs}" in outputFiles`);
     }
-    hash = generateHashFromBuffer(integrity, outputFile.contents);
+    hash = generateHashFromBuffer(algorithm, outputFile.contents);
   } else {
-    hash = await generateHashFromFile(integrity, outputPathAbs);
+    hash = await generateHashFromFile(algorithm, outputPathAbs);
   }
 
-  return `${integrity}-${hash}`;
+  return `${algorithm}-${hash}`;
 }

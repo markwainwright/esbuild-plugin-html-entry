@@ -4,65 +4,77 @@ import { build as _build, type BuildOptions, type Metafile, type OutputFile } fr
 
 import { getWorkingDirAbs } from "./working-dir.js";
 
-export type BuildResult = Map<
-  string,
-  {
-    mainOutputPathAbs: string;
-    cssOutputPathAbs: string | undefined;
-    watchFiles: string[];
-    outputFiles: OutputFile[] | undefined;
-    inputs: Metafile["inputs"];
-    outputs: Metafile["outputs"];
-  }
->;
+export interface BuildResult {
+  /**
+   * Map of subresource entry point relative path to absolute output paths for main (JS or CSS) and
+   * CSS bundle
+   */
+  readonly outputPathsAbs: Map<
+    string,
+    {
+      readonly main: string;
+      readonly cssBundle?: string;
+    }
+  >;
+  readonly outputFiles: OutputFile[] | undefined;
+  readonly watchFiles: string[];
+  readonly inputs: Metafile["inputs"];
+  readonly outputs: Metafile["outputs"];
+}
 
 export async function build(
   buildOptions: BuildOptions,
-  assetNames: string | undefined,
   entryPoints: string[]
 ): Promise<BuildResult> {
   if (entryPoints.length === 0) {
-    return new Map();
+    return {
+      outputPathsAbs: new Map(),
+      outputFiles: [],
+      watchFiles: [],
+      inputs: {},
+      outputs: {},
+    };
   }
 
   const workingDirAbs = getWorkingDirAbs(buildOptions);
   const { metafile, outputFiles } = await _build({
     ...buildOptions,
-    entryNames: assetNames,
     entryPoints,
     metafile: true,
     platform: "browser",
+    // plugins: [],
   });
 
-  return new Map(
-    entryPoints.map(entryPoint => {
-      const output = Object.entries(metafile.outputs).find(
-        ([, output]) => output.entryPoint === entryPoint
-      );
+  return {
+    outputPathsAbs: new Map(
+      entryPoints.map(entryPoint => {
+        const output = Object.entries(metafile.outputs).find(
+          ([, output]) => output.entryPoint === entryPoint
+        );
 
-      if (!output) {
-        throw new Error(`Output not present for entry point "${entryPoint}"`);
-      }
+        if (!output) {
+          throw new Error(`Output not present for entry point "${entryPoint}"`);
+        }
 
-      const [mainOutputPathRel, outputMeta] = output;
+        const [mainOutputPathRel, outputMeta] = output;
 
-      return [
-        entryPoint,
-        {
-          mainOutputPathAbs: resolve(workingDirAbs, mainOutputPathRel),
-          cssOutputPathAbs: outputMeta.cssBundle
-            ? resolve(workingDirAbs, outputMeta.cssBundle)
-            : undefined,
-          inputs: metafile.inputs,
-          outputs: metafile.outputs,
-
-          // These will include all files related to the build, not just ones related to this
-          // entryPoint. I'm not aware of a downside of this that would justify the complexity of
-          // figuring it out from metafile, however
-          watchFiles: Object.keys(metafile.inputs),
-          outputFiles,
-        },
-      ];
-    })
-  );
+        return [
+          entryPoint,
+          {
+            main: resolve(workingDirAbs, mainOutputPathRel),
+            cssBundle: outputMeta.cssBundle
+              ? resolve(workingDirAbs, outputMeta.cssBundle)
+              : undefined,
+          },
+        ];
+      })
+    ),
+    outputFiles,
+    // These will include all files related to the build, not just ones related to this
+    // entryPoint. I'm not aware of a downside of this that would justify the complexity of
+    // figuring it out from metafile, however
+    watchFiles: Object.keys(metafile.inputs),
+    inputs: metafile.inputs,
+    outputs: metafile.outputs,
+  };
 }

@@ -60,7 +60,7 @@ async function build(
 
   return await esbuild.build({
     loader: { ".gif": "file" },
-    platform: "node", // should be overridden to "browser" for assets
+    platform: "node", // should be overridden to "browser" for subresources
     bundle: true,
     outbase: "test/input",
     metafile: true,

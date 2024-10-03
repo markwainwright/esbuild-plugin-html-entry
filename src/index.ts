@@ -1,68 +1,109 @@
 import { readFile } from "node:fs/promises";
 import { dirname, relative } from "node:path";
 
-import type { BuildOptions, Message, Plugin } from "esbuild";
+import type { BuildOptions, Message, Metafile, Plugin } from "esbuild";
 import { minify, type Options as MinifyOptions } from "html-minifier-terser";
 
 import { build, type BuildResult } from "./build.js";
-import { createDeferred, Deferred } from "./deferred.js";
+import { createDeferred, type Deferred } from "./deferred.js";
 import { findElements, getHref, getHtml, insertLinkElement, setAttributes } from "./dom.js";
 import { getIntegrity } from "./integrity.js";
 import { NAMESPACE } from "./namespace.js";
 import { getPublicPath, getPublicPathContext } from "./public-paths.js";
-import { augmentMetafile, augmentOutputFiles, type HtmlResult, type Results } from "./results.js";
+import { augmentMetafile, augmentOutputFiles, type HtmlEntryPointMetadata } from "./results.js";
 import { timeout } from "./timeout.js";
 import { getWorkingDirAbs } from "./working-dir.js";
 
 const KIND = "import-statement";
 
 export interface EsbuildPluginHtmlEntryOptions {
-  subresourceNames?: string;
-  integrity?: string;
-  minifyOptions?: MinifyOptions;
-  banner?: string;
-  footer?: string;
+  readonly subresourceNames?: string;
+  readonly integrity?: string;
+  readonly minifyOptions?: MinifyOptions;
+  readonly banner?: string;
+  readonly footer?: string;
 }
 
 type Format = "esm" | "iife";
-type BuildInput = Record<Format, Set<string>>;
-type BuildOutput = Record<Format, BuildResult>;
-interface State {
-  readonly htmlEntryPointPaths: Set<string>;
-  readonly buildInput: BuildInput;
-  readonly deferredBuildOutput: Deferred<BuildOutput>;
-  readonly results: Results;
-}
+/** Relative paths of subresources to build, for ESM and IIFE */
+type SubBuildInput = Record<Format, Set<string>>;
+type SubBuildOutput = Record<Format, BuildResult>;
 
-function createState(): State {
+/** Creates state object for the lifecycle of a single build (multiple HTML files) */
+function createBuildState(): {
+  readonly htmlEntryPointPaths: Set<string>;
+  readonly subBuildInput: SubBuildInput;
+  readonly deferredSubBuildOutput: Deferred<SubBuildOutput>;
+  readonly htmlEntryPointMetadata: HtmlEntryPointMetadata;
+} {
   return {
     htmlEntryPointPaths: new Set(),
-    buildInput: {
+    subBuildInput: {
       esm: new Set(),
       iife: new Set(),
     },
-    deferredBuildOutput: createDeferred<BuildOutput>(),
-    results: {
-      htmlEntryPoints: new Map(),
-      inputs: {},
-      outputs: {},
-      outputFiles: new Map(),
-    },
+    deferredSubBuildOutput: createDeferred(),
+    htmlEntryPointMetadata: new Map(),
   };
 }
 
-async function buildAssets(
+/** Creates state object for the lifecycle of a single `onLoad` call (single HTML file) */
+function createLoadState(): {
+  readonly errors: Message[];
+  readonly warnings: Message[];
+  readonly watchFiles: Set<string>;
+  /** Map of resolved entry point path to original import href */
+  readonly imports: Metafile["inputs"][string]["imports"];
+} {
+  return {
+    errors: [],
+    warnings: [],
+    watchFiles: new Set(),
+    imports: [],
+  };
+}
+
+async function runSubBuild(
   buildOptions: BuildOptions,
   pluginOptions: EsbuildPluginHtmlEntryOptions,
-  buildInput: BuildInput
-): Promise<BuildOutput> {
-  const assetNames = pluginOptions.subresourceNames ?? buildOptions.assetNames;
+  input: SubBuildInput
+): Promise<SubBuildOutput> {
+  const entryNames = pluginOptions.subresourceNames ?? buildOptions.assetNames;
+
   const [esm, iife] = await Promise.all([
-    build({ ...buildOptions, format: "esm" }, assetNames, [...buildInput.esm]),
-    build({ ...buildOptions, format: "iife", splitting: false }, assetNames, [...buildInput.iife]),
+    build({ ...buildOptions, entryNames, format: "esm" }, [...input.esm]),
+    build({ ...buildOptions, entryNames, format: "iife", splitting: false }, [...input.iife]),
   ]);
 
   return { esm, iife };
+}
+
+async function buildOutputHtml(
+  buildOptions: BuildOptions,
+  pluginOptions: EsbuildPluginHtmlEntryOptions,
+  html: string
+) {
+  let outputHtml;
+
+  if (buildOptions.minify) {
+    outputHtml = await minify(html, {
+      maxLineLength: buildOptions.lineLimit ?? undefined,
+      ...(pluginOptions.minifyOptions ?? { collapseWhitespace: true }),
+    });
+  } else if (buildOptions.lineLimit) {
+    outputHtml = await minify(html, { maxLineLength: buildOptions.lineLimit });
+  } else {
+    outputHtml = html;
+  }
+
+  if (pluginOptions.banner) {
+    outputHtml = `${pluginOptions.banner}\n${outputHtml}`;
+  }
+  if (pluginOptions.footer) {
+    outputHtml = `${outputHtml}\n${pluginOptions.footer}`;
+  }
+
+  return outputHtml;
 }
 
 export function esbuildPluginHtmlEntry(pluginOptions: EsbuildPluginHtmlEntryOptions = {}): Plugin {
@@ -71,17 +112,12 @@ export function esbuildPluginHtmlEntry(pluginOptions: EsbuildPluginHtmlEntryOpti
 
     setup(build) {
       const buildOptions = build.initialOptions;
-
       if (!buildOptions.outdir) {
         throw new Error("Must provide outdir");
       }
 
+      let buildState = createBuildState();
       const workingDirAbs = getWorkingDirAbs(buildOptions);
-
-      const metafileOriginallyEnabled = !!buildOptions.metafile;
-      buildOptions.metafile = true;
-
-      let state = createState();
 
       build.onResolve({ filter: /\.html?$/ }, async ({ path, ...args }) => {
         if (args.kind !== "entry-point" || args.namespace === NAMESPACE) {
@@ -90,161 +126,144 @@ export function esbuildPluginHtmlEntry(pluginOptions: EsbuildPluginHtmlEntryOpti
 
         const resolveResult = await build.resolve(path, { ...args, namespace: NAMESPACE });
 
-        state.htmlEntryPointPaths.add(resolveResult.path);
+        buildState.htmlEntryPointPaths.add(resolveResult.path);
 
         return { ...resolveResult, namespace: NAMESPACE };
       });
 
-      build.onLoad({ namespace: NAMESPACE, filter: /.*/ }, async args => {
-        const { htmlEntryPointPaths, buildInput, deferredBuildOutput, results } = state;
+      build.onLoad({ namespace: NAMESPACE, filter: /\.html?$/ }, async args => {
+        const {
+          htmlEntryPointPaths,
+          subBuildInput,
+          deferredSubBuildOutput,
+          htmlEntryPointMetadata,
+        } = buildState;
 
         const htmlPathAbs = args.path;
-        const htmlContents = await readFile(htmlPathAbs);
-        const htmlContentsString = htmlContents.toString("utf-8");
+        const htmlContentBuffer = await readFile(htmlPathAbs);
+        const htmlContentString = htmlContentBuffer.toString("utf-8");
+        const htmlDirAbs = dirname(htmlPathAbs);
 
-        const [$, elements] = findElements(htmlContentsString, buildOptions.charset);
+        const [$, elements] = findElements(htmlContentString, buildOptions.charset);
 
-        const errors: Message[] = [];
-        const warnings: Message[] = [];
-        const watchFiles = new Set<string>();
-
+        const loadState = createLoadState();
         const resolveOptions = {
           kind: KIND,
           importer: htmlPathAbs,
-          resolveDir: dirname(htmlPathAbs),
+          resolveDir: htmlDirAbs,
         } as const;
 
-        const assets = (
+        const subresources = (
           await Promise.all(
             elements.map(async element => {
-              const assetHref = getHref($, element);
-              const resolveResult = await build.resolve(assetHref, resolveOptions);
-              const { path, external } = resolveResult;
+              const href = getHref($, element);
+              const {
+                path: pathAbs,
+                external,
+                errors,
+                warnings,
+              } = await build.resolve(href, resolveOptions);
 
-              if (resolveResult.errors.length) {
-                errors.push(...resolveResult.errors);
+              if (errors.length) {
+                loadState.errors.push(...errors);
                 return null;
               }
 
-              if (resolveResult.warnings.length) {
-                warnings.push(...resolveResult.warnings);
+              if (warnings.length) {
+                loadState.warnings.push(...warnings);
               }
 
-              const assetPathRel = relative(workingDirAbs, path);
-
-              return { assetPathRel, assetHref, element, external };
+              return { pathRel: relative(workingDirAbs, pathAbs), href, element, external };
             })
           )
-        ).filter(asset => asset !== null);
+        ).filter(subresource => subresource !== null);
 
-        const htmlResult: HtmlResult = {
-          imports: [],
-          inputBytes: htmlContents.byteLength,
-        };
-        results.htmlEntryPoints.set(htmlPathAbs, htmlResult);
-
-        assets.forEach(({ assetPathRel, assetHref, element, external }) => {
-          htmlResult.imports.push(
+        subresources.forEach(({ pathRel, href, element, external }) => {
+          loadState.imports.push(
             external
-              ? { path: assetHref, kind: KIND, external: true }
-              : { path: assetPathRel, kind: KIND, original: assetHref }
+              ? { path: href, kind: KIND, external: true }
+              : { path: pathRel, kind: KIND, original: href }
           );
           if (!external) {
-            buildInput[element.format].add(assetPathRel);
+            subBuildInput[element.format].add(pathRel);
           }
         });
 
-        if (results.htmlEntryPoints.size === htmlEntryPointPaths.size) {
-          deferredBuildOutput.resolve(await buildAssets(buildOptions, pluginOptions, buildInput));
+        htmlEntryPointMetadata.set(htmlPathAbs, {
+          imports: loadState.imports,
+          inputBytes: htmlContentBuffer.byteLength,
+        });
+        if (htmlEntryPointMetadata.size === htmlEntryPointPaths.size) {
+          // This is the last HTML entry point, so run the sub-build
+          deferredSubBuildOutput.resolve(runSubBuild(buildOptions, pluginOptions, subBuildInput));
         }
 
-        const [buildOutput, publicPathContext] = await Promise.all([
-          timeout(3000, "Timed out waiting for all HTML entry points", deferredBuildOutput),
+        // Wait for the sub-build triggered by the last HTML entry point to complete
+        const [subBuildOutput, publicPathContext] = await Promise.all([
+          timeout(5000, "Timed out waiting for all HTML entry points", deferredSubBuildOutput),
           getPublicPathContext(htmlPathAbs, buildOptions),
         ]);
 
+        [...subBuildOutput.esm.watchFiles, ...subBuildOutput.iife.watchFiles].forEach(watchFile =>
+          loadState.watchFiles.add(watchFile)
+        );
+
         await Promise.all(
-          assets.map(async ({ element, assetPathRel, external }) => {
+          subresources.map(async ({ element, pathRel, external }) => {
             if (external) {
               return;
             }
 
-            const output = buildOutput[element.format].get(assetPathRel);
-
-            if (!output) {
-              throw new Error(`Missing build output for ${element.format} ${assetPathRel}`);
-            }
-
-            const { mainOutputPathAbs, cssOutputPathAbs, outputFiles, outputs, inputs } = output;
-
-            output.watchFiles.forEach(watchFile => watchFiles.add(watchFile));
-
-            outputFiles?.forEach(({ path, ...outputFile }) =>
-              results.outputFiles.set(path, outputFile)
-            );
-
-            Object.assign(results.outputs, outputs);
-            Object.assign(results.inputs, inputs);
+            const buildOutput = subBuildOutput[element.format];
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            const { main, cssBundle } = buildOutput.outputPathsAbs.get(pathRel)!;
 
             setAttributes(
               $,
               element,
-              getPublicPath(publicPathContext, mainOutputPathAbs),
-              await getIntegrity(pluginOptions.integrity, mainOutputPathAbs, outputFiles)
+              getPublicPath(publicPathContext, main),
+              await getIntegrity(pluginOptions.integrity, main, buildOutput.outputFiles)
             );
 
-            if (cssOutputPathAbs) {
+            if (cssBundle) {
               setAttributes(
                 $,
                 insertLinkElement($, element.element),
-                getPublicPath(publicPathContext, cssOutputPathAbs),
-                await getIntegrity(pluginOptions.integrity, cssOutputPathAbs, outputFiles)
+                getPublicPath(publicPathContext, cssBundle),
+                await getIntegrity(pluginOptions.integrity, cssBundle, buildOutput.outputFiles)
               );
             }
           })
         );
 
-        let contents = getHtml($);
-
-        if (buildOptions.minify) {
-          contents = await minify(contents, {
-            maxLineLength: buildOptions.lineLimit ?? undefined,
-            ...(pluginOptions.minifyOptions ?? { collapseWhitespace: true }),
-          });
-        } else if (buildOptions.lineLimit) {
-          contents = await minify(contents, { maxLineLength: buildOptions.lineLimit });
-        }
-
-        if (pluginOptions.banner) {
-          contents = `${pluginOptions.banner}\n${contents}`;
-        }
-        if (pluginOptions.footer) {
-          contents += `\n${pluginOptions.footer}`;
-        }
-
         return {
-          contents,
+          contents: await buildOutputHtml(buildOptions, pluginOptions, getHtml($)),
           loader: "copy",
-          resolveDir: dirname(htmlPathAbs),
-          errors,
-          warnings,
-          watchFiles: [...watchFiles],
+          resolveDir: htmlDirAbs,
+          errors: loadState.errors,
+          warnings: loadState.warnings,
+          watchFiles: [...loadState.watchFiles],
         };
       });
 
-      build.onEnd(result => {
-        const { results } = state;
+      build.onEnd(async result => {
+        const { deferredSubBuildOutput, htmlEntryPointMetadata } = buildState;
+
+        if (htmlEntryPointMetadata.size === 0) {
+          return;
+        }
+
+        const subBuildOutput = await deferredSubBuildOutput;
 
         result.outputFiles = result.outputFiles
-          ? augmentOutputFiles(result.outputFiles, results.outputFiles)
+          ? augmentOutputFiles(result.outputFiles, subBuildOutput)
           : undefined;
 
-        result.metafile =
-          metafileOriginallyEnabled && result.metafile
-            ? augmentMetafile(result.metafile, results)
-            : undefined;
+        result.metafile = result.metafile
+          ? augmentMetafile(result.metafile, htmlEntryPointMetadata, subBuildOutput)
+          : undefined;
 
-        state = createState();
+        buildState = createBuildState();
       });
     },
   };

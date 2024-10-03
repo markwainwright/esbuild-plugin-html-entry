@@ -1,58 +1,69 @@
 import type { Metafile, OutputFile } from "esbuild";
 
-export interface HtmlResult {
-  /** Map of resolved entry point path to original import href */
-  imports: Metafile["inputs"][string]["imports"];
-  inputBytes: number;
-}
+import type { BuildResult } from "./build.js";
 
-export interface Results {
-  /** Map of absolute entry point path to result metadata */
-  htmlEntryPoints: Map<string, HtmlResult>;
-  inputs: Metafile["inputs"];
-  outputs: Metafile["outputs"];
-  outputFiles: Map<string, Omit<OutputFile, "path">>;
-}
+type BuildResults = Record<"esm" | "iife", BuildResult>;
 
-function createSortBy<V>(callback: (value: V) => string) {
-  return function (value1: V, value2: V) {
+/** Map of absolute HTML entry point path to result metadata */
+export type HtmlEntryPointMetadata = Map<
+  string,
+  {
+    /** Map of resolved subresource entry point path to original import href */
+    readonly imports: Metafile["inputs"][string]["imports"];
+    readonly inputBytes: number;
+  }
+>;
+
+function createSortBy<T>(callback: (value: T) => string) {
+  return function (value1: T, value2: T) {
     return callback(value1).localeCompare(callback(value2));
   };
 }
 
-function sortByKey(object: Record<string, unknown>) {
+function sortByKey<T>(object: Record<string, T>): Record<string, T> {
   return Object.fromEntries(Object.entries(object).sort(createSortBy(([key]) => key)));
+}
+
+function uniqueBy<T>(values: T[], callback: (value: T) => unknown): T[] {
+  return Array.from(new Map(values.map(value => [callback(value), value])).values());
 }
 
 export function augmentOutputFiles(
   htmlOutputFiles: OutputFile[],
-  assetOutputFiles: Results["outputFiles"]
-): OutputFile[] | undefined {
+  buildResults: BuildResults
+): OutputFile[] {
+  const subresourceAssetFiles = [
+    ...(buildResults.esm.outputFiles ?? []),
+    ...(buildResults.iife.outputFiles ?? []),
+  ];
+
   return [
     ...htmlOutputFiles,
-    ...[...assetOutputFiles.entries()]
-      .map(([path, outputFile]) => ({ path, ...outputFile }))
-      .sort(createSortBy(f => f.path)),
+    ...uniqueBy(subresourceAssetFiles, f => f.path).sort(createSortBy(f => f.path)),
   ];
 }
 
-export function augmentMetafile(metafile: Metafile, results: Results): Metafile | undefined {
+export function augmentMetafile(
+  metafile: Metafile,
+  htmlEntryPointMetadata: HtmlEntryPointMetadata,
+  buildResults: BuildResults
+): Metafile | undefined {
   // Note: this will also be run in the onEnd hook for the sub-builds created by this plugin
 
   /*
     inputs[].imports
   */
 
-  for (const [path, htmlResult] of results.htmlEntryPoints) {
+  for (const [path, { inputBytes, imports }] of htmlEntryPointMetadata) {
     const input = metafile.inputs[`html-entry:${path}`];
 
     if (input) {
       // Because we're using the `copy` loader, ESBuild sets this to the size of the file *after*
       // the path substitutions have been made (i.e. the result of the onLoad callback). This
       // restores it to the input file's size
-      input.bytes = htmlResult.inputBytes;
+      input.bytes = inputBytes;
 
-      input.imports = htmlResult.imports;
+      input.imports = imports;
     }
   }
 
@@ -74,17 +85,19 @@ export function augmentMetafile(metafile: Metafile, results: Results): Metafile 
   }
 
   /*
-    inputs  (for assets)
-    outputs (for assets)
+    inputs  (for subresources)
+    outputs (for subresources)
   */
 
-  for (const output of Object.values(results.outputs)) {
+  const inputs = sortByKey({ ...buildResults.esm.inputs, ...buildResults.iife.inputs });
+  const outputs = sortByKey({ ...buildResults.esm.outputs, ...buildResults.iife.outputs });
+
+  Object.values(outputs).forEach(output => {
     delete output.entryPoint;
-  }
+  });
 
-  Object.assign(metafile.inputs, sortByKey(results.inputs));
-
-  Object.assign(metafile.outputs, sortByKey(results.outputs));
+  Object.assign(metafile.inputs, inputs);
+  Object.assign(metafile.outputs, outputs);
 
   return metafile;
 }

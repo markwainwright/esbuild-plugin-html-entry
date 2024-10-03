@@ -1,6 +1,6 @@
 export interface Deferred<T> extends PromiseLike<T> {
-  resolve: (value: T) => void;
-  reject: (reason: Error) => void;
+  readonly resolve: (value: T | PromiseLike<T>) => void;
+  readonly reject: (reason: Error) => void;
 }
 
 export function createDeferred<T>(): Deferred<T> {

@@ -5,9 +5,9 @@ import { load, type CheerioAPI } from "cheerio";
 type Element = ReturnType<CheerioAPI>[0]; // actually AnyNode
 
 interface AnnotatedElement {
-  element: Element;
-  hrefAttribute: string;
-  format: "iife" | "esm";
+  readonly element: Element;
+  readonly hrefAttribute: string;
+  readonly format: "iife" | "esm";
 }
 
 const SELECTOR =
@@ -41,11 +41,11 @@ export function findElements(
           return {
             element,
             hrefAttribute: "src",
-            format: $element.attr("type") === "module" ? ("esm" as const) : ("iife" as const),
-          };
+            format: $element.attr("type") === "module" ? "esm" : "iife",
+          } as const;
         }
 
-        return { element, hrefAttribute: "href", format: "iife" as const };
+        return { element, hrefAttribute: "href", format: "iife" } as const;
       })
       .filter(element => element !== null),
   ];
