@@ -6,7 +6,7 @@ import { minify, type Options as MinifyOptions } from "html-minifier-terser";
 
 import { build, type BuildResult } from "./build.js";
 import { createDeferred, Deferred } from "./deferred.js";
-import { findElements, getHref, insertLinkElement, setAttributes } from "./dom.js";
+import { findElements, getHref, getHtml, insertLinkElement, setAttributes } from "./dom.js";
 import { getIntegrity } from "./integrity.js";
 import { NAMESPACE } from "./namespace.js";
 import { getPublicPath, getPublicPathContext } from "./public-paths.js";
@@ -100,7 +100,7 @@ export function esbuildPluginHtmlEntry(pluginOptions: EsbuildPluginHtmlEntryOpti
         const htmlContents = await readFile(htmlPathAbs);
         const htmlContentsString = htmlContents.toString("utf-8");
 
-        const [$, elements] = findElements(htmlContentsString);
+        const [$, elements] = findElements(htmlContentsString, buildOptions.charset);
 
         const errors: Message[] = [];
         const warnings: Message[] = [];
@@ -199,7 +199,7 @@ export function esbuildPluginHtmlEntry(pluginOptions: EsbuildPluginHtmlEntryOpti
           })
         );
 
-        const html = $.html();
+        const html = getHtml($);
         let contents = buildOptions.minify
           ? await minify(html, {
               maxLineLength: buildOptions.lineLimit ?? undefined,

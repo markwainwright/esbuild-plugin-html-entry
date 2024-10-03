@@ -4,13 +4,13 @@
   "outputFiles": [
     {
       "path": "test/output/actual/public-paths-relative-no-write/entries/pages/page.html",
-      "hash": "6w6XWo9tVYE",
-      "text": "<!DOCTYPE html><html><head>\n    <link rel=\"stylesheet\" href=\"../../subresources/stylesheets/with-asset-LEAA4KCL.css\" integrity=\"sha256-dt9J9jIFnSSgeKOV9HGlARN3PQlYQg/daDHCSzgpTm0=\">\n    <link rel=\"stylesheet\" href=\"../../subresources/scripts/with-both-XJ66VXDU.css\" integrity=\"sha256-cFQ5TlJzEjsf5F7xAiMDUFa09PUEKQ32GJKQvYeOXtA=\">\n    <script src=\"../../subresources/scripts/with-both-BBPWIGRB.js\" integrity=\"sha256-sPo5XZbMiXtQYJh3HbwZY9wwwz8QiZtZ2WguyAzUEdc=\"></script>\n  </head>\n  <body>\n    Hello world\n  \n\n</body></html>"
+      "hash": "Am7yEjKPpNs",
+      "text": "<!doctype html>\n<html>\n  <head>\n    <link rel=\"stylesheet\" href=\"../../subresources/stylesheets/with-asset-LEAA4KCL.css\" integrity=\"sha256-dt9J9jIFnSSgeKOV9HGlARN3PQlYQg/daDHCSzgpTm0=\">\n    <link rel=\"stylesheet\" href=\"../../subresources/scripts/with-both-XJ66VXDU.css\" integrity=\"sha256-cFQ5TlJzEjsf5F7xAiMDUFa09PUEKQ32GJKQvYeOXtA=\">\n    <script src=\"../../subresources/scripts/with-both-BBPWIGRB.js\" integrity=\"sha256-sPo5XZbMiXtQYJh3HbwZY9wwwz8QiZtZ2WguyAzUEdc=\"></script>\n  </head>\n  <body>\n    Hello world\n  </body>\n</html>\n"
     },
     {
       "path": "test/output/actual/public-paths-relative-no-write/entries/pages/nested/nested-page.html",
-      "hash": "jOPCklqNjVU",
-      "text": "<!DOCTYPE html><html><head>\n    <link rel=\"stylesheet\" href=\"../../../subresources/stylesheets/nested/nested-with-asset-NFY7L5XW.css\" integrity=\"sha256-187C4pidOXVdea71+AlCKDsBNc2vvbA/AhqSg1d30zg=\">\n    <link rel=\"stylesheet\" href=\"../../../subresources/scripts/nested/nested-with-both-PPU33YHE.css\" integrity=\"sha256-oFXbkrX6FUcOohIxlU93i7WHoqepX490tkVCBxivlNQ=\">\n    <script src=\"../../../subresources/scripts/nested/nested-with-both-QJNLCMES.js\" integrity=\"sha256-Ph8uIU9q/UElgd+eNDUvCdfvf0RIKwwxjZ47iYzsM8Y=\"></script>\n\n    <link rel=\"stylesheet\" href=\"../../../subresources/stylesheets/with-asset-LEAA4KCL.css\" integrity=\"sha256-dt9J9jIFnSSgeKOV9HGlARN3PQlYQg/daDHCSzgpTm0=\">\n    <link rel=\"stylesheet\" href=\"../../../subresources/scripts/with-both-XJ66VXDU.css\" integrity=\"sha256-cFQ5TlJzEjsf5F7xAiMDUFa09PUEKQ32GJKQvYeOXtA=\">\n    <script src=\"../../../subresources/scripts/with-both-BBPWIGRB.js\" integrity=\"sha256-sPo5XZbMiXtQYJh3HbwZY9wwwz8QiZtZ2WguyAzUEdc=\"></script>\n  </head>\n  <body>\n    Hello world\n  \n\n</body></html>"
+      "hash": "xSRwoouCsMo",
+      "text": "<!doctype html>\n<html>\n  <head>\n    <link rel=\"stylesheet\" href=\"../../../subresources/stylesheets/nested/nested-with-asset-NFY7L5XW.css\" integrity=\"sha256-187C4pidOXVdea71+AlCKDsBNc2vvbA/AhqSg1d30zg=\">\n    <link rel=\"stylesheet\" href=\"../../../subresources/scripts/nested/nested-with-both-PPU33YHE.css\" integrity=\"sha256-oFXbkrX6FUcOohIxlU93i7WHoqepX490tkVCBxivlNQ=\">\n    <script src=\"../../../subresources/scripts/nested/nested-with-both-QJNLCMES.js\" integrity=\"sha256-Ph8uIU9q/UElgd+eNDUvCdfvf0RIKwwxjZ47iYzsM8Y=\"></script>\n\n    <link rel=\"stylesheet\" href=\"../../../subresources/stylesheets/with-asset-LEAA4KCL.css\" integrity=\"sha256-dt9J9jIFnSSgeKOV9HGlARN3PQlYQg/daDHCSzgpTm0=\">\n    <link rel=\"stylesheet\" href=\"../../../subresources/scripts/with-both-XJ66VXDU.css\" integrity=\"sha256-cFQ5TlJzEjsf5F7xAiMDUFa09PUEKQ32GJKQvYeOXtA=\">\n    <script src=\"../../../subresources/scripts/with-both-BBPWIGRB.js\" integrity=\"sha256-sPo5XZbMiXtQYJh3HbwZY9wwwz8QiZtZ2WguyAzUEdc=\"></script>\n  </head>\n  <body>\n    Hello world\n  </body>\n</html>\n"
     },
     {
       "path": "test/output/actual/public-paths-relative-no-write/assets/images/from-html-css-QROD6PU2.gif",
@@ -187,10 +187,10 @@
         "exports": [],
         "inputs": {
           "html-entry:test/input/pages/page.html": {
-            "bytesInOutput": 525
+            "bytesInOutput": 529
           }
         },
-        "bytes": 525,
+        "bytes": 529,
         "entryPoint": "html-entry:test/input/pages/page.html"
       },
       "test/output/actual/public-paths-relative-no-write/entries/pages/nested/nested-page.html": {
@@ -198,10 +198,10 @@
         "exports": [],
         "inputs": {
           "html-entry:test/input/pages/nested/nested-page.html": {
-            "bytesInOutput": 1030
+            "bytesInOutput": 1034
           }
         },
-        "bytes": 1030,
+        "bytes": 1034,
         "entryPoint": "html-entry:test/input/pages/nested/nested-page.html"
       },
       "test/output/actual/public-paths-relative-no-write/assets/images/from-html-css-QROD6PU2.gif": {

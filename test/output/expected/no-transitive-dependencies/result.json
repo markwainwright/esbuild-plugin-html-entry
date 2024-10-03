@@ -34,10 +34,10 @@
         "exports": [],
         "inputs": {
           "html-entry:test/input/pages/dead-end.html": {
-            "bytesInOutput": 299
+            "bytesInOutput": 303
           }
         },
-        "bytes": 299,
+        "bytes": 303,
         "entryPoint": "html-entry:test/input/pages/dead-end.html"
       },
       "test/output/actual/no-transitive-dependencies/with-none.css": {

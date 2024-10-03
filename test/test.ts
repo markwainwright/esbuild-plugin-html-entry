@@ -331,3 +331,17 @@ await testBuild("JS importing HTML", {
   entryPoints: ["test/input/pages/js-import-html.html"],
   loader: { ".html": "text" },
 });
+
+await testBuild("charset - default", {
+  entryPoints: ["test/input/pages/charset.html"],
+});
+
+await testBuild("charset - ascii", {
+  entryPoints: ["test/input/pages/charset.html"],
+  charset: "ascii",
+});
+
+await testBuild("charset - utf8", {
+  entryPoints: ["test/input/pages/charset.html"],
+  charset: "utf8",
+});

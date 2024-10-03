@@ -34,10 +34,10 @@
         "exports": [],
         "inputs": {
           "html-entry:test/input/pages/dead-end.html": {
-            "bytesInOutput": 171
+            "bytesInOutput": 175
           }
         },
-        "bytes": 171,
+        "bytes": 175,
         "entryPoint": "html-entry:test/input/pages/dead-end.html"
       },
       "test/output/actual/no-integrity/with-none.css": {

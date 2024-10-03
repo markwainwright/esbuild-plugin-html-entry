@@ -89,10 +89,10 @@
         "exports": [],
         "inputs": {
           "html-entry:test/input/pages/type-js.html": {
-            "bytesInOutput": 158
+            "bytesInOutput": 162
           }
         },
-        "bytes": 158,
+        "bytes": 162,
         "entryPoint": "html-entry:test/input/pages/type-js.html"
       },
       "test/output/actual/entrypoints-objects/entries/custom/outdir/custom-outname.html": {
@@ -100,10 +100,10 @@
         "exports": [],
         "inputs": {
           "html-entry:test/input/pages/page.html": {
-            "bytesInOutput": 248
+            "bytesInOutput": 252
           }
         },
-        "bytes": 248,
+        "bytes": 252,
         "entryPoint": "html-entry:test/input/pages/page.html"
       },
       "test/output/actual/entrypoints-objects/from-html-css.gif": {

@@ -55,10 +55,10 @@
         "exports": [],
         "inputs": {
           "html-entry:test/input/pages/page.html": {
-            "bytesInOutput": 364
+            "bytesInOutput": 368
           }
         },
-        "bytes": 364,
+        "bytes": 368,
         "entryPoint": "html-entry:test/input/pages/page.html"
       },
       "test/output/actual/external-relative-css/from-js-css.gif": {

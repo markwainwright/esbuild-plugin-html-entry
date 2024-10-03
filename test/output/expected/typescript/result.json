@@ -55,10 +55,10 @@
         "exports": [],
         "inputs": {
           "html-entry:test/input/pages/typescript.html": {
-            "bytesInOutput": 305
+            "bytesInOutput": 309
           }
         },
-        "bytes": 305,
+        "bytes": 309,
         "entryPoint": "html-entry:test/input/pages/typescript.html"
       },
       "test/output/actual/typescript/from-js-css.gif": {

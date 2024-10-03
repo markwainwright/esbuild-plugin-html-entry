@@ -25,10 +25,10 @@
         "exports": [],
         "inputs": {
           "html-entry:test/input/pages/type-js.html": {
-            "bytesInOutput": 216
+            "bytesInOutput": 220
           }
         },
-        "bytes": 216,
+        "bytes": 220,
         "entryPoint": "html-entry:test/input/pages/type-js.html"
       },
       "test/output/actual/type-js/with-none.js": {

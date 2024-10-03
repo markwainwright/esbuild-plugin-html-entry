@@ -34,10 +34,10 @@
         "exports": [],
         "inputs": {
           "html-entry:test/input/pages/page.html": {
-            "bytesInOutput": 247
+            "bytesInOutput": 251
           }
         },
-        "bytes": 247,
+        "bytes": 251,
         "entryPoint": "html-entry:test/input/pages/page.html"
       },
       "test/output/actual/external-relative-js/from-html-css.gif": {

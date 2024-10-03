@@ -14,10 +14,10 @@
         "exports": [],
         "inputs": {
           "html-entry:test/input/pages/href-absolute.html": {
-            "bytesInOutput": 193
+            "bytesInOutput": 197
           }
         },
-        "bytes": 193,
+        "bytes": 197,
         "entryPoint": "html-entry:test/input/pages/href-absolute.html"
       }
     }

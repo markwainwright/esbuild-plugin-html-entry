@@ -24,8 +24,8 @@ writing:
     files possible being created, which is good for caching
   - If you have any feedback on this behaviour, please feel free to open an issue
 - Populates result [`metafile`] and [`outputFiles`] as similarly to JS/CSS entry points as possible
-- Supports as many esbuild options as possible – e.g. [`external`] – and provides equivalent options
-  to [`banner`] and [`footer`]
+- Supports as many esbuild options as possible – e.g. [`external`], [`charset`] – and provides
+  equivalent options to [`banner`] and [`footer`]
 - Allows JS and CSS entry points alongside HTML entry points as normal
 - Runs the fewest number of sub-builds possible:
   - One if you only use `<script type="module">` or `<script type="text/javascript">`, two if you
@@ -88,6 +88,7 @@ there are a couple of requirements to be aware of:
 [`banner`]: https://esbuild.github.io/api/#banner
 [`external`]: https://esbuild.github.io/api/#external
 [`assetNames`]: https://esbuild.github.io/api/#asset-names
+[`charset`]: https://esbuild.github.io/api/#charset
 [`chunkNames`]: https://esbuild.github.io/api/#chunk-names
 [`external`]: https://esbuild.github.io/api/#external
 [`footer`]: https://esbuild.github.io/api/#footer

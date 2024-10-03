@@ -4,13 +4,13 @@
   "outputFiles": [
     {
       "path": "test/output/actual/public-paths-absolute-no-write/entries/pages/page.html",
-      "hash": "l4bMwX04pgs",
-      "text": "<!DOCTYPE html><html><head>\n    <link rel=\"stylesheet\" href=\"/public-paths-absolute-no-write/subresources/stylesheets/with-asset-6XLDNWK6.css\" integrity=\"sha256-NjwbbrHIoRQfI2BDuFR5g5eYh0RM5Y/8KW/CHrxyknI=\">\n    <link rel=\"stylesheet\" href=\"/public-paths-absolute-no-write/subresources/scripts/with-both-4VUBLPQ7.css\" integrity=\"sha256-aQO12VNHJXvUsF4Uceem+bW6hE236zOXOFlq96/14Ww=\">\n    <script src=\"/public-paths-absolute-no-write/subresources/scripts/with-both-YKLWSQSU.js\" integrity=\"sha256-sPo5XZbMiXtQYJh3HbwZY9wwwz8QiZtZ2WguyAzUEdc=\"></script>\n  </head>\n  <body>\n    Hello world\n  \n\n</body></html>"
+      "hash": "KjYO+08364I",
+      "text": "<!doctype html>\n<html>\n  <head>\n    <link rel=\"stylesheet\" href=\"/public-paths-absolute-no-write/subresources/stylesheets/with-asset-6XLDNWK6.css\" integrity=\"sha256-NjwbbrHIoRQfI2BDuFR5g5eYh0RM5Y/8KW/CHrxyknI=\">\n    <link rel=\"stylesheet\" href=\"/public-paths-absolute-no-write/subresources/scripts/with-both-4VUBLPQ7.css\" integrity=\"sha256-aQO12VNHJXvUsF4Uceem+bW6hE236zOXOFlq96/14Ww=\">\n    <script src=\"/public-paths-absolute-no-write/subresources/scripts/with-both-YKLWSQSU.js\" integrity=\"sha256-sPo5XZbMiXtQYJh3HbwZY9wwwz8QiZtZ2WguyAzUEdc=\"></script>\n  </head>\n  <body>\n    Hello world\n  </body>\n</html>\n"
     },
     {
       "path": "test/output/actual/public-paths-absolute-no-write/entries/pages/nested/nested-page.html",
-      "hash": "5zv0Cbtvhgs",
-      "text": "<!DOCTYPE html><html><head>\n    <link rel=\"stylesheet\" href=\"/public-paths-absolute-no-write/subresources/stylesheets/nested/nested-with-asset-52HP6K5A.css\" integrity=\"sha256-4AP4zGbgXwWIaW2tutfSPsOHzaKHq08XS/8lTmuFYj8=\">\n    <link rel=\"stylesheet\" href=\"/public-paths-absolute-no-write/subresources/scripts/nested/nested-with-both-QAZNQ6FF.css\" integrity=\"sha256-Kiw/jAqDWxTaOZgzPYODCFZGKOEc1VhwRMWzSZi0tyE=\">\n    <script src=\"/public-paths-absolute-no-write/subresources/scripts/nested/nested-with-both-WEG6BIAD.js\" integrity=\"sha256-Ph8uIU9q/UElgd+eNDUvCdfvf0RIKwwxjZ47iYzsM8Y=\"></script>\n\n    <link rel=\"stylesheet\" href=\"/public-paths-absolute-no-write/subresources/stylesheets/with-asset-6XLDNWK6.css\" integrity=\"sha256-NjwbbrHIoRQfI2BDuFR5g5eYh0RM5Y/8KW/CHrxyknI=\">\n    <link rel=\"stylesheet\" href=\"/public-paths-absolute-no-write/subresources/scripts/with-both-4VUBLPQ7.css\" integrity=\"sha256-aQO12VNHJXvUsF4Uceem+bW6hE236zOXOFlq96/14Ww=\">\n    <script src=\"/public-paths-absolute-no-write/subresources/scripts/with-both-YKLWSQSU.js\" integrity=\"sha256-sPo5XZbMiXtQYJh3HbwZY9wwwz8QiZtZ2WguyAzUEdc=\"></script>\n  </head>\n  <body>\n    Hello world\n  \n\n</body></html>"
+      "hash": "p2ZusZQ7YGM",
+      "text": "<!doctype html>\n<html>\n  <head>\n    <link rel=\"stylesheet\" href=\"/public-paths-absolute-no-write/subresources/stylesheets/nested/nested-with-asset-52HP6K5A.css\" integrity=\"sha256-4AP4zGbgXwWIaW2tutfSPsOHzaKHq08XS/8lTmuFYj8=\">\n    <link rel=\"stylesheet\" href=\"/public-paths-absolute-no-write/subresources/scripts/nested/nested-with-both-QAZNQ6FF.css\" integrity=\"sha256-Kiw/jAqDWxTaOZgzPYODCFZGKOEc1VhwRMWzSZi0tyE=\">\n    <script src=\"/public-paths-absolute-no-write/subresources/scripts/nested/nested-with-both-WEG6BIAD.js\" integrity=\"sha256-Ph8uIU9q/UElgd+eNDUvCdfvf0RIKwwxjZ47iYzsM8Y=\"></script>\n\n    <link rel=\"stylesheet\" href=\"/public-paths-absolute-no-write/subresources/stylesheets/with-asset-6XLDNWK6.css\" integrity=\"sha256-NjwbbrHIoRQfI2BDuFR5g5eYh0RM5Y/8KW/CHrxyknI=\">\n    <link rel=\"stylesheet\" href=\"/public-paths-absolute-no-write/subresources/scripts/with-both-4VUBLPQ7.css\" integrity=\"sha256-aQO12VNHJXvUsF4Uceem+bW6hE236zOXOFlq96/14Ww=\">\n    <script src=\"/public-paths-absolute-no-write/subresources/scripts/with-both-YKLWSQSU.js\" integrity=\"sha256-sPo5XZbMiXtQYJh3HbwZY9wwwz8QiZtZ2WguyAzUEdc=\"></script>\n  </head>\n  <body>\n    Hello world\n  </body>\n</html>\n"
     },
     {
       "path": "test/output/actual/public-paths-absolute-no-write/assets/images/from-html-css-QROD6PU2.gif",
@@ -187,10 +187,10 @@
         "exports": [],
         "inputs": {
           "html-entry:test/input/pages/page.html": {
-            "bytesInOutput": 603
+            "bytesInOutput": 607
           }
         },
-        "bytes": 603,
+        "bytes": 607,
         "entryPoint": "html-entry:test/input/pages/page.html"
       },
       "test/output/actual/public-paths-absolute-no-write/entries/pages/nested/nested-page.html": {
@@ -198,10 +198,10 @@
         "exports": [],
         "inputs": {
           "html-entry:test/input/pages/nested/nested-page.html": {
-            "bytesInOutput": 1168
+            "bytesInOutput": 1172
           }
         },
-        "bytes": 1168,
+        "bytes": 1172,
         "entryPoint": "html-entry:test/input/pages/nested/nested-page.html"
       },
       "test/output/actual/public-paths-absolute-no-write/assets/images/from-html-css-QROD6PU2.gif": {

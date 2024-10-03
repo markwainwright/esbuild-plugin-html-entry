@@ -117,10 +117,10 @@
         "exports": [],
         "inputs": {
           "html-entry:test/input/pages/splitting.html": {
-            "bytesInOutput": 389
+            "bytesInOutput": 393
           }
         },
-        "bytes": 389,
+        "bytes": 393,
         "entryPoint": "html-entry:test/input/pages/splitting.html"
       },
       "test/output/actual/splitting/entries/pages/splitting2.html": {
@@ -128,10 +128,10 @@
         "exports": [],
         "inputs": {
           "html-entry:test/input/pages/splitting2.html": {
-            "bytesInOutput": 529
+            "bytesInOutput": 533
           }
         },
-        "bytes": 529,
+        "bytes": 533,
         "entryPoint": "html-entry:test/input/pages/splitting2.html"
       },
       "test/output/actual/splitting/entries/pages/splitting3.html": {
@@ -139,10 +139,10 @@
         "exports": [],
         "inputs": {
           "html-entry:test/input/pages/splitting3.html": {
-            "bytesInOutput": 525
+            "bytesInOutput": 529
           }
         },
-        "bytes": 525,
+        "bytes": 529,
         "entryPoint": "html-entry:test/input/pages/splitting3.html"
       },
       "test/output/actual/splitting/assets/images/from-js-css-QROD6PU2.gif": {

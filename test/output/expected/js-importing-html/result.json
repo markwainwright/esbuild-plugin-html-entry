@@ -35,10 +35,10 @@
         "exports": [],
         "inputs": {
           "html-entry:test/input/pages/js-import-html.html": {
-            "bytesInOutput": 191
+            "bytesInOutput": 195
           }
         },
-        "bytes": 191,
+        "bytes": 195,
         "entryPoint": "html-entry:test/input/pages/js-import-html.html"
       },
       "test/output/actual/js-importing-html/js-import-html.js": {

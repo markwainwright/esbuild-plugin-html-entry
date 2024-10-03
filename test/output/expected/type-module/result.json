@@ -36,10 +36,10 @@
         "exports": [],
         "inputs": {
           "html-entry:test/input/pages/type-module.html": {
-            "bytesInOutput": 198
+            "bytesInOutput": 202
           }
         },
-        "bytes": 198,
+        "bytes": 202,
         "entryPoint": "html-entry:test/input/pages/type-module.html"
       },
       "test/output/actual/type-module/with-js.js": {

@@ -13,8 +13,11 @@ interface AnnotatedElement {
 const SELECTOR =
   'script[src]:not([type]), script[src][type="application/javascript"], script[src][type=""], script[src][type=module], link[href][rel=stylesheet]';
 
-export function findElements(html: string): [CheerioAPI, AnnotatedElement[]] {
-  const $ = load(html);
+export function findElements(
+  html: string,
+  charset: "ascii" | "utf8" = "ascii"
+): [CheerioAPI, AnnotatedElement[]] {
+  const $ = load(html, { xml: { decodeEntities: charset === "ascii", xmlMode: false } });
 
   return [
     $,
@@ -93,4 +96,8 @@ export function insertLinkElement($: CheerioAPI, scriptElement: Element): Annota
     hrefAttribute: "href",
     format: "iife",
   };
+}
+
+export function getHtml($: CheerioAPI): string {
+  return $.html();
 }

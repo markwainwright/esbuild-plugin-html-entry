@@ -135,10 +135,10 @@
         "exports": [],
         "inputs": {
           "html-entry:test/input/pages/page.html": {
-            "bytesInOutput": 552
+            "bytesInOutput": 556
           }
         },
-        "bytes": 552,
+        "bytes": 556,
         "entryPoint": "html-entry:test/input/pages/page.html"
       },
       "test/output/actual/public-paths-relative-outbase/entries/input/pages/nested/nested-page.html": {
@@ -146,10 +146,10 @@
         "exports": [],
         "inputs": {
           "html-entry:test/input/pages/nested/nested-page.html": {
-            "bytesInOutput": 1084
+            "bytesInOutput": 1088
           }
         },
-        "bytes": 1084,
+        "bytes": 1088,
         "entryPoint": "html-entry:test/input/pages/nested/nested-page.html"
       },
       "test/output/actual/public-paths-relative-outbase/assets/input/images/from-html-css-QROD6PU2.gif": {

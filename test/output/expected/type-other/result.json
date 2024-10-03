@@ -14,10 +14,10 @@
         "exports": [],
         "inputs": {
           "html-entry:test/input/pages/type-other.html": {
-            "bytesInOutput": 147
+            "bytesInOutput": 151
           }
         },
-        "bytes": 147,
+        "bytes": 151,
         "entryPoint": "html-entry:test/input/pages/type-other.html"
       }
     }
