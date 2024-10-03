@@ -7,6 +7,11 @@
         "bytes": 210,
         "imports": [
           {
+            "path": "../stylesheets/from-html-with-asset.css",
+            "kind": "import-statement",
+            "external": true
+          },
+          {
             "path": "test/input/scripts/with-all.js",
             "kind": "import-statement",
             "original": "../scripts/with-all.js"
@@ -51,7 +56,13 @@
     },
     "outputs": {
       "test/output/actual/external/absolute/css/all.html": {
-        "imports": [],
+        "imports": [
+          {
+            "path": "../stylesheets/from-html-with-asset.css",
+            "kind": "import-statement",
+            "external": true
+          }
+        ],
         "exports": [],
         "inputs": {
           "html-entry:test/input/pages/all.html": {

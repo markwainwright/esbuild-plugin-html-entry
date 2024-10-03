@@ -10,6 +10,11 @@
             "path": "test/input/stylesheets/from-html-with-asset.css",
             "kind": "import-statement",
             "original": "../stylesheets/from-html-with-asset.css"
+          },
+          {
+            "path": "../scripts/with-all.js",
+            "kind": "import-statement",
+            "external": true
           }
         ]
       },
@@ -30,7 +35,13 @@
     },
     "outputs": {
       "test/output/actual/external/absolute/js/all.html": {
-        "imports": [],
+        "imports": [
+          {
+            "path": "../scripts/with-all.js",
+            "kind": "import-statement",
+            "external": true
+          }
+        ],
         "exports": [],
         "inputs": {
           "html-entry:test/input/pages/all.html": {

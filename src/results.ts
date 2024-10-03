@@ -62,8 +62,14 @@ export function augmentMetafile(metafile: Metafile, results: Results): Metafile 
 
   for (const [outputPath, output] of Object.entries(metafile.outputs)) {
     if (outputPath.endsWith(".html") || outputPath.endsWith(".htm")) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const inputPathRel = Object.keys(output.inputs)[0]!;
+
       // This isn't set by esbuild because we're using the "copy" loader
-      output.entryPoint = Object.keys(output.inputs)[0];
+      output.entryPoint = inputPathRel;
+
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      output.imports = metafile.inputs[inputPathRel]!.imports.filter(i => i.external);
     }
   }
 

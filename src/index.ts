@@ -14,6 +14,8 @@ import { augmentMetafile, augmentOutputFiles, type HtmlResult, type Results } fr
 import { timeout } from "./timeout.js";
 import { getWorkingDirAbs } from "./working-dir.js";
 
+const KIND = "import-statement";
+
 export interface EsbuildPluginHtmlEntryOptions {
   subresourceNames?: string;
   integrity?: string;
@@ -107,20 +109,17 @@ export function esbuildPluginHtmlEntry(pluginOptions: EsbuildPluginHtmlEntryOpti
         const watchFiles = new Set<string>();
 
         const resolveOptions = {
-          kind: "import-statement" as const,
+          kind: KIND,
           importer: htmlPathAbs,
           resolveDir: dirname(htmlPathAbs),
-        };
+        } as const;
 
         const assets = (
           await Promise.all(
             elements.map(async element => {
               const assetHref = getHref($, element);
               const resolveResult = await build.resolve(assetHref, resolveOptions);
-
-              if (resolveResult.external) {
-                return null;
-              }
+              const { path, external } = resolveResult;
 
               if (resolveResult.errors.length) {
                 errors.push(...resolveResult.errors);
@@ -131,9 +130,9 @@ export function esbuildPluginHtmlEntry(pluginOptions: EsbuildPluginHtmlEntryOpti
                 warnings.push(...resolveResult.warnings);
               }
 
-              const assetPathRel = relative(workingDirAbs, resolveResult.path);
+              const assetPathRel = relative(workingDirAbs, path);
 
-              return { assetPathRel, assetHref, element };
+              return { assetPathRel, assetHref, element, external };
             })
           )
         ).filter(asset => asset !== null);
@@ -144,13 +143,15 @@ export function esbuildPluginHtmlEntry(pluginOptions: EsbuildPluginHtmlEntryOpti
         };
         results.htmlEntryPoints.set(htmlPathAbs, htmlResult);
 
-        assets.forEach(({ assetPathRel, assetHref, element }) => {
-          htmlResult.imports.push({
-            path: assetPathRel,
-            kind: "import-statement",
-            original: assetHref,
-          });
-          buildInput[element.format].add(assetPathRel);
+        assets.forEach(({ assetPathRel, assetHref, element, external }) => {
+          htmlResult.imports.push(
+            external
+              ? { path: assetHref, kind: KIND, external: true }
+              : { path: assetPathRel, kind: KIND, original: assetHref }
+          );
+          if (!external) {
+            buildInput[element.format].add(assetPathRel);
+          }
         });
 
         if (results.htmlEntryPoints.size === htmlEntryPointPaths.size) {
@@ -163,7 +164,11 @@ export function esbuildPluginHtmlEntry(pluginOptions: EsbuildPluginHtmlEntryOpti
         ]);
 
         await Promise.all(
-          assets.map(async ({ element, assetPathRel }) => {
+          assets.map(async ({ element, assetPathRel, external }) => {
+            if (external) {
+              return;
+            }
+
             const output = buildOutput[element.format].get(assetPathRel);
 
             if (!output) {
