@@ -326,3 +326,8 @@ await test("href - invalid", async t => {
     assert.match(error.message, /error: Could not resolve "..\/scripts\/whoops.js"/);
   }
 });
+
+await testBuild("JS importing HTML", {
+  entryPoints: ["test/input/pages/js-import-html.html"],
+  loader: { ".html": "text" },
+});

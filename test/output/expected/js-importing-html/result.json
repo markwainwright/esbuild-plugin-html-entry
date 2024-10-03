@@ -1,0 +1,59 @@
+{
+  "errors": [],
+  "warnings": [],
+  "metafile": {
+    "inputs": {
+      "html-entry:test/input/pages/js-import-html.html": {
+        "bytes": 142,
+        "imports": [
+          {
+            "path": "test/input/scripts/js-import-html.js",
+            "kind": "import-statement",
+            "original": "../scripts/js-import-html.js"
+          }
+        ]
+      },
+      "test/input/pages/dead-end.html": {
+        "bytes": 203,
+        "imports": []
+      },
+      "test/input/scripts/js-import-html.js": {
+        "bytes": 72,
+        "imports": [
+          {
+            "path": "test/input/pages/dead-end.html",
+            "kind": "import-statement",
+            "original": "../pages/dead-end.html"
+          }
+        ],
+        "format": "esm"
+      }
+    },
+    "outputs": {
+      "test/output/actual/js-importing-html/js-import-html.html": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "html-entry:test/input/pages/js-import-html.html": {
+            "bytesInOutput": 191
+          }
+        },
+        "bytes": 191,
+        "entryPoint": "html-entry:test/input/pages/js-import-html.html"
+      },
+      "test/output/actual/js-importing-html/js-import-html.js": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "test/input/pages/dead-end.html": {
+            "bytesInOutput": 243
+          },
+          "test/input/scripts/js-import-html.js": {
+            "bytesInOutput": 42
+          }
+        },
+        "bytes": 393
+      }
+    }
+  }
+}
