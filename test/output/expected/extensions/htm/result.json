@@ -37,7 +37,8 @@
             "bytesInOutput": 188
           }
         },
-        "bytes": 188
+        "bytes": 188,
+        "entryPoint": "html-entry:test/input/pages/simple.htm"
       },
       "test/output/actual/extensions/htm/from-html-without-asset.css": {
         "imports": [],

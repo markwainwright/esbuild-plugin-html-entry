@@ -61,7 +61,7 @@ export function augmentMetafile(metafile: Metafile, results: Results): Metafile 
   */
 
   for (const [outputPath, output] of Object.entries(metafile.outputs)) {
-    if (outputPath.endsWith(".html")) {
+    if (outputPath.endsWith(".html") || outputPath.endsWith(".htm")) {
       // This isn't set by esbuild because we're using the "copy" loader
       output.entryPoint = Object.keys(output.inputs)[0];
     }
