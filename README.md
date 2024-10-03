@@ -24,8 +24,8 @@ writing:
     files possible being created, which is good for caching
   - If you have any feedback on this behaviour, please feel free to open an issue
 - Populates result [`metafile`] and [`outputFiles`] as similarly to JS/CSS entry points as possible
-- Supports as many esbuild options as possible – e.g. [`external`], [`charset`] – and provides
-  equivalent options to [`banner`] and [`footer`]
+- Handles as many esbuild options as possible – e.g. [`external`], [`lineLimit`], [`charset`] – and
+  provides equivalent options to [`banner`] and [`footer`]
 - Allows JS and CSS entry points alongside HTML entry points as normal
 - Runs the fewest number of sub-builds possible:
   - One if you only use `<script type="module">` or `<script type="text/javascript">`, two if you
@@ -73,7 +73,6 @@ there are a couple of requirements to be aware of:
 1. Does not support an equivalent of esbuild [`outExtension`] option for HTML files.
    - Output HTML files will always have the same extension as input HTML files (`.html` or `.htm`)
    - PRs welcome!
-1. esbuild [`lineLimit`] option is only applied when [`minify`] is `true`
 1. In `metafile`, `inputs[].imports[].kind` for HTML → JS/CSS imports will always be set to
    `"import-statement"`
    - Something like `"script-tag" | "link-tag"` would be possible, but I'm not sure how safe

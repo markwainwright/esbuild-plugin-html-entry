@@ -199,13 +199,16 @@ export function esbuildPluginHtmlEntry(pluginOptions: EsbuildPluginHtmlEntryOpti
           })
         );
 
-        const html = getHtml($);
-        let contents = buildOptions.minify
-          ? await minify(html, {
-              maxLineLength: buildOptions.lineLimit ?? undefined,
-              ...pluginOptions.minifyOptions,
-            })
-          : html;
+        let contents = getHtml($);
+
+        if (buildOptions.minify) {
+          contents = await minify(contents, {
+            maxLineLength: buildOptions.lineLimit ?? undefined,
+            ...pluginOptions.minifyOptions,
+          });
+        } else if (buildOptions.lineLimit) {
+          contents = await minify(contents, { maxLineLength: buildOptions.lineLimit });
+        }
 
         if (pluginOptions.banner) {
           contents = `${pluginOptions.banner}\n${contents}`;

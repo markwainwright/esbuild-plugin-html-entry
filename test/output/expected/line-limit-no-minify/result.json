@@ -29,35 +29,35 @@
       }
     },
     "outputs": {
-      "test/output/actual/minified-output-line-limit/dead-end.html": {
+      "test/output/actual/line-limit-no-minify/dead-end.html": {
         "imports": [],
         "exports": [],
         "inputs": {
           "html-entry:test/input/pages/dead-end.html": {
-            "bytesInOutput": 280
+            "bytesInOutput": 307
           }
         },
-        "bytes": 280,
+        "bytes": 307,
         "entryPoint": "html-entry:test/input/pages/dead-end.html"
       },
-      "test/output/actual/minified-output-line-limit/with-none.css": {
+      "test/output/actual/line-limit-no-minify/with-none.css": {
         "imports": [],
         "inputs": {
           "test/input/stylesheets/with-none.css": {
-            "bytesInOutput": 29
+            "bytesInOutput": 37
           }
         },
-        "bytes": 30
+        "bytes": 80
       },
-      "test/output/actual/minified-output-line-limit/with-none.js": {
+      "test/output/actual/line-limit-no-minify/with-none.js": {
         "imports": [],
         "exports": [],
         "inputs": {
           "test/input/scripts/with-none.js": {
-            "bytesInOutput": 38
+            "bytesInOutput": 41
           }
         },
-        "bytes": 63
+        "bytes": 107
       }
     }
   }

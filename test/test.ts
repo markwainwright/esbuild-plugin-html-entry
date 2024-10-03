@@ -166,7 +166,7 @@ await testBuild(
 );
 
 await testBuild(
-  "minified output - line limit",
+  "line limit - minify",
   {
     entryPoints: ["test/input/pages/dead-end.html"],
     minify: true,
@@ -178,6 +178,11 @@ await testBuild(
     },
   }
 );
+
+await testBuild("line limit - no minify", {
+  entryPoints: ["test/input/pages/dead-end.html"],
+  lineLimit: 30,
+});
 
 await testBuild("minified input", { entryPoints: ["test/input/pages/minified.html"] });
 
@@ -212,6 +217,7 @@ await testBuild(
       "test/input/stylesheets/with-asset.css",
     ],
     entryNames: "entries/[name]",
+    platform: "browser",
   },
   {
     integrity: undefined,
