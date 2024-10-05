@@ -209,7 +209,7 @@ export function esbuildPluginHtmlEntry(pluginOptions: EsbuildPluginHtmlEntryOpti
         if (buildOptions.minify) {
           contents = await minify(contents, {
             maxLineLength: buildOptions.lineLimit ?? undefined,
-            ...pluginOptions.minifyOptions,
+            ...(pluginOptions.minifyOptions ?? { collapseWhitespace: true }),
           });
         } else if (buildOptions.lineLimit) {
           contents = await minify(contents, { maxLineLength: buildOptions.lineLimit });

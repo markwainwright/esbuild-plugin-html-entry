@@ -54,8 +54,9 @@ esbuild.build({
   - Default: value of `assetNames`
   - See [esbuild docs](https://esbuild.github.io/api/#asset-names) for placeholder format
 - **`minifyOptions`** (optional) – options passed to [html-minifier-terser] if `minify` is `true`
-- **`banner`** (optional) – prepend a string to each output HTML file. See [`banner`]
-- **`footer`** (optional) – append a string to each output HTML file. See [`footer`]
+  - Default: `{ collapseWhitespace: true }`
+- **`banner`** (optional) – prepend a string to each output HTML file – see [`banner`]
+- **`footer`** (optional) – append a string to each output HTML file – see [`footer`]
 
 ## esbuild options
 

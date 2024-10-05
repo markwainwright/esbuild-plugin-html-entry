@@ -29,18 +29,18 @@
       }
     },
     "outputs": {
-      "test/output/actual/minify/enabled/linelimit/simple.html": {
+      "test/output/actual/minify/enabled/custom-options/linelimit/simple.html": {
         "imports": [],
         "exports": [],
         "inputs": {
           "html-entry:test/input/pages/simple.html": {
-            "bytesInOutput": 165
+            "bytesInOutput": 159
           }
         },
-        "bytes": 165,
+        "bytes": 159,
         "entryPoint": "html-entry:test/input/pages/simple.html"
       },
-      "test/output/actual/minify/enabled/linelimit/from-html-without-asset.css": {
+      "test/output/actual/minify/enabled/custom-options/linelimit/from-html-without-asset.css": {
         "imports": [],
         "inputs": {
           "test/input/stylesheets/from-html-without-asset.css": {
@@ -49,7 +49,7 @@
         },
         "bytes": 28
       },
-      "test/output/actual/minify/enabled/linelimit/with-none.js": {
+      "test/output/actual/minify/enabled/custom-options/linelimit/with-none.js": {
         "imports": [],
         "exports": [],
         "inputs": {

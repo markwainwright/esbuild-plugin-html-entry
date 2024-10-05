@@ -4,17 +4,29 @@ import { testBuild } from "./helpers/test-build.js";
 
 suite("minify", () => {
   suite("enabled", () => {
-    testBuild(
-      "no lineLimit",
-      { entryPoints: ["test/input/pages/simple.html"], minify: true },
-      { minifyOptions: { collapseWhitespace: true } }
-    );
+    suite("default options", () => {
+      testBuild("no lineLimit", { entryPoints: ["test/input/pages/simple.html"], minify: true });
 
-    testBuild(
-      "lineLimit",
-      { entryPoints: ["test/input/pages/simple.html"], minify: true, lineLimit: 30 },
-      { minifyOptions: { collapseWhitespace: true } }
-    );
+      testBuild("lineLimit", {
+        entryPoints: ["test/input/pages/simple.html"],
+        minify: true,
+        lineLimit: 30,
+      });
+    });
+
+    suite("custom options", () => {
+      testBuild(
+        "no lineLimit",
+        { entryPoints: ["test/input/pages/simple.html"], minify: true },
+        { minifyOptions: { collapseWhitespace: true, removeAttributeQuotes: true } }
+      );
+
+      testBuild(
+        "lineLimit",
+        { entryPoints: ["test/input/pages/simple.html"], minify: true, lineLimit: 30 },
+        { minifyOptions: { collapseWhitespace: true, removeAttributeQuotes: true } }
+      );
+    });
   });
 
   suite("disabled", () => {
