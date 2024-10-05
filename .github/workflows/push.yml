@@ -25,7 +25,7 @@ jobs:
       - name: Install esbuild
         run: "npm i esbuild@${{ matrix.esbuildVersion }} && npm ls esbuild --depth 0"
       - name: Test
-        run: npm run test:coverage
+        run: npm run test:ci
 
   check:
     runs-on: ubuntu-latest

@@ -33,13 +33,14 @@
   "scripts": {
     "build": "./build.sh",
     "check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\" && eslint && tsc --noEmit",
-    "prepare": "npm run build",
-    "test:coverage": "c8 node --test --test-reporter=@voxpelli/node-test-pretty-reporter --import tsx/esm test/*.ts test/esm/test.mjs test/cjs/test.cjs",
-    "test:update": "rm -rf test/output/{actual,expected}/* && npm test > /dev/null ; cp -r test/output/actual/* test/output/expected/",
+    "prepack": "npm run build",
+    "test:ci": "npm run build && c8 node --test --test-reporter=@voxpelli/node-test-pretty-reporter --import tsx/esm test/*.ts test/esm/test.mjs test/cjs/test.cjs",
+    "test:coverage": "c8 node --test --test-reporter=@voxpelli/node-test-pretty-reporter --import tsx/esm test/*.ts",
+    "test:update": "rm -rf test/output/{actual,expected}/* && npm run build && node --test --import tsx/esm test/*.ts test/esm/test.mjs test/cjs/test.cjs > /dev/null ; cp -r test/output/actual/* test/output/expected/",
     "test:watch:only": "node --test --test-only --watch --test-reporter=@voxpelli/node-test-pretty-reporter --import=tsx/esm test/*.ts",
     "test:watch": "node --test --watch --test-reporter=@voxpelli/node-test-pretty-reporter --import=tsx/esm test/*.ts",
     "test:only": "node --test --test-only --test-reporter=@voxpelli/node-test-pretty-reporter --import tsx/esm test/*.ts",
-    "test": "node --test --test-reporter=@voxpelli/node-test-pretty-reporter --import tsx/esm test/*.ts test/esm/test.mjs test/cjs/test.cjs"
+    "test": "node --test --test-reporter=@voxpelli/node-test-pretty-reporter --import tsx/esm test/*.ts"
   },
   "dependencies": {
     "@types/html-minifier-terser": "^7.0.2",
