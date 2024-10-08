@@ -1,0 +1,108 @@
+{
+  "errors": [],
+  "warnings": [],
+  "metafile": {
+    "inputs": {
+      "html-entry:test/input/pages/simple.html": {
+        "bytes": 217,
+        "imports": [
+          {
+            "path": "test/input/stylesheets/from-html-without-asset.css",
+            "kind": "import-statement",
+            "original": "../stylesheets/from-html-without-asset.css"
+          },
+          {
+            "path": "test/input/scripts/with-none.js",
+            "kind": "import-statement",
+            "original": "../scripts/with-none.js"
+          }
+        ]
+      },
+      "test/input/pages/none.html": {
+        "bytes": 80,
+        "imports": []
+      },
+      "test/input/scripts/with-html.js": {
+        "bytes": 83,
+        "imports": [
+          {
+            "path": "test/input/pages/none.html",
+            "kind": "import-statement",
+            "original": "../pages/none.html"
+          }
+        ],
+        "format": "esm"
+      },
+      "test/input/scripts/with-none.js": {
+        "bytes": 37,
+        "imports": [],
+        "format": "esm"
+      },
+      "test/input/stylesheets/from-html-without-asset.css": {
+        "bytes": 35,
+        "imports": []
+      }
+    },
+    "outputs": {
+      "test/output/actual/import-language/html/via-entrypoint/file-loader/simple.html": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "html-entry:test/input/pages/simple.html": {
+            "bytesInOutput": 189
+          }
+        },
+        "bytes": 189,
+        "entryPoint": "html-entry:test/input/pages/simple.html"
+      },
+      "test/output/actual/import-language/html/via-entrypoint/file-loader/none.html": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "test/input/pages/none.html": {
+            "bytesInOutput": 80
+          }
+        },
+        "bytes": 80
+      },
+      "test/output/actual/import-language/html/via-entrypoint/file-loader/with-html.js": {
+        "imports": [
+          {
+            "path": "test/output/actual/import-language/html/via-entrypoint/file-loader/none.html",
+            "kind": "file-loader"
+          }
+        ],
+        "exports": [],
+        "entryPoint": "test/input/scripts/with-html.js",
+        "inputs": {
+          "test/input/pages/none.html": {
+            "bytesInOutput": 34
+          },
+          "test/input/scripts/with-html.js": {
+            "bytesInOutput": 51
+          }
+        },
+        "bytes": 166
+      },
+      "test/output/actual/import-language/html/via-entrypoint/file-loader/from-html-without-asset.css": {
+        "imports": [],
+        "inputs": {
+          "test/input/stylesheets/from-html-without-asset.css": {
+            "bytesInOutput": 35
+          }
+        },
+        "bytes": 92
+      },
+      "test/output/actual/import-language/html/via-entrypoint/file-loader/with-none.js": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "test/input/scripts/with-none.js": {
+            "bytesInOutput": 39
+          }
+        },
+        "bytes": 105
+      }
+    }
+  }
+}

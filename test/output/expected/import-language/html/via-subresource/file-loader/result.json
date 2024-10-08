@@ -1,0 +1,74 @@
+{
+  "errors": [],
+  "warnings": [],
+  "metafile": {
+    "inputs": {
+      "html-entry:test/input/pages/lang-html.html": {
+        "bytes": 140,
+        "imports": [
+          {
+            "path": "test/input/scripts/with-html.js",
+            "kind": "import-statement",
+            "original": "../scripts/with-html.js"
+          }
+        ]
+      },
+      "test/input/pages/none.html": {
+        "bytes": 80,
+        "imports": []
+      },
+      "test/input/scripts/with-html.js": {
+        "bytes": 83,
+        "imports": [
+          {
+            "path": "test/input/pages/none.html",
+            "kind": "import-statement",
+            "original": "../pages/none.html"
+          }
+        ],
+        "format": "esm"
+      }
+    },
+    "outputs": {
+      "test/output/actual/import-language/html/via-subresource/file-loader/lang-html.html": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "html-entry:test/input/pages/lang-html.html": {
+            "bytesInOutput": 129
+          }
+        },
+        "bytes": 129,
+        "entryPoint": "html-entry:test/input/pages/lang-html.html"
+      },
+      "test/output/actual/import-language/html/via-subresource/file-loader/none.html": {
+        "imports": [],
+        "exports": [],
+        "inputs": {
+          "test/input/pages/none.html": {
+            "bytesInOutput": 80
+          }
+        },
+        "bytes": 80
+      },
+      "test/output/actual/import-language/html/via-subresource/file-loader/with-html.js": {
+        "imports": [
+          {
+            "path": "test/output/actual/import-language/html/via-subresource/file-loader/none.html",
+            "kind": "file-loader"
+          }
+        ],
+        "exports": [],
+        "inputs": {
+          "test/input/pages/none.html": {
+            "bytesInOutput": 36
+          },
+          "test/input/scripts/with-html.js": {
+            "bytesInOutput": 53
+          }
+        },
+        "bytes": 188
+      }
+    }
+  }
+}

@@ -4,7 +4,7 @@
   "metafile": {
     "inputs": {
       "html-entry:test/input/pages/lang-html.html": {
-        "bytes": 142,
+        "bytes": 140,
         "imports": [
           {
             "path": "test/input/scripts/with-html.js",
@@ -13,46 +13,46 @@
           }
         ]
       },
-      "test/input/pages/simple.html": {
-        "bytes": 217,
+      "test/input/pages/none.html": {
+        "bytes": 80,
         "imports": []
       },
       "test/input/scripts/with-html.js": {
-        "bytes": 85,
+        "bytes": 83,
         "imports": [
           {
-            "path": "test/input/pages/simple.html",
+            "path": "test/input/pages/none.html",
             "kind": "import-statement",
-            "original": "../pages/simple.html"
+            "original": "../pages/none.html"
           }
         ],
         "format": "esm"
       }
     },
     "outputs": {
-      "test/output/actual/import-language/html/lang-html.html": {
+      "test/output/actual/import-language/html/via-subresource/text-loader/lang-html.html": {
         "imports": [],
         "exports": [],
         "inputs": {
           "html-entry:test/input/pages/lang-html.html": {
-            "bytesInOutput": 131
+            "bytesInOutput": 129
           }
         },
-        "bytes": 131,
+        "bytes": 129,
         "entryPoint": "html-entry:test/input/pages/lang-html.html"
       },
-      "test/output/actual/import-language/html/with-html.js": {
+      "test/output/actual/import-language/html/via-subresource/text-loader/with-html.js": {
         "imports": [],
         "exports": [],
         "inputs": {
-          "test/input/pages/simple.html": {
-            "bytesInOutput": 255
+          "test/input/pages/none.html": {
+            "bytesInOutput": 112
           },
           "test/input/scripts/with-html.js": {
-            "bytesInOutput": 55
+            "bytesInOutput": 53
           }
         },
-        "bytes": 411
+        "bytes": 264
       }
     }
   }
