@@ -8,7 +8,6 @@ import esbuild, { type BuildOptions, type BuildResult } from "esbuild";
 import { rimraf } from "rimraf";
 
 import { esbuildPluginHtmlEntry, type EsbuildPluginHtmlEntryOptions } from "../../src/index.js";
-import { NAMESPACE } from "../../src/namespace.js";
 
 function getTestNameDir(testName: string) {
   return testName
@@ -73,34 +72,8 @@ async function build(
   });
 }
 
-function mapKeys<V>(object: Record<string, V>, callback: (key: string) => string) {
-  return Object.fromEntries(Object.entries(object).map(([key, value]) => [callback(key), value]));
-}
-
-function createMakeAbsolute(workingDirAbs: string) {
-  return function makeAbsolute(path: string) {
-    return path.startsWith(NAMESPACE)
-      ? `${NAMESPACE}:${relative(workingDirAbs, path.substring(NAMESPACE.length + 1))}`
-      : path;
-  };
-}
-
 /** Remove all absolute paths from result so it can be diffed across systems */
 function sanitizeResult(workingDirAbs: string, result: BuildResult) {
-  if (result.metafile) {
-    const makeAbsolute = createMakeAbsolute(workingDirAbs);
-
-    result.metafile.inputs = mapKeys(result.metafile.inputs, makeAbsolute);
-
-    for (const output of Object.values(result.metafile.outputs)) {
-      output.inputs = mapKeys(output.inputs, makeAbsolute);
-
-      if (output.entryPoint) {
-        output.entryPoint = makeAbsolute(output.entryPoint);
-      }
-    }
-  }
-
   return {
     ...result,
     outputFiles: result.outputFiles?.map(({ path, hash, text }) => ({

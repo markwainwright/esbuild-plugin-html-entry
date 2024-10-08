@@ -1,5 +1,5 @@
 import { readFile } from "node:fs/promises";
-import { dirname, relative } from "node:path";
+import { dirname, relative, resolve } from "node:path";
 
 import type { BuildOptions, Message, Metafile, Plugin } from "esbuild";
 import { minify, type Options as MinifyOptions } from "html-minifier-terser";
@@ -15,6 +15,7 @@ import { timeout } from "./timeout.js";
 import { getWorkingDirAbs } from "./working-dir.js";
 
 const KIND = "import-statement";
+const FILTER = /\.html?$/;
 
 export interface EsbuildPluginHtmlEntryOptions {
   readonly subresourceNames?: string;
@@ -102,7 +103,7 @@ export function esbuildPluginHtmlEntry(pluginOptions: EsbuildPluginHtmlEntryOpti
 
       let buildState = createBuildState();
 
-      build.onResolve({ filter: /\.html?$/ }, async ({ path, ...args }) => {
+      build.onResolve({ filter: FILTER }, async ({ path, ...args }) => {
         if (args.kind !== "entry-point" || args.namespace === NAMESPACE) {
           return;
         }
@@ -111,10 +112,16 @@ export function esbuildPluginHtmlEntry(pluginOptions: EsbuildPluginHtmlEntryOpti
 
         buildState.htmlEntryPointPaths.add(resolveResult.path);
 
-        return { ...resolveResult, namespace: NAMESPACE };
+        return {
+          ...resolveResult,
+          // If we return an absolute path then that will be visible in the metafile, so we return
+          // a relative path and convert it back to absolute in onLoad
+          path: relative(workingDirAbs, resolveResult.path),
+          namespace: NAMESPACE,
+        };
       });
 
-      build.onLoad({ namespace: NAMESPACE, filter: /\.html?$/ }, async args => {
+      build.onLoad({ namespace: NAMESPACE, filter: FILTER }, async args => {
         const { errors, warnings, imports } = createLoadState();
         const {
           htmlEntryPointPaths,
@@ -123,7 +130,8 @@ export function esbuildPluginHtmlEntry(pluginOptions: EsbuildPluginHtmlEntryOpti
           htmlEntryPointMetadata,
         } = buildState;
 
-        const htmlPathAbs = args.path;
+        const htmlPathRel = args.path;
+        const htmlPathAbs = resolve(workingDirAbs, htmlPathRel);
         const htmlDirAbs = dirname(htmlPathAbs);
         const [htmlContentString, htmlContentBytes] = await read(htmlPathAbs);
 
@@ -172,7 +180,7 @@ export function esbuildPluginHtmlEntry(pluginOptions: EsbuildPluginHtmlEntryOpti
           }
         });
 
-        htmlEntryPointMetadata.set(htmlPathAbs, { imports, inputBytes: htmlContentBytes });
+        htmlEntryPointMetadata.set(htmlPathRel, { imports, inputBytes: htmlContentBytes });
 
         if (htmlEntryPointMetadata.size === htmlEntryPointPaths.size) {
           // This is the last HTML entry point, so trigger the sub-build

@@ -2,7 +2,7 @@ import type { Metafile, OutputFile } from "esbuild";
 
 import type { SubBuildResult } from "./sub-build.js";
 
-/** Map of absolute HTML entry point path to result metadata */
+/** Map of relative HTML entry point path to result metadata */
 export type HtmlEntryPointMetadata = Map<
   string,
   {
@@ -41,10 +41,8 @@ export function augmentMetafile(
   htmlEntryPointMetadata: HtmlEntryPointMetadata,
   subBuildResult: SubBuildResult
 ): Metafile | undefined {
-  // Note: this will also be run in the onEnd hook for the sub-builds created by this plugin
-
   /*
-    inputs[].imports
+    inputs[].bytes; inputs[].imports (for HTML entry points)
   */
 
   for (const [path, { inputBytes, imports }] of htmlEntryPointMetadata) {
@@ -61,7 +59,7 @@ export function augmentMetafile(
   }
 
   /*
-    outputs[].entryPoint (for HTML)
+    outputs[].entryPoint; outputs[].imports (for HTML entry points)
   */
 
   for (const [outputPath, output] of Object.entries(metafile.outputs)) {
@@ -78,8 +76,7 @@ export function augmentMetafile(
   }
 
   /*
-    inputs  (for subresources)
-    outputs (for subresources)
+    inputs; outputs (for subresources)
   */
 
   const inputs = sortByKey(subBuildResult.inputs);
