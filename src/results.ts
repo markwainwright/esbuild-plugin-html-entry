@@ -1,8 +1,6 @@
 import type { Metafile, OutputFile } from "esbuild";
 
-import type { BuildResult } from "./build.js";
-
-type BuildResults = Record<"esm" | "iife", BuildResult>;
+import type { SubBuildResult } from "./sub-build.js";
 
 /** Map of absolute HTML entry point path to result metadata */
 export type HtmlEntryPointMetadata = Map<
@@ -30,23 +28,18 @@ function uniqueBy<T>(values: T[], callback: (value: T) => unknown): T[] {
 
 export function augmentOutputFiles(
   htmlOutputFiles: OutputFile[],
-  buildResults: BuildResults
+  subBuildResult: SubBuildResult
 ): OutputFile[] {
-  const subresourceAssetFiles = [
-    ...(buildResults.esm.outputFiles ?? []),
-    ...(buildResults.iife.outputFiles ?? []),
-  ];
-
   return [
     ...htmlOutputFiles,
-    ...uniqueBy(subresourceAssetFiles, f => f.path).sort(createSortBy(f => f.path)),
+    ...uniqueBy(subBuildResult.outputFiles, f => f.path).sort(createSortBy(f => f.path)),
   ];
 }
 
 export function augmentMetafile(
   metafile: Metafile,
   htmlEntryPointMetadata: HtmlEntryPointMetadata,
-  buildResults: BuildResults
+  subBuildResult: SubBuildResult
 ): Metafile | undefined {
   // Note: this will also be run in the onEnd hook for the sub-builds created by this plugin
 
@@ -89,8 +82,8 @@ export function augmentMetafile(
     outputs (for subresources)
   */
 
-  const inputs = sortByKey({ ...buildResults.esm.inputs, ...buildResults.iife.inputs });
-  const outputs = sortByKey({ ...buildResults.esm.outputs, ...buildResults.iife.outputs });
+  const inputs = sortByKey(subBuildResult.inputs);
+  const outputs = sortByKey(subBuildResult.outputs);
 
   Object.values(outputs).forEach(output => {
     delete output.entryPoint;

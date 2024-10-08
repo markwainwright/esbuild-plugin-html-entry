@@ -58,7 +58,7 @@ function tests(write: boolean) {
 
   testBuildError(
     "mixed overlapping collisions",
-    /Two output files share the same path but have different contents: test\/output\/actual\/repro\/thing\/with-both\.js/,
+    /Two output files share the same path but have different contents: test\/output\/actual\/splitting\/.+\/mixed-overlapping-collisions\/subresources\/with-all\.js/,
     {
       entryPoints: ["test/input/pages/splitting-mixed-overlapping.html"],
       format: "esm",
@@ -68,8 +68,7 @@ function tests(write: boolean) {
       chunkNames: "chunks/[name]-[hash]",
       assetNames: "assets/[name]",
     },
-    { subresourceNames: "subresources/[name]" },
-    { todo: true }
+    { subresourceNames: "subresources/[name]" }
   );
 }
 
