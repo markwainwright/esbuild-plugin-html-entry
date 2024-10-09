@@ -1,7 +1,7 @@
 {
   "name": "esbuild-plugin-html-entry",
   "description": "esbuild plugin that allows HTML files to be used as entry points",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "author": "Mark Wainwright",
   "license": "MIT",
   "repository": {
