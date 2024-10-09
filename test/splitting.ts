@@ -39,7 +39,8 @@ function tests(write: boolean) {
       entryNames: "entries/[name]",
       chunkNames: "chunks/[name]-[hash]",
     },
-    { subresourceNames: "subresources/[name]-[hash]" }
+    { subresourceNames: "subresources/[name]-[hash]" },
+    2
   );
 
   testBuild(
@@ -53,7 +54,8 @@ function tests(write: boolean) {
       chunkNames: "chunks/[name]-[hash]",
       assetNames: "assets/[name]-[hash]",
     },
-    { subresourceNames: "subresources/[name]-[hash]" }
+    { subresourceNames: "subresources/[name]-[hash]" },
+    2
   );
 
   testBuildError(

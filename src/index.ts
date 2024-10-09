@@ -10,7 +10,7 @@ import { getIntegrity } from "./integrity.js";
 import { NAMESPACE } from "./namespace.js";
 import { getPublicPath, getPublicPathContext } from "./public-paths.js";
 import { augmentMetafile, augmentOutputFiles, type HtmlEntryPointMetadata } from "./results.js";
-import { runSubBuild, type SubBuildInput, type SubBuildResult } from "./sub-build.js";
+import { runSubBuild, type BuildFn, type SubBuildInput, type SubBuildResult } from "./sub-build.js";
 import { timeout } from "./timeout.js";
 import { getWorkingDirAbs } from "./working-dir.js";
 
@@ -23,6 +23,7 @@ export interface EsbuildPluginHtmlEntryOptions {
   readonly minifyOptions?: MinifyOptions;
   readonly banner?: string;
   readonly footer?: string;
+  readonly __buildFn?: BuildFn;
 }
 
 /**
@@ -100,6 +101,7 @@ export function esbuildPluginHtmlEntry(pluginOptions: EsbuildPluginHtmlEntryOpti
         throw new Error("Must provide outdir");
       }
       const workingDirAbs = getWorkingDirAbs(buildOptions);
+      const buildFn = pluginOptions.__buildFn ?? build.esbuild.build;
 
       let buildState = createBuildState();
 
@@ -186,7 +188,7 @@ export function esbuildPluginHtmlEntry(pluginOptions: EsbuildPluginHtmlEntryOpti
           // This is the last HTML entry point, so trigger the sub-build
           const subresourceNames = pluginOptions.subresourceNames ?? buildOptions.assetNames;
           deferredSubBuildResult.resolve(
-            runSubBuild(buildOptions, subresourceNames, subBuildInput)
+            runSubBuild(buildFn, buildOptions, subresourceNames, subBuildInput)
           );
         }
 

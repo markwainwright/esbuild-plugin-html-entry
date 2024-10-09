@@ -1,12 +1,13 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { dirname, relative, resolve } from "node:path";
 
-import type { BuildOptions, Metafile, OutputFile } from "esbuild";
-import * as esbuild from "esbuild";
+import type { BuildOptions, Metafile, OutputFile, build } from "esbuild";
 
 import { getWorkingDirAbs } from "./working-dir.js";
 
 type Format = "esm" | "iife";
+
+export type BuildFn = typeof build;
 
 /** For ESM and IIFE, relative paths of subresources to build */
 export type SubBuildInput = Record<Format, Set<string>>;
@@ -36,7 +37,7 @@ function isEqual(a: Uint8Array, b: Uint8Array) {
   return a.byteLength === b.byteLength && a.every((value, index) => b[index] === value);
 }
 
-async function build(buildOptions: BuildOptions & { entryPoints: string[] }) {
+async function runBuild(buildFn: BuildFn, buildOptions: BuildOptions & { entryPoints: string[] }) {
   if (buildOptions.entryPoints.length === 0) {
     return EMPTY_BUILD_RESULT;
   }
@@ -44,7 +45,7 @@ async function build(buildOptions: BuildOptions & { entryPoints: string[] }) {
   const {
     metafile: { inputs, outputs },
     outputFiles,
-  } = await esbuild.build({
+  } = await buildFn({
     ...buildOptions,
     metafile: true,
     // Build without writing so we can, without re-reading from disk:
@@ -87,18 +88,19 @@ async function build(buildOptions: BuildOptions & { entryPoints: string[] }) {
 }
 
 export async function runSubBuild(
+  buildFn: BuildFn,
   buildOptions: BuildOptions,
   subresourceNames: string | undefined,
   input: SubBuildInput
 ): Promise<SubBuildResult> {
   const [esm, iife] = await Promise.all([
-    build({
+    runBuild(buildFn, {
       ...buildOptions,
       entryPoints: [...input.esm],
       entryNames: subresourceNames,
       format: "esm",
     }),
-    build({
+    runBuild(buildFn, {
       ...buildOptions,
       entryPoints: [...input.iife],
       entryNames: subresourceNames,

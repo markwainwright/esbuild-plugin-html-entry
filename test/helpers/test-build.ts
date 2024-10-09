@@ -1,10 +1,11 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { relative, resolve } from "node:path";
 import { cwd } from "node:process";
-import { test, type TestContext } from "node:test";
+import { mock, test, type TestContext } from "node:test";
 
 import { compare } from "dir-compare";
-import esbuild, { type BuildOptions, type BuildResult } from "esbuild";
+import * as esbuild from "esbuild";
+import { type BuildOptions, type BuildResult } from "esbuild";
 import { rimraf } from "rimraf";
 
 import { esbuildPluginHtmlEntry, type EsbuildPluginHtmlEntryOptions } from "../../src/index.js";
@@ -20,10 +21,11 @@ export function testBuild(
   testName: string,
   buildOptions: BuildOptions,
   pluginOptions: EsbuildPluginHtmlEntryOptions = {},
+  expectedSubBuildCount = 1,
   testOptions: { only?: true; skip?: true; todo?: true } = {}
 ): void {
   test(testName, testOptions, async testContext => {
-    await buildAndAssert(testContext, buildOptions, pluginOptions);
+    await buildAndAssert(testContext, buildOptions, pluginOptions, expectedSubBuildCount);
   });
 }
 
@@ -84,16 +86,22 @@ function sanitizeResult(workingDirAbs: string, result: BuildResult) {
   };
 }
 
-export async function buildAndAssert(
+async function buildAndAssert(
   testContext: TestContext,
   buildOptions: BuildOptions,
-  pluginOptions: EsbuildPluginHtmlEntryOptions = {}
+  pluginOptions: EsbuildPluginHtmlEntryOptions = {},
+  expectedSubBuildCount: number
 ): Promise<void> {
   const testNameDir = getTestNameDir(testContext.fullName);
   const actualOutputDir = resolve("test/output/actual", testNameDir);
   const expectedOutputDir = resolve("test/output/expected", testNameDir);
+  const mockBuildFn = mock.fn(esbuild.build);
 
-  const result = await build(testContext, buildOptions, pluginOptions);
+  const result = await build(testContext, buildOptions, {
+    ...pluginOptions,
+    __buildFn: mockBuildFn,
+  });
+
   const workingDirAbs = buildOptions.absWorkingDir ?? cwd();
 
   await mkdir(actualOutputDir, { recursive: true });
@@ -133,5 +141,17 @@ export async function buildAndAssert(
         );
       }
     }
+  }
+
+  const actualSubBuildCallCount = mockBuildFn.mock.callCount();
+  testContext.assert.strictEqual(
+    actualSubBuildCallCount,
+    expectedSubBuildCount,
+    `Expected ${expectedSubBuildCount} sub-build${expectedSubBuildCount > 1 ? "s" : ""}, ` +
+      `but saw ${actualSubBuildCallCount}`
+  );
+
+  for (const call of mockBuildFn.mock.calls) {
+    testContext.assert.strictEqual(call.arguments[0].platform, "browser");
   }
 }

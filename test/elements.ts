@@ -8,9 +8,9 @@ suite("elements", () => {
   testBuild("duplicated", { entryPoints: ["test/input/pages/elements-duplicated.html"] });
 
   suite("href", () => {
-    testBuild("absolute", { entryPoints: ["test/input/pages/elements-href-absolute.html"] });
-    testBuild("data", { entryPoints: ["test/input/pages/elements-href-data.html"] });
-    testBuild("URL", { entryPoints: ["test/input/pages/elements-href-url.html"] });
+    testBuild("absolute", { entryPoints: ["test/input/pages/elements-href-absolute.html"] }, {}, 0);
+    testBuild("data", { entryPoints: ["test/input/pages/elements-href-data.html"] }, {}, 0);
+    testBuild("URL", { entryPoints: ["test/input/pages/elements-href-url.html"] }, {}, 0);
 
     testBuildError("invalid", /Build failed with 2 errors:/, {
       entryPoints: ["test/input/pages/elements-href-invalid.html"],
@@ -18,7 +18,12 @@ suite("elements", () => {
   });
 
   suite("link", () => {
-    testBuild("rel other", { entryPoints: ["test/input/pages/elements-link-rel-other.html"] });
+    testBuild(
+      "rel other",
+      { entryPoints: ["test/input/pages/elements-link-rel-other.html"] },
+      {},
+      0
+    );
   });
 
   suite("script", () => {
