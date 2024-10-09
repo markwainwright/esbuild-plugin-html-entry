@@ -38,7 +38,7 @@ function createBuildState(): {
 } {
   return {
     htmlEntryPointPaths: new Set(),
-    subBuildInput: { esm: new Set(), iife: new Set() },
+    subBuildInput: { esm: new Set(), iife: new Set(), any: new Set() },
     deferredSubBuildResult: createDeferred(),
     htmlEntryPointMetadata: new Map(),
   };

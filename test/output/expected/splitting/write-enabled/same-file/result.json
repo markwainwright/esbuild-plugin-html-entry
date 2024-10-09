@@ -4,8 +4,13 @@
   "metafile": {
     "inputs": {
       "html-entry:test/input/pages/splitting.html": {
-        "bytes": 220,
+        "bytes": 301,
         "imports": [
+          {
+            "path": "test/input/stylesheets/from-html-without-asset.css",
+            "kind": "import-statement",
+            "original": "../stylesheets/from-html-without-asset.css"
+          },
           {
             "path": "test/input/scripts/with-js.js",
             "kind": "import-statement",
@@ -44,6 +49,10 @@
           }
         ],
         "format": "esm"
+      },
+      "test/input/stylesheets/from-html-without-asset.css": {
+        "bytes": 35,
+        "imports": []
       }
     },
     "outputs": {
@@ -52,10 +61,10 @@
         "exports": [],
         "inputs": {
           "html-entry:test/input/pages/splitting.html": {
-            "bytesInOutput": 248
+            "bytesInOutput": 337
           }
         },
-        "bytes": 248,
+        "bytes": 337,
         "entryPoint": "html-entry:test/input/pages/splitting.html"
       },
       "test/output/actual/splitting/write-enabled/same-file/chunks/chunk-DM6P3FC4.js": {
@@ -69,6 +78,15 @@
           }
         },
         "bytes": 100
+      },
+      "test/output/actual/splitting/write-enabled/same-file/subresources/from-html-without-asset-RKJX3AY2.css": {
+        "imports": [],
+        "inputs": {
+          "test/input/stylesheets/from-html-without-asset.css": {
+            "bytesInOutput": 35
+          }
+        },
+        "bytes": 92
       },
       "test/output/actual/splitting/write-enabled/same-file/subresources/with-js-2-RRD2FZ6D.js": {
         "imports": [

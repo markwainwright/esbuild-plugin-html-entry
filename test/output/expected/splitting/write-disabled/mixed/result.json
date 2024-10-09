@@ -4,13 +4,18 @@
   "outputFiles": [
     {
       "path": "test/output/actual/splitting/write-disabled/mixed/entries/splitting-mixed.html",
-      "hash": "+LL6p1zB8WU",
-      "text": "<!doctype html>\n<html>\n  <head>\n    <script src=\"../subresources/with-js-A6CI7JDA.js\" type=\"module\"></script>\n    <script src=\"../subresources/with-js-2-RRD2FZ6D.js\" type=\"module\"></script>\n\n    <link href=\"../subresources/with-both-ZSBEDO76.css\" rel=\"stylesheet\">\n    <script src=\"../subresources/with-both-EUVJRDSP.js\"></script>\n  </head>\n  <body>\n    splitting-mixed.html\n  </body>\n</html>\n"
+      "hash": "oKs6MlyaCeo",
+      "text": "<!doctype html>\n<html>\n  <head>\n    <link href=\"../subresources/from-html-without-asset-RKJX3AY2.css\" rel=\"stylesheet\">\n\n    <script src=\"../subresources/with-js-A6CI7JDA.js\" type=\"module\"></script>\n    <script src=\"../subresources/with-js-2-RRD2FZ6D.js\" type=\"module\"></script>\n\n    <link href=\"../subresources/with-both-ZSBEDO76.css\" rel=\"stylesheet\">\n    <script src=\"../subresources/with-both-EUVJRDSP.js\"></script>\n  </head>\n  <body>\n    splitting-mixed.html\n  </body>\n</html>\n"
     },
     {
       "path": "test/output/actual/splitting/write-disabled/mixed/chunks/chunk-DM6P3FC4.js",
       "hash": "t2iysnwdDds",
       "text": "// test/input/scripts/sub.js\nfunction sub() {\n  console.log(\"scripts/sub.js\");\n}\n\nexport {\n  sub\n};\n"
+    },
+    {
+      "path": "test/output/actual/splitting/write-disabled/mixed/subresources/from-html-without-asset-RKJX3AY2.css",
+      "hash": "JvF+Wj67IQ4",
+      "text": "/* test/input/stylesheets/from-html-without-asset.css */\nbody {\n  background-color: peru;\n}\n"
     },
     {
       "path": "test/output/actual/splitting/write-disabled/mixed/subresources/with-both-EUVJRDSP.js",
@@ -36,8 +41,13 @@
   "metafile": {
     "inputs": {
       "html-entry:test/input/pages/splitting-mixed.html": {
-        "bytes": 277,
+        "bytes": 358,
         "imports": [
+          {
+            "path": "test/input/stylesheets/from-html-without-asset.css",
+            "kind": "import-statement",
+            "original": "../stylesheets/from-html-without-asset.css"
+          },
           {
             "path": "test/input/scripts/with-js.js",
             "kind": "import-statement",
@@ -98,6 +108,10 @@
         ],
         "format": "esm"
       },
+      "test/input/stylesheets/from-html-without-asset.css": {
+        "bytes": 35,
+        "imports": []
+      },
       "test/input/stylesheets/from-js-without-asset.css": {
         "bytes": 37,
         "imports": []
@@ -109,10 +123,10 @@
         "exports": [],
         "inputs": {
           "html-entry:test/input/pages/splitting-mixed.html": {
-            "bytesInOutput": 393
+            "bytesInOutput": 482
           }
         },
-        "bytes": 393,
+        "bytes": 482,
         "entryPoint": "html-entry:test/input/pages/splitting-mixed.html"
       },
       "test/output/actual/splitting/write-disabled/mixed/chunks/chunk-DM6P3FC4.js": {
@@ -126,6 +140,15 @@
           }
         },
         "bytes": 100
+      },
+      "test/output/actual/splitting/write-disabled/mixed/subresources/from-html-without-asset-RKJX3AY2.css": {
+        "imports": [],
+        "inputs": {
+          "test/input/stylesheets/from-html-without-asset.css": {
+            "bytesInOutput": 35
+          }
+        },
+        "bytes": 92
       },
       "test/output/actual/splitting/write-disabled/mixed/subresources/with-both-EUVJRDSP.js": {
         "imports": [],

@@ -5,7 +5,7 @@ import type { BuildOptions, Metafile, OutputFile, build } from "esbuild";
 
 import { getWorkingDirAbs } from "./working-dir.js";
 
-type Format = "esm" | "iife";
+type Format = "esm" | "iife" | "any";
 
 export type BuildFn = typeof build;
 
@@ -37,6 +37,37 @@ function isEqual(a: Uint8Array, b: Uint8Array) {
   return a.byteLength === b.byteLength && a.every((value, index) => b[index] === value);
 }
 
+function getOutputPaths(
+  workingDirAbs: string,
+  outputs: Metafile["outputs"],
+  entryPoints: Set<string>
+) {
+  const outputEntries = Object.entries(outputs);
+  const entryPointsArray = Array.from(entryPoints);
+
+  return new Map(
+    entryPointsArray.map(entryPoint => {
+      const outputEntry = outputEntries.find(([, output]) => output.entryPoint === entryPoint);
+
+      if (!outputEntry) {
+        throw new Error(`Output not present for entry point "${entryPoint}"`);
+      }
+
+      const [mainOutputPathRel, { cssBundle: cssBundleOutputPathRel }] = outputEntry;
+
+      return [
+        entryPoint,
+        {
+          main: resolve(workingDirAbs, mainOutputPathRel),
+          cssBundle: cssBundleOutputPathRel
+            ? resolve(workingDirAbs, cssBundleOutputPathRel)
+            : undefined,
+        },
+      ];
+    })
+  );
+}
+
 async function runBuild(buildFn: BuildFn, buildOptions: BuildOptions & { entryPoints: string[] }) {
   if (buildOptions.entryPoints.length === 0) {
     return EMPTY_BUILD_RESULT;
@@ -55,36 +86,7 @@ async function runBuild(buildFn: BuildFn, buildOptions: BuildOptions & { entryPo
     platform: "browser",
   });
 
-  const workingDirAbs = getWorkingDirAbs(buildOptions);
-
-  return {
-    outputPathsAbs: new Map(
-      buildOptions.entryPoints.map(entryPoint => {
-        const output = Object.entries(outputs).find(
-          ([, output]) => output.entryPoint === entryPoint
-        );
-
-        if (!output) {
-          throw new Error(`Output not present for entry point "${entryPoint}"`);
-        }
-
-        const [mainOutputPathRel, outputMeta] = output;
-
-        return [
-          entryPoint,
-          {
-            main: resolve(workingDirAbs, mainOutputPathRel),
-            cssBundle: outputMeta.cssBundle
-              ? resolve(workingDirAbs, outputMeta.cssBundle)
-              : undefined,
-          },
-        ];
-      })
-    ),
-    outputFiles,
-    inputs,
-    outputs,
-  };
+  return { outputFiles, inputs, outputs };
 }
 
 export async function runSubBuild(
@@ -93,29 +95,31 @@ export async function runSubBuild(
   subresourceNames: string | undefined,
   input: SubBuildInput
 ): Promise<SubBuildResult> {
-  const [esm, iife] = await Promise.all([
+  const buildAnyWithEsm = input.esm.size > 0;
+
+  const [esmBuildResult, iifeBuildResult] = await Promise.all([
     runBuild(buildFn, {
       ...buildOptions,
-      entryPoints: [...input.esm],
+      entryPoints: [...input.esm, ...(buildAnyWithEsm ? input.any : [])],
       entryNames: subresourceNames,
       format: "esm",
     }),
     runBuild(buildFn, {
       ...buildOptions,
-      entryPoints: [...input.iife],
+      entryPoints: [...input.iife, ...(buildAnyWithEsm ? [] : input.any)],
       entryNames: subresourceNames,
       format: "iife",
       splitting: false,
     }),
   ]);
 
-  if (iife.outputFiles.length !== 0) {
+  if (iifeBuildResult.outputFiles.length !== 0) {
     // If we ran two builds it's possible that the second would overwrite an output file of the
     // first with different contents. This replicates the check that esbuild does for a single build
     // across the two builds
-    esm.outputFiles.forEach(esmOutputFile => {
+    esmBuildResult.outputFiles.forEach(esmOutputFile => {
       if (
-        iife.outputFiles.some(
+        iifeBuildResult.outputFiles.some(
           iifeOutputFile =>
             iifeOutputFile.path === esmOutputFile.path &&
             !isEqual(iifeOutputFile.contents, esmOutputFile.contents)
@@ -129,12 +133,12 @@ export async function runSubBuild(
     });
   }
 
-  const outputFiles = [...esm.outputFiles, ...iife.outputFiles];
+  const workingDirAbs = getWorkingDirAbs(buildOptions);
+  const outputFiles = [...esmBuildResult.outputFiles, ...iifeBuildResult.outputFiles];
 
   if (buildOptions.write !== false) {
     // Since we ran the build without writing (see comment in `build`), we need to manually write
     // the files to disk now
-    const workingDirAbs = getWorkingDirAbs(buildOptions);
     const outputDirsAbs = Array.from(
       new Set(outputFiles.map(outputFile => resolve(workingDirAbs, dirname(outputFile.path))))
     );
@@ -147,12 +151,16 @@ export async function runSubBuild(
     );
   }
 
-  const inputs = { ...esm.inputs, ...iife.inputs };
+  const anyBuildResult = buildAnyWithEsm ? esmBuildResult : iifeBuildResult;
 
   return {
-    outputPathsAbs: { esm: esm.outputPathsAbs, iife: iife.outputPathsAbs },
+    outputPathsAbs: {
+      esm: getOutputPaths(workingDirAbs, esmBuildResult.outputs, input.esm),
+      iife: getOutputPaths(workingDirAbs, iifeBuildResult.outputs, input.iife),
+      any: getOutputPaths(workingDirAbs, anyBuildResult.outputs, input.any),
+    },
     outputFiles,
-    inputs,
-    outputs: { ...esm.outputs, ...iife.outputs },
+    inputs: { ...esmBuildResult.inputs, ...iifeBuildResult.inputs },
+    outputs: { ...esmBuildResult.outputs, ...iifeBuildResult.outputs },
   };
 }

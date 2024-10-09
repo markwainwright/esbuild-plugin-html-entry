@@ -7,7 +7,8 @@ type Element = ReturnType<CheerioAPI>[0]; // actually AnyNode
 interface AnnotatedElement {
   readonly element: Element;
   readonly hrefAttribute: string;
-  readonly format: "iife" | "esm";
+  /** Which esbuild `format` the subresource should be built with */
+  readonly format: "iife" | "esm" | "any";
 }
 
 const SELECTOR =
@@ -45,7 +46,7 @@ export function findElements(
           } as const;
         }
 
-        return { element, hrefAttribute: "href", format: "iife" } as const;
+        return { element, hrefAttribute: "href", format: "any" } as const;
       })
       .filter(element => element !== null),
   ];

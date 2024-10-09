@@ -4,8 +4,13 @@
   "metafile": {
     "inputs": {
       "html-entry:test/input/pages/splitting-mixed-overlapping.html": {
-        "bytes": 223,
+        "bytes": 304,
         "imports": [
+          {
+            "path": "test/input/stylesheets/from-html-without-asset.css",
+            "kind": "import-statement",
+            "original": "../stylesheets/from-html-without-asset.css"
+          },
           {
             "path": "test/input/scripts/with-all.js",
             "kind": "import-statement",
@@ -43,6 +48,10 @@
         ],
         "format": "esm"
       },
+      "test/input/stylesheets/from-html-without-asset.css": {
+        "bytes": 35,
+        "imports": []
+      },
       "test/input/stylesheets/from-js-with-asset.css": {
         "bytes": 98,
         "imports": [
@@ -60,10 +69,10 @@
         "exports": [],
         "inputs": {
           "html-entry:test/input/pages/splitting-mixed-overlapping.html": {
-            "bytesInOutput": 397
+            "bytesInOutput": 486
           }
         },
-        "bytes": 397,
+        "bytes": 486,
         "entryPoint": "html-entry:test/input/pages/splitting-mixed-overlapping.html"
       },
       "test/output/actual/splitting/write-enabled/mixed-overlapping/assets/from-js-css-QROD6PU2.gif": {
@@ -75,6 +84,15 @@
           }
         },
         "bytes": 12
+      },
+      "test/output/actual/splitting/write-enabled/mixed-overlapping/subresources/from-html-without-asset-RKJX3AY2.css": {
+        "imports": [],
+        "inputs": {
+          "test/input/stylesheets/from-html-without-asset.css": {
+            "bytesInOutput": 35
+          }
+        },
+        "bytes": 92
       },
       "test/output/actual/splitting/write-enabled/mixed-overlapping/subresources/with-all-77MW5PZI.js": {
         "imports": [],

@@ -4,13 +4,18 @@
   "outputFiles": [
     {
       "path": "test/output/actual/splitting/write-disabled/mixed-overlapping/entries/splitting-mixed-overlapping.html",
-      "hash": "hjP4wcBG5B0",
-      "text": "<!doctype html>\n<html>\n  <head>\n    <link href=\"../subresources/with-all-VPENRBYF.css\" rel=\"stylesheet\">\n    <script src=\"../subresources/with-all-Y6EPOXLO.js\" type=\"module\"></script>\n\n    <link href=\"../subresources/with-all-VPENRBYF.css\" rel=\"stylesheet\">\n    <script src=\"../subresources/with-all-77MW5PZI.js\"></script>\n  </head>\n  <body>\n    splitting-mixed-overlapping.html\n  </body>\n</html>\n"
+      "hash": "qrO9bUsZV3U",
+      "text": "<!doctype html>\n<html>\n  <head>\n    <link href=\"../subresources/from-html-without-asset-RKJX3AY2.css\" rel=\"stylesheet\">\n\n    <link href=\"../subresources/with-all-VPENRBYF.css\" rel=\"stylesheet\">\n    <script src=\"../subresources/with-all-Y6EPOXLO.js\" type=\"module\"></script>\n\n    <link href=\"../subresources/with-all-VPENRBYF.css\" rel=\"stylesheet\">\n    <script src=\"../subresources/with-all-77MW5PZI.js\"></script>\n  </head>\n  <body>\n    splitting-mixed-overlapping.html\n  </body>\n</html>\n"
     },
     {
       "path": "test/output/actual/splitting/write-disabled/mixed-overlapping/assets/from-js-css-QROD6PU2.gif",
       "hash": "jKA4mj4/XIQ",
       "text": "Hello world\n"
+    },
+    {
+      "path": "test/output/actual/splitting/write-disabled/mixed-overlapping/subresources/from-html-without-asset-RKJX3AY2.css",
+      "hash": "JvF+Wj67IQ4",
+      "text": "/* test/input/stylesheets/from-html-without-asset.css */\nbody {\n  background-color: peru;\n}\n"
     },
     {
       "path": "test/output/actual/splitting/write-disabled/mixed-overlapping/subresources/with-all-77MW5PZI.js",
@@ -31,8 +36,13 @@
   "metafile": {
     "inputs": {
       "html-entry:test/input/pages/splitting-mixed-overlapping.html": {
-        "bytes": 223,
+        "bytes": 304,
         "imports": [
+          {
+            "path": "test/input/stylesheets/from-html-without-asset.css",
+            "kind": "import-statement",
+            "original": "../stylesheets/from-html-without-asset.css"
+          },
           {
             "path": "test/input/scripts/with-all.js",
             "kind": "import-statement",
@@ -70,6 +80,10 @@
         ],
         "format": "esm"
       },
+      "test/input/stylesheets/from-html-without-asset.css": {
+        "bytes": 35,
+        "imports": []
+      },
       "test/input/stylesheets/from-js-with-asset.css": {
         "bytes": 98,
         "imports": [
@@ -87,10 +101,10 @@
         "exports": [],
         "inputs": {
           "html-entry:test/input/pages/splitting-mixed-overlapping.html": {
-            "bytesInOutput": 397
+            "bytesInOutput": 486
           }
         },
-        "bytes": 397,
+        "bytes": 486,
         "entryPoint": "html-entry:test/input/pages/splitting-mixed-overlapping.html"
       },
       "test/output/actual/splitting/write-disabled/mixed-overlapping/assets/from-js-css-QROD6PU2.gif": {
@@ -102,6 +116,15 @@
           }
         },
         "bytes": 12
+      },
+      "test/output/actual/splitting/write-disabled/mixed-overlapping/subresources/from-html-without-asset-RKJX3AY2.css": {
+        "imports": [],
+        "inputs": {
+          "test/input/stylesheets/from-html-without-asset.css": {
+            "bytesInOutput": 35
+          }
+        },
+        "bytes": 92
       },
       "test/output/actual/splitting/write-disabled/mixed-overlapping/subresources/with-all-77MW5PZI.js": {
         "imports": [],

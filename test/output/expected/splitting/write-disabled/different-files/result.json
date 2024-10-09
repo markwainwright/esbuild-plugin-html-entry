@@ -4,18 +4,23 @@
   "outputFiles": [
     {
       "path": "test/output/actual/splitting/write-disabled/different-files/entries/splitting-1.html",
-      "hash": "hgzM/jIZv9Q",
-      "text": "<!doctype html>\n<html>\n  <head>\n    <script src=\"../subresources/with-js-A6CI7JDA.js\" type=\"module\"></script>\n  </head>\n  <body>\n    splitting-1.html\n  </body>\n</html>\n"
+      "hash": "0s6YWS9UnKA",
+      "text": "<!doctype html>\n<html>\n  <head>\n    <link href=\"../subresources/from-html-without-asset-RKJX3AY2.css\" rel=\"stylesheet\">\n    <script src=\"../subresources/with-js-A6CI7JDA.js\" type=\"module\"></script>\n  </head>\n  <body>\n    splitting-1.html\n  </body>\n</html>\n"
     },
     {
       "path": "test/output/actual/splitting/write-disabled/different-files/entries/splitting-2.html",
-      "hash": "tROezm9SkL8",
-      "text": "<!doctype html>\n<html>\n  <head>\n    <script src=\"../subresources/with-js-2-RRD2FZ6D.js\" type=\"module\"></script>\n  </head>\n  <body>\n    splitting-2.html\n  </body>\n</html>\n"
+      "hash": "bhBFnEvKyLQ",
+      "text": "<!doctype html>\n<html>\n  <head>\n    <link href=\"../subresources/from-html-without-asset-RKJX3AY2.css\" rel=\"stylesheet\">\n    <script src=\"../subresources/with-js-2-RRD2FZ6D.js\" type=\"module\"></script>\n  </head>\n  <body>\n    splitting-2.html\n  </body>\n</html>\n"
     },
     {
       "path": "test/output/actual/splitting/write-disabled/different-files/chunks/chunk-DM6P3FC4.js",
       "hash": "t2iysnwdDds",
       "text": "// test/input/scripts/sub.js\nfunction sub() {\n  console.log(\"scripts/sub.js\");\n}\n\nexport {\n  sub\n};\n"
+    },
+    {
+      "path": "test/output/actual/splitting/write-disabled/different-files/subresources/from-html-without-asset-RKJX3AY2.css",
+      "hash": "JvF+Wj67IQ4",
+      "text": "/* test/input/stylesheets/from-html-without-asset.css */\nbody {\n  background-color: peru;\n}\n"
     },
     {
       "path": "test/output/actual/splitting/write-disabled/different-files/subresources/with-js-2-RRD2FZ6D.js",
@@ -31,8 +36,13 @@
   "metafile": {
     "inputs": {
       "html-entry:test/input/pages/splitting-1.html": {
-        "bytes": 154,
+        "bytes": 234,
         "imports": [
+          {
+            "path": "test/input/stylesheets/from-html-without-asset.css",
+            "kind": "import-statement",
+            "original": "../stylesheets/from-html-without-asset.css"
+          },
           {
             "path": "test/input/scripts/with-js.js",
             "kind": "import-statement",
@@ -41,8 +51,13 @@
         ]
       },
       "html-entry:test/input/pages/splitting-2.html": {
-        "bytes": 156,
+        "bytes": 236,
         "imports": [
+          {
+            "path": "test/input/stylesheets/from-html-without-asset.css",
+            "kind": "import-statement",
+            "original": "../stylesheets/from-html-without-asset.css"
+          },
           {
             "path": "test/input/scripts/with-js-2.js",
             "kind": "import-statement",
@@ -76,6 +91,10 @@
           }
         ],
         "format": "esm"
+      },
+      "test/input/stylesheets/from-html-without-asset.css": {
+        "bytes": 35,
+        "imports": []
       }
     },
     "outputs": {
@@ -84,10 +103,10 @@
         "exports": [],
         "inputs": {
           "html-entry:test/input/pages/splitting-1.html": {
-            "bytesInOutput": 168
+            "bytesInOutput": 256
           }
         },
-        "bytes": 168,
+        "bytes": 256,
         "entryPoint": "html-entry:test/input/pages/splitting-1.html"
       },
       "test/output/actual/splitting/write-disabled/different-files/entries/splitting-2.html": {
@@ -95,10 +114,10 @@
         "exports": [],
         "inputs": {
           "html-entry:test/input/pages/splitting-2.html": {
-            "bytesInOutput": 170
+            "bytesInOutput": 258
           }
         },
-        "bytes": 170,
+        "bytes": 258,
         "entryPoint": "html-entry:test/input/pages/splitting-2.html"
       },
       "test/output/actual/splitting/write-disabled/different-files/chunks/chunk-DM6P3FC4.js": {
@@ -112,6 +131,15 @@
           }
         },
         "bytes": 100
+      },
+      "test/output/actual/splitting/write-disabled/different-files/subresources/from-html-without-asset-RKJX3AY2.css": {
+        "imports": [],
+        "inputs": {
+          "test/input/stylesheets/from-html-without-asset.css": {
+            "bytesInOutput": 35
+          }
+        },
+        "bytes": 92
       },
       "test/output/actual/splitting/write-disabled/different-files/subresources/with-js-2-RRD2FZ6D.js": {
         "imports": [
