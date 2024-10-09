@@ -19,7 +19,7 @@ export function getIntegrity(
 
   const outputFile = outputFiles.find(file => file.path === outputPathAbs);
   if (!outputFile) {
-    throw new Error(`failed to find "${outputPathAbs}" in outputFiles`);
+    throw new Error(`outputFile with path="${outputPathAbs}" is missing`);
   }
 
   return `${algorithm}-${generateHash(algorithm, outputFile.contents)}`;

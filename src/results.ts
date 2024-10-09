@@ -53,7 +53,7 @@ export function augmentMetafile(
       input.bytes = inputBytes;
       input.imports = imports;
     } else {
-      throw new Error(`metafile input for "${namespacedPath}" is missing`);
+      throw new Error(`metafile input "${namespacedPath}" is missing`);
     }
 
     const output = Object.values(metafile.outputs).find(output => namespacedPath in output.inputs);
@@ -62,7 +62,7 @@ export function augmentMetafile(
       output.entryPoint = namespacedPath;
       output.imports = input.imports.filter(i => i.external);
     } else {
-      throw new Error(`metafile output for "${namespacedPath}" is missing`);
+      throw new Error(`metafile output with input "${namespacedPath}" is missing`);
     }
   }
 

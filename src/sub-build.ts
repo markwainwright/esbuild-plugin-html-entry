@@ -50,7 +50,7 @@ function getOutputPaths(
       const outputEntry = outputEntries.find(([, output]) => output.entryPoint === entryPoint);
 
       if (!outputEntry) {
-        throw new Error(`Output not present for entry point "${entryPoint}"`);
+        throw new Error(`metafile output with entryPoint="${entryPoint}" is missing`);
       }
 
       const [mainOutputPathRel, { cssBundle: cssBundleOutputPathRel }] = outputEntry;
